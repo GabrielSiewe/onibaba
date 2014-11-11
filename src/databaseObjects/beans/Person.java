@@ -8,24 +8,35 @@ import java.sql.SQLException;
 public class Person {
 
 	protected static DatabaseManipulator querySelector = null;
+	private static ConcurrentHashMap<Integer, Person> existingPersons;
+	private final static String[] LOADABLES = {"comment"};
 	private String ssn = null;
 	private String first_name = null;
 	private String last_name = null;
 	private Date birthday = null;
-	private int phone = 0;
+	private Integer phone = 0;
 	private String email = null;
 	private Date created_at = null;
 	private String title = null;
-	private int person_id = -1;
+	private Integer person_id = -1;
 
 	public Person(int personId) throws SQLException
 	{
+		if(existingPersons == null) {
+			existingPersons = new ConcurrentHashMap<Integer, Person>();
+		}
+
 		person_id = personId;
 		
-		
-		ResultSet results = querySelector.runQuery("SELECT * FROM persons WHERE `id`="+person_id);
-
-		if (results == null) {
+		// alias person information such that updating name on one updates on other.
+		if(existingPersons.containsKey(person_id)) {
+			setPerson(existingPersons.get(person_id));
+			return;
+		}
+		ResultSet results = null;
+		try {
+			results = querySelector.runQuery("SELECT * FROM persons WHERE `id`="+person_id, false);
+		} catch(NullPointerException e) {
 			throw new SQLException("The person with id "+person_id+" couldn't be found. Aborting creation of person.");
 		}
 
@@ -38,6 +49,8 @@ public class Person {
 		email = results.getString("email");
 		created_at = results.getDate("created_at");
 		title = results.getString("title");
+
+		existingPersons.put(person_id, this);
 	}
 
 	protected ConcurrentHashMap<String,String> getPersonalInformation()
@@ -54,8 +67,7 @@ public class Person {
 		return toReturn;
 	}
 
-	public int getPerson_id()
-	{
+	public int getPerson_id() {
 		return person_id;
 	}
 
@@ -89,19 +101,28 @@ public class Person {
 	public String getTitle() {
 		return title;
 	}
-
-	public static void setDBManipulator(DatabaseManipulator other)
-	{
+	
+	public static void setDBManipulator(DatabaseManipulator other) {
 		querySelector = other;
 	}
 
-	public Person getPerson()
-	{
+	public Person getPerson() {
 		return this;
 	}
+	
+	public void setPerson(Person other) {
+		ssn = other.getSsn();
+		first_name = other.getFirst_name();
+		last_name = other.getLast_name();
+		birthday = other.getBirthday();
+		phone = other.getPhone();
+		email = other.getEmail();
+		created_at = other.getCreated_at();
+		title = other.getTitle();
+		
+	}
 
-	public String toString()
-	{
+	public String toString() {
 		return title+" "+first_name+" "+last_name;
 	}
 

@@ -13,9 +13,16 @@ public class DatabaseManipulator extends Database implements Databasable {
 	private String deleteStatement = null;
 	private String updateStatement = null;
 	private String findStatement = null;
-	public DatabaseManipulator(String table_name, String username, String password) {
+	private static ConcurrentHashMap<String, ResultSet> cache;
+
+	public  DatabaseManipulator(String table_name, String username, String password)
+	{
 		super(username, password);
 		this.table_name = table_name;
+		if (cache == null)
+		{
+			cache = new ConcurrentHashMap<>();
+		}
 	}
 
 	public DatabaseManipulator(String username, String password)
@@ -42,11 +49,42 @@ public class DatabaseManipulator extends Database implements Databasable {
 		return name;
 	}
 	
-	public ResultSet runQuery(String statement) throws SQLException
+	public ResultSet runQuery(String statement, Boolean ignoreCache) throws SQLException
 	{
-		return super.runQuery(statement);
+		ResultSet results = null;
+
+		if (cache.containsKey(statement) && ignoreCache == false) {
+			results = cache.get(statement);
+
+		} else {
+			results = super.runQuery(statement);
+
+			synchronized(cache) {
+				if (!cache.containsKey(statement)) {
+					cache.put(statement, results);
+				} else {
+					cache.replace(statement, results);
+				}
+			}
+		}
+
+		return results;
 	}
 	
+	public synchronized void updateCache(String key, ResultSet newResult )
+	{
+		synchronized(cache) {
+			if (cache.containsKey(key)) cache.replace(key, cache.get(key), newResult);
+		}
+	}
+	
+	public synchronized void removeCache(String key)
+	{
+		synchronized(cache) {
+			if (cache.containsKey(key)) cache.remove(key);
+		}
+	}
+
 	private boolean hasTable()
 	{
 		boolean hasTable = true;

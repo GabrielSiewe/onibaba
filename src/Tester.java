@@ -22,7 +22,8 @@ public class Tester {
 		String[][] indicator = new String[1][2];
 		indicator[0][0] = "id";
 		indicator[0][1] = "1";
-		String findNurse = Patient.getStatement("delete",indicator, attributes, new String[]{});
+		String findNurse = Nurse.getStatement("find", indicator, attributes, new String[]{});
+		Nurse nurse = new Nurse(database.runQuery(findNurse));
 
 //		String findDoctor = Doctor.getStatement("delete",indicator, attributes);
 //		System.out.println(findDoctor);
@@ -35,7 +36,7 @@ public class Tester {
 //		 Patient patient = new Patient(database.runQuery(findPatient));
 //		 System.out.println(patient.getFirst_name());
 //		 System.out.println(doctor.getFirst_name());
-//		 Nurse nurse = patient.getNurse();
+//		 Nurse nurse = new Nurse();
 //		 System.out.println(nurse.getExperience());
 
 		 System.out.println(findNurse);

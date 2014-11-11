@@ -16,10 +16,9 @@ public class Nurse extends Person{
 	public Nurse(ResultSet results) throws SQLException
 	{
 		super(results.getInt("person_id"));
-		doctor = new Doctor(results);
-		nurse_id = results.getInt("id");
-		education = results.getString("education");
-		experience = results.getString("experience");
+		nurse_id = old.getInt("id");
+		education = old.getString("education");
+		experience = old.getString("experience");
 	}
 
 	public Doctor getDoctor() {

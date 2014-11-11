@@ -15,7 +15,6 @@ public class Doctor extends Person {
 	
 	public Doctor(ResultSet results) throws SQLException
 	{
-		
 		super(results.getInt("person_id"));
 
 		doctor_id = results.getInt("id");

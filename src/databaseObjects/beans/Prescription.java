@@ -85,7 +85,7 @@ public class Prescription {
 	}
 	public static String getStatement(String method, String[][] fieldsToIds, ConcurrentHashMap<String, String> attributes, String[] loads) throws Exception
 	{
-		if (querySelector == null ){
+		if (querySelector == null ) {
 			throw new Exception("A database was not set for this model");
 		}
 		
