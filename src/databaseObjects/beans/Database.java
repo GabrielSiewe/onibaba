@@ -15,7 +15,7 @@ public class Database {
 	private String password = null;
 	private PreparedStatement query = null;
 
-	private static final String jdbcDriver = "jdbc:mysql://169.254.146.38/SoftwareEngineeringDB";
+	private static final String jdbcDriver = "jdbc:mysql://10.250.4.174/SoftwareEngineeringDB";
 	private Connection connector = null;
 	
 
@@ -65,7 +65,8 @@ public class Database {
 			}
 			
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+			System.out.println("Cannot connect to network");
+			return;
 		}
 		
 	}
