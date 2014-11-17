@@ -15,7 +15,7 @@ public class Database {
 	private String password = null;
 	private PreparedStatement query = null;
 
-	private static final String jdbcDriver = "jdbc:mysql://localhost/SoftwareEngineeringDB";
+	private static final String jdbcDriver = "jdbc:mysql://169.254.146.38/SoftwareEngineeringDB";
 	private Connection connector = null;
 	
 
@@ -48,6 +48,7 @@ public class Database {
 			query = connector.prepareStatement("?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		} catch (SQLException e) {
 			System.out.println("The database connection failed.");
+			closeConnection();
 		}
 	}
 

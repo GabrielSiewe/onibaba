@@ -10,6 +10,7 @@ public class Person {
 	protected static DatabaseManipulator querySelector = null;
 	private static ConcurrentHashMap<Integer, Person> existingPersons;
 	private final static String[] LOADABLES = {"comment"};
+	private final static String[] requiredOnCreation = {"first_name", "last_name", "email", "title", "ssn"};
 	private String ssn = null;
 	private String first_name = null;
 	private String last_name = null;
