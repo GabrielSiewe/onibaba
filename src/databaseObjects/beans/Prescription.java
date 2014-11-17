@@ -50,7 +50,7 @@ public class Prescription {
 				break;
 			case "invoice":
 				Invoice.setDBManipulator(querySelector);
-				invoice = new Invoice(querySelector.runQuery(Invoice.getStatement("find", identifier, null)));
+				invoice = new Invoice(Invoice.getStatement("find", identifier, null), querySelector.runQuery(Invoice.getStatement("find", identifier, null)));
 			default:
 				return;
 		}

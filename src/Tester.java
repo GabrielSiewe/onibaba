@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Tester {
 	public static void main(String[] args) throws Exception
 	{
-		DatabaseManipulator database =  new DatabaseManipulator("root", "DearDarling");
+		DatabaseManipulator database =  new DatabaseManipulator("Onibaba", "DearDarling");
 		ConcurrentHashMap<String,String> attributes = new ConcurrentHashMap<String, String>();
 		attributes.put("name", "joanna");
 		attributes.put("age", "17");
@@ -23,7 +23,6 @@ public class Tester {
 		indicator[0][0] = "id";
 		indicator[0][1] = "1";
 		String findNurse = Nurse.getStatement("find", indicator, attributes, new String[]{});
-		Nurse nurse = new Nurse(database.runQuery(findNurse));
 
 //		String findDoctor = Doctor.getStatement("delete",indicator, attributes);
 //		System.out.println(findDoctor);
@@ -40,6 +39,7 @@ public class Tester {
 //		 System.out.println(nurse.getExperience());
 
 		 System.out.println(findNurse);
+		 database.close();
 	}
 
 }

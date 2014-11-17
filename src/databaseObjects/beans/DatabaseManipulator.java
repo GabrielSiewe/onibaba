@@ -6,6 +6,8 @@ import java.util.Set;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.mysql.jdbc.util.LRUCache;
+
 public class DatabaseManipulator extends Database implements Databasable {
 	
 	private String table_name = null;
@@ -13,15 +15,15 @@ public class DatabaseManipulator extends Database implements Databasable {
 	private String deleteStatement = null;
 	private String updateStatement = null;
 	private String findStatement = null;
-	private static ConcurrentHashMap<String, ResultSet> cache;
+	private static LRUCache cache;
+	private final static String[] requiredOnUpdateAndDelete = {"id"};
 
 	public  DatabaseManipulator(String table_name, String username, String password)
 	{
 		super(username, password);
 		this.table_name = table_name;
-		if (cache == null)
-		{
-			cache = new ConcurrentHashMap<>();
+		if (cache == null) {
+			cache = new LRUCache(100);
 		}
 	}
 
@@ -54,7 +56,7 @@ public class DatabaseManipulator extends Database implements Databasable {
 		ResultSet results = null;
 
 		if (cache.containsKey(statement) && ignoreCache == false) {
-			results = cache.get(statement);
+			results = (ResultSet) cache.get(statement);
 
 		} else {
 			results = super.runQuery(statement);
