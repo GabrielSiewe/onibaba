@@ -10,7 +10,15 @@ public class Person {
 	protected static DatabaseManipulator querySelector = null;
 	private static ConcurrentHashMap<Integer, Person> existingPersons;
 	private final static String[] LOADABLES = {"comment"};
-	private final static String[] requiredOnCreation = {"first_name", "last_name", "email", "title", "ssn"};
+	private final static String[] FILLABLE = {"ssn", "first_name", "last_name", "phone", "email", "title"};
+	// ON CREATION WHAT IS REQUIRED
+	private final static String[] INSERT = {"ssn", "first_name", "last_name", "title"};
+	// ON UPDATE and FIND WHAT IS REQUIRED
+	private final static String[] UPDATE = {"ssn"};
+	// ON DELETE WHAT IS REQUIRED
+	private final static String[] DELETE = {"ssn", "first_name", "last_name", "title"};
+	
+
 	private String ssn = null;
 	private String first_name = null;
 	private String last_name = null;
