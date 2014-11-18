@@ -47,6 +47,10 @@ public class Appointment {
 	{
 		querySelector = other;
 	}
+	public String toString()
+	{
+		return issuer.getFirst_name()+" prescribed ";
+	}
 	protected static String getStatement(String method, String[][] fieldsToIds, ConcurrentHashMap<String, String> attributes, String[] toload) throws Exception
 	{
 		if (querySelector == null ){
