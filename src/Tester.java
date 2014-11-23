@@ -2,11 +2,12 @@
 
 import java.sql.ResultSet;
 
-import databaseObjects.beans.Patient;
-import databaseObjects.beans.Person;
-import databaseObjects.beans.Nurse;
-import databaseObjects.beans.Doctor;
 import databaseObjects.beans.DatabaseManipulator;
+import databaseObjects.beans.Person.Person;
+import databaseObjects.beans.Person.Children.Doctor;
+import databaseObjects.beans.Person.Children.Nurse;
+import databaseObjects.beans.Person.Children.Patient;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 

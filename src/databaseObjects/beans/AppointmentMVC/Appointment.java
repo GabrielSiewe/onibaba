@@ -1,9 +1,12 @@
-package databaseObjects.beans;
+package databaseObjects.beans.AppointmentMVC;
 
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import databaseObjects.beans.DatabaseManipulator;
+import databaseObjects.beans.Person.Person;
 
 public class Appointment {
 

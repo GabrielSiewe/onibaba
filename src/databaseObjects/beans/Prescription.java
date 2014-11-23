@@ -4,6 +4,10 @@ import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.sql.SQLException;
 
+import databaseObjects.beans.CommentMVC.Comment;
+import databaseObjects.beans.Person.Children.Doctor;
+import databaseObjects.beans.Person.Children.Patient;
+
 public class Prescription {
 	private static DatabaseManipulator querySelector = null;
 	private static final String TABLENAME = "prescriptions";

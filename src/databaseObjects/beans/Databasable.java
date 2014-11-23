@@ -1,14 +1,10 @@
 package databaseObjects.beans;
-import java.util.concurrent.ConcurrentHashMap;
+import java.sql.ResultSet;
 
 public interface Databasable {
 
-	public void setTable(String name);
-	public String getTable();
-
-	public String getInsertStatement(ConcurrentHashMap<String, String> attributes);
-	public String getUpdateStatement(String[][] idsToFieldsfinder, ConcurrentHashMap<String, String> attributes) throws Exception;
-	public String getDeleteStatement(String[][] idsToFieldsfinder) throws Exception;
-	public String getFindStatement(String[][] idsToFieldsfinder, String[] loadables, String[] toload) throws Exception;
+	public void updateCache(String key, ResultSet newResult );
+	public void removeCache(String key);
+	
 	
 }

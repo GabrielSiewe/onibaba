@@ -1,8 +1,10 @@
-package databaseObjects.beans;
+package databaseObjects.beans.Person.Children;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.ConcurrentHashMap;
+
+import databaseObjects.beans.Person.Person;
 public class Patient extends Person {
 	
 	private static final String TABLENAME = "patients";
