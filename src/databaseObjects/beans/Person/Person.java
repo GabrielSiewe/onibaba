@@ -39,6 +39,7 @@ public class Person extends BasicModel {
 
 	public Person(int personId) throws SQLException
 	{
+		super("model", personId);
 		if(existingPersons == null) {
 			existingPersons = new ConcurrentHashMap<Integer, Person>();
 		}

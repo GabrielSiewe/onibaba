@@ -1,10 +1,10 @@
-package databaseObjects.beans;
+package DatabaseCacheManipulator;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.mysql.jdbc.util.LRUCache;
 
-public class DatabaseManipulator extends Database implements Databasable {
+public class DatabaseManipulator extends Database implements Cachable {
 	// Communicates with the database  and keeps updating the cache so that we don;t have to alo
 	private static LRUCache cache;
 
@@ -19,6 +19,10 @@ public class DatabaseManipulator extends Database implements Databasable {
 	public synchronized ResultSet runQuery(String statement, Boolean ignoreCache) throws SQLException
 	{
 		ResultSet results = null;
+		if (statement == null) {
+			System.out.println("Invalid statement: "+statement);
+			return null;
+		}
 
 		if (cache.containsKey(statement) && ignoreCache == false) {
 			results = (ResultSet) cache.get(statement);

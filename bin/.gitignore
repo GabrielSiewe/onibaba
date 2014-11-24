@@ -1,4 +1,5 @@
 /databaseObjects/
-/Appointment/
 /BaseMVC/
-/utilities/
+/InvoiceMVC/
+/InventoryMVC/
+/DatabaseCacheManipulator/

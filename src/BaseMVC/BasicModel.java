@@ -4,27 +4,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
-
-import databaseObjects.beans.*;
+import DatabaseCacheManipulator.*;
 
 public class BasicModel {
 	
 	protected static DatabaseManipulator queryRunner = null;
-	protected static String[][] modelRules; 
 
 	protected String modelName;
-	protected String tableName;
+	protected static String lastRanQuery;
 	protected int modelId;
-
-	// fillable from the front end properties
-	protected static String[] fillables;
-
-	// required properties 
-	protected static String[] requiredOnInsert;
 	
 	protected String[] hasManyInstances;
 	protected String[] belongsToManyInstances;
@@ -32,6 +23,9 @@ public class BasicModel {
 	
 	public BasicModel(String modelName, int modelId)
 	{
+		if (queryRunner == null) {
+			queryRunner = new DatabaseManipulator("Onibaba", "DearDarling");
+		}
 		this.modelName = modelName;
 		this.modelId = modelId;
 	}
@@ -74,6 +68,16 @@ public class BasicModel {
 		throw new SQLException("you are trying to run an empty query.");
 		
 	}
+	
+	// Returns the records that may have been for this model.
+	protected ResultSet specials(ConcurrentHashMap<String,String> finders, String table_name ) throws SQLException
+	{
+		if (table_name != null && finders != null && queryRunner != null) {
+			return queryRunner.runQuery(getFindStatement(finders, table_name), false);
+		}
+		throw new SQLException("this "+modelName+" doesn't belong to nor does it have many "+table_name);
+		
+	}
 
 	// Makes sure to load all the models that are part of this array of models.
 	protected String load(String model, String manyToManyTable)
@@ -85,6 +89,7 @@ public class BasicModel {
 		else
 			query = "SELECT * FROM "+model+"s WHERE "+modelName+"_id = "+modelId;
 
+		lastRanQuery = query;
 		return query;
 	}
 	
@@ -93,8 +98,7 @@ public class BasicModel {
 	protected static String getInsertStatement(ConcurrentHashMap<String,String> attributes, String table_name)
 	{
 		String toReturn = null;
-		attributes = validateData(attributes, "insert");
-		if (attributes != null || attributes.size() != 0) {
+		if (attributes != null && attributes.size() != 0) {
 			toReturn = "INSERT INTO "+table_name+" ( "+printFields(getkeysArray(attributes.keySet())) + " )"
 					+ " VALUES ( "+printValues(getkeysArray(attributes.values()))+" );";
 		}
@@ -104,8 +108,7 @@ public class BasicModel {
 	protected static String getDeleteStatement(ConcurrentHashMap<String,String> finders, String table_name)
 	{
 		String toReturn = null;
-		finders = finders = validateData(finders,null);
-		if (finders != null || finders.size() != 0) {
+		if (finders != null && finders.size() != 0) {
 			toReturn = "DELETE * FROM "+table_name+" WHERE ( "+matchFieldToValue(finders, table_name);
 		}
 		return toReturn;
@@ -114,8 +117,7 @@ public class BasicModel {
 	protected static String getFindStatement(ConcurrentHashMap<String,String> finders, String table_name)
 	{
 		String findStatement = null;
-		finders = validateData(finders,null);
-		if (finders != null || finders.size() != 0) {
+		if (finders != null && finders.size() != 0) {
 			findStatement = "SELECT * FROM "+table_name+" WHERE ("+matchFieldToValue(finders, table_name);
 		}
 		return findStatement;
@@ -124,8 +126,6 @@ public class BasicModel {
 	protected static String getUpdateStatement(ConcurrentHashMap<String, String> finders, ConcurrentHashMap<String, String> attributes, String table_name)
 	{
 		String updateStatement = "";
-		finders = validateData(finders,null);
-		attributes = validateData(attributes, null);
 		if( finders != null && attributes != null && finders.size() != 0 && attributes.size() != 0) {
 			String[] keySet = getkeysArray(attributes.keySet());
 			String find = matchFieldToValue(finders, table_name);
@@ -160,7 +160,7 @@ public class BasicModel {
 		}
 		return toString;
 	}
-	
+
 	private static String printFields(String[] name)
 	{
 		String toString = "";
@@ -181,64 +181,8 @@ public class BasicModel {
 		return values.toArray(new String[values.size()]);
 	} 
 	
-	
-	// Validating the data.
-	// removes unfillable fields and watches out for sql data.
-	protected static ConcurrentHashMap<String, String> validateData(ConcurrentHashMap<String, String> attributes, String methodName)
-	{
-		String[] keys = (String[]) attributes.keySet().toArray();
-		
-		// then we it could be anything except an insert statement. In which case all we have to do is make sure the attributes are fillable
-		if (methodName == null) {
-			for( int i=0; i< keys.length; i++)
-			{	
-				
-				// if it contains and the value isn't null we keep it
-				if (Arrays.asList(fillables).contains(keys[i]))  {
-					// if it is part of the fillable arrays then it has a set of rules that apply to it.
-					String[] rules = null;
-					for( int k = 0; k < modelRules.length; k++) {
-						if (modelRules[k].equals(keys[i])) {
-							rules = modelRules[k];
-						}
-					}
-					attributes.replace(keys[i], evaluateFieldRule(attributes.get(keys[i]), rules));
-					if ( attributes.get(keys[i]) == null) {
-						System.out.println("The field "+keys[i]+" has a null value. Therefore it is being discarder.");
-						attributes.remove(keys[i]);
-					}
-					continue;
-				}
-				// else we have an ambiguous field name, and we must remove them.
-				attributes.remove(keys[i]);
-			}
-		}
-		// else we need to make sure that all fields are fillable and that the required fields are already added.
-		for( int i=0; i< keys.length; i++)
-		{	
-			// if it contains and the value isn't null we keep it
-			if (Arrays.asList(fillables).contains(keys[i]))  {
-				
-				// if the value is null we discard it. and if the value was required, we tell them to replace it.
-				if ( attributes.get(keys[i]) == null) {
-					System.out.println("The field "+keys[i]+" has a null value. Therefore it is being discarder.");
-					attributes.remove(keys[i]);
-					if (Arrays.asList(requiredOnInsert).contains(keys[i])) {
-						System.out.println("However the field "+keys[i]+ " is required. Please try again.");
-						return null;
-					}
-					
-				}
-				continue;
-			}
-			// else we have an ambiguous field name, and we must remove them.
-			attributes.remove(keys[i]);
-		}
-		return attributes;
-	}
-	
 	// rule for string:{ {"name", {"string", "uppercase", "max:255"}} }
-	private static String evaluateFieldRule(String value, String[] rules)
+	protected static String evaluateFieldRule(String value, String[] rules)
 	{
 		String datatype = rules[0];
 		switch(datatype) {
@@ -255,7 +199,7 @@ public class BasicModel {
 	{
 		if (value == null || value.trim() == null) return null;
 		value = value.trim();
-		Pattern remover = Pattern.compile("\\[\\s_]\\", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+		Pattern remover = Pattern.compile("[\\s]+", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 		value = remover.matcher(value).replaceAll(" ");
 
 		if (value.length() >= 256) {
@@ -281,7 +225,7 @@ public class BasicModel {
 		if (value == null || value.trim() == null) return null;
 		value = value.trim();
 		Date test = null;
-		Pattern remover = Pattern.compile("\\[\\s_]\\", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+		Pattern remover = Pattern.compile("[\\s]+", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 		value = remover.matcher(value).replaceAll(" ");
 		
 		for( int i = 0; i< rules.length; i++) {
@@ -300,7 +244,7 @@ public class BasicModel {
 	{
 		if (value == null || value.trim() == null) return null;
 		value = value.trim();
-		Pattern remover = Pattern.compile("\\[\\s_]\\", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+		Pattern remover = Pattern.compile("[\\s]+", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 		value = remover.matcher(value).replaceAll("");
 		int test = 0;
 		for( int i = 0; i< rules.length; i++) {
@@ -319,7 +263,7 @@ public class BasicModel {
 	{
 		if (value == null || value.trim() == null) return null;
 		value = value.trim();
-		Pattern remover = Pattern.compile("\\[\\s_]\\", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+		Pattern remover = Pattern.compile("[\\s]+", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 		value = remover.matcher(value).replaceAll("");
 		double test = 0;
 		for( int i = 0; i< rules.length; i++) {
@@ -332,6 +276,12 @@ public class BasicModel {
 			}
 		}
 		return ""+test;
+	}
+	
+	protected static void closeDbConnection()
+	{
+		if (queryRunner != null)
+			queryRunner.close();
 	}
 
 }
