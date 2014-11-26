@@ -71,7 +71,7 @@ public class DoctorHome extends javax.swing.JFrame {
 
         jButton2.setText("View Patients");
 
-        jButton3.setText("jButton3");
+        jButton3.setText("See Inventory");
 
         jButton4.setText("Conduct Lab");
 
@@ -253,7 +253,7 @@ public class DoctorHome extends javax.swing.JFrame {
         doctorPic.setLayout(doctorPicLayout);
         doctorPicLayout.setHorizontalGroup(
             doctorPicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 341, Short.MAX_VALUE)
         );
         doctorPicLayout.setVerticalGroup(
             doctorPicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -266,8 +266,8 @@ public class DoctorHome extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(doctorInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(doctorPic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(doctorPic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(doctorInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(doctorTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
