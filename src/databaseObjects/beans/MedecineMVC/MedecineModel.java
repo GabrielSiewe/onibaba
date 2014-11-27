@@ -9,69 +9,122 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MedecineModel extends BasicModel {
 	
-	private Integer disease_id = -1;
+	private Integer medecine_id = -1;
 	private String name;
 	private String description;
-	private String symptoms;
+	private String ingredients;
+	private double cost;
 	// required properties 
-	private static String[] requiredOnInsert = {"name", "description", "symptoms" };
-	private static String[][] modelRules = { 
+	private static String[] requiredOnInsert = {"name", "description", "ingredients", "cost" };
+	private static String[][] modelRules = {
+		{"cost", "double"},
 		{"name", "string"},
 		{"name", "uppercase"},
 		{"description", "string"},
-		{"symptons", "string"},
+		{"ingredients", "string"},
 		{"id", "integer"},
 		{"id", "positive" } 
 	};
-	private static final String TABLENAME = "deseases";
+	private static final String TABLENAME = "medecines";
 	// fillable from the front end properties
-	private static String[] fillables = {"name", "description", "symptoms", "id"};
-	private static String[] belongstomany = {"desease_method", "desease_medecin"};
-	private static String[] belongsto = {"lab"};
+	private static String[] fillables = {"name", "description", "ingredients", "id"};
+	private static String[] belongstomany = {"desease_medecin"};
+	private static String[] belongsto = {"lab", "inventory"};
 	private static String[] specials = {"comment"};
 	
 	public MedecineModel(String query, ResultSet attributes) throws SQLException
 	{
-		super("disease", attributes.getInt("id"));
+		super("medecine", attributes.getInt("id"));
 		belongsToManyInstances = belongstomany;
 		belongsToInstance = belongsto;
-		tableName = null;
-		disease_id = attributes.getInt("id");
+		medecine_id = attributes.getInt("id");
 		name = attributes.getString("name");
 		description = attributes.getString("description");
-		symptoms = attributes.getString("symptoms");
+		ingredients = attributes.getString("symptoms");
+		cost = attributes.getDouble("cost");
 		
 	}
-	public Integer getDisease_id() {
-		return disease_id;
+
+	
+	/**
+	 * @return the medecine_id
+	 */
+	public Integer getMedecine_id() {
+		return medecine_id;
 	}
+
+	/**
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
+
+
+	/**
+	 * @param name the name to set
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
+
+
+	/**
+	 * @return the description
+	 */
 	public String getDescription() {
 		return description;
 	}
+
+
+	/**
+	 * @param description the description to set
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getSymptoms() {
-		return symptoms;
+
+
+	/**
+	 * @return the ingredients
+	 */
+	public String getIngredients() {
+		return ingredients;
 	}
-	public void setSymptoms(String symptoms) {
-		this.symptoms = symptoms;
+
+
+	/**
+	 * @param ingredients the ingredients to set
+	 */
+	public void setIngredients(String ingredients) {
+		this.ingredients = ingredients;
 	}
-	
-	public ResultSet labs() throws SQLException
+
+
+	/**
+	 * @return the cost
+	 */
+	public double getCost() {
+		return cost;
+	}
+
+
+	/**
+	 * @param cost the cost to set
+	 */
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+
+
+	public ResultSet lab() throws SQLException
 	{
 		return belongsTo("lab");
 	}
 	
-	public ResultSet methodDeseases() throws SQLException
+	public ResultSet inventory() throws SQLException
 	{
-		return belongsToMany("desease_method", "desease_methods");
+		return belongsTo("inventory");
 	}
 
 	public ResultSet medecinDeseases() throws SQLException
@@ -82,8 +135,8 @@ public class MedecineModel extends BasicModel {
 	public ResultSet comments() throws SQLException
 	{
 		ConcurrentHashMap<String, String> temp = new ConcurrentHashMap<String, String>();
-		temp.put("object_model", "disease");
-		temp.put("object_id", ""+disease_id);
+		temp.put("object_model", "medecine");
+		temp.put("object_id", ""+medecine_id);
 		return specials(temp, "comments");
 	}
 	

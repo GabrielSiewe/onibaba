@@ -9,81 +9,86 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class InventoryModel extends BasicModel {
 	
-	private Integer disease_id = -1;
-	private String name;
-	private String description;
-	private String symptoms;
+	private Integer inventory_id = -1;
+	private int quantity;
+	private int medecine_id;
 	// required properties 
-	private static String[] requiredOnInsert = {"name", "description", "symptoms" };
+	private static String[] requiredOnInsert = {"quantity", "medecine_id" };
 	private static String[][] modelRules = { 
-		{"name", "string"},
-		{"name", "uppercase"},
-		{"description", "string"},
-		{"symptons", "string"},
 		{"id", "integer"},
-		{"id", "positive" } 
+		{"id", "positive" },
+		{"medecine_id", "integer"},
+		{"medecine_id", "positive" },
+		{"quantity", "integer"}
 	};
-	private static final String TABLENAME = "deseases";
+	private static final String TABLENAME = "inventorys";
 	// fillable from the front end properties
-	private static String[] fillables = {"name", "description", "symptoms", "id"};
-	private static String[] belongstomany = {"desease_method", "desease_medecin"};
-	private static String[] belongsto = {"lab"};
+	private static String[] fillables = {"quantity", "medecine_id", "id"};
+	private static String[] belongstomany = {};
+	private static String[] belongsto = {"medecine"};
 	private static String[] specials = {"comment"};
 	
 	public InventoryModel(String query, ResultSet attributes) throws SQLException
 	{
-		super("disease", attributes.getInt("id"));
+		super("inventory", attributes.getInt("id"));
 		belongsToManyInstances = belongstomany;
 		belongsToInstance = belongsto;
-		tableName = null;
-		disease_id = attributes.getInt("id");
-		name = attributes.getString("name");
-		description = attributes.getString("description");
-		symptoms = attributes.getString("symptoms");
+		inventory_id = attributes.getInt("id");
+		
 		
 	}
-	public Integer getDisease_id() {
-		return disease_id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public String getSymptoms() {
-		return symptoms;
-	}
-	public void setSymptoms(String symptoms) {
-		this.symptoms = symptoms;
-	}
 	
-	public ResultSet labs() throws SQLException
-	{
-		return belongsTo("lab");
-	}
 	
-	public ResultSet methodDeseases() throws SQLException
-	{
-		return belongsToMany("desease_method", "desease_methods");
+	/**
+	 * @return the inventory_id
+	 */
+	public Integer getInventory_id() {
+		return inventory_id;
 	}
 
-	public ResultSet medecinDeseases() throws SQLException
+
+	/**
+	 * @return the quantity
+	 */
+	public int getQuantity() {
+		return quantity;
+	}
+
+
+	/**
+	 * @param quantity the quantity to set
+	 */
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+
+	/**
+	 * @return the medecine_id
+	 */
+	public int getMedecine_id() {
+		return medecine_id;
+	}
+
+
+	/**
+	 * @param medecine_id the medecine_id to set
+	 */
+	public void setMedecine_id(int medecine_id) {
+		this.medecine_id = medecine_id;
+	}
+
+
+	public ResultSet medecine() throws SQLException
 	{
-		return belongsToMany("desease_medecin", "desease_medecins");
+		return belongsTo("medecine");
 	}
 
 	public ResultSet comments() throws SQLException
 	{
 		ConcurrentHashMap<String, String> temp = new ConcurrentHashMap<String, String>();
-		temp.put("object_model", "disease");
-		temp.put("object_id", ""+disease_id);
+		temp.put("object_model", "inventory");
+		temp.put("object_id", ""+inventory_id);
 		return specials(temp, "comments");
 	}
 	

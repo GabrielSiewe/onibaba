@@ -10,12 +10,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class InvoiceModel extends BasicModel {
 	
-	private Integer disease_id = -1;
-	private String name;
-	private String description;
-	private String symptoms;
+	private Integer invoice_id = -1;
+	private double total_cost;
+
 	// required properties 
-	private static String[] requiredOnInsert = {"name", "description", "symptoms" };
+	private static String[] requiredOnInsert = {"total_cost" };
 	private static String[][] modelRules = { 
 		{"name", "string"},
 		{"name", "uppercase"},
@@ -26,65 +25,58 @@ public class InvoiceModel extends BasicModel {
 	};
 	private static final String TABLENAME = "deseases";
 	// fillable from the front end properties
-	private static String[] fillables = {"name", "description", "symptoms", "id"};
+	private static String[] fillables = {"total_cost", "id"};
 	private static String[] belongstomany = {"desease_method", "desease_medecin"};
-	private static String[] belongsto = {"lab"};
-	private static String[] specials = {"comment"};
+	private static String[] belongsto = {"lab", "prescription"};
 	
 	public InvoiceModel(String query, ResultSet attributes) throws SQLException
 	{
-		super("disease", attributes.getInt("id"));
+		super("invoice", attributes.getInt("id"));
 		belongsToManyInstances = belongstomany;
 		belongsToInstance = belongsto;
-		tableName = null;
-		disease_id = attributes.getInt("id");
-		name = attributes.getString("name");
-		description = attributes.getString("description");
-		symptoms = attributes.getString("symptoms");
+		invoice_id = attributes.getInt("id");
+		total_cost = attributes.getDouble("total_cost");
 		
 	}
-	public Integer getDisease_id() {
-		return disease_id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public String getSymptoms() {
-		return symptoms;
-	}
-	public void setSymptoms(String symptoms) {
-		this.symptoms = symptoms;
-	}
 	
-	public ResultSet labs() throws SQLException
+	
+	/**
+	 * @return the invoice_id
+	 */
+	public Integer getInvoice_id() {
+		return invoice_id;
+	}
+
+	/**
+	 * @return the total_cost
+	 */
+	public double getTotal_cost() {
+		return total_cost;
+	}
+
+
+	/**
+	 * @param total_cost the total_cost to set
+	 */
+	public void setTotal_cost(double total_cost) {
+		this.total_cost = total_cost;
+	}
+
+
+	public ResultSet lab() throws SQLException
 	{
 		return belongsTo("lab");
 	}
-	
-	public ResultSet methodDeseases() throws SQLException
+	public ResultSet prescription() throws SQLException
 	{
-		return belongsToMany("desease_method", "desease_methods");
-	}
-
-	public ResultSet medecinDeseases() throws SQLException
-	{
-		return belongsToMany("desease_medecin", "desease_medecins");
+		return belongsTo("prescription");
 	}
 
 	public ResultSet comments() throws SQLException
 	{
 		ConcurrentHashMap<String, String> temp = new ConcurrentHashMap<String, String>();
-		temp.put("object_model", "disease");
-		temp.put("object_id", ""+disease_id);
+		temp.put("object_model", "invoice");
+		temp.put("object_id", ""+invoice_id);
 		return specials(temp, "comments");
 	}
 	

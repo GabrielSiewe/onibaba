@@ -9,10 +9,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MethodModel extends BasicModel {
 	
-	private Integer disease_id = -1;
+	private Integer method_id = -1;
 	private String name;
 	private String description;
-	private String symptoms;
+	private double cost;
 	// required properties 
 	private static String[] requiredOnInsert = {"name", "description", "symptoms" };
 	private static String[][] modelRules = { 
@@ -26,7 +26,7 @@ public class MethodModel extends BasicModel {
 	private static final String TABLENAME = "deseases";
 	// fillable from the front end properties
 	private static String[] fillables = {"name", "description", "symptoms", "id"};
-	private static String[] belongstomany = {"desease_method", "desease_medecin"};
+	private static String[] belongstomany = {"desease_method"};
 	private static String[] belongsto = {"lab"};
 	private static String[] specials = {"comment"};
 	
@@ -35,35 +35,70 @@ public class MethodModel extends BasicModel {
 		super("disease", attributes.getInt("id"));
 		belongsToManyInstances = belongstomany;
 		belongsToInstance = belongsto;
-		tableName = null;
-		disease_id = attributes.getInt("id");
+		method_id = attributes.getInt("id");
 		name = attributes.getString("name");
 		description = attributes.getString("description");
-		symptoms = attributes.getString("symptoms");
+		cost = attributes.getDouble("cost");
 		
 	}
-	public Integer getDisease_id() {
-		return disease_id;
+	
+	
+	/**
+	 * @return the method_id
+	 */
+	public Integer getMethod_id() {
+		return method_id;
 	}
+
+
+	/**
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
+
+
+	/**
+	 * @param name the name to set
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
+
+
+	/**
+	 * @return the description
+	 */
 	public String getDescription() {
 		return description;
 	}
+
+
+	/**
+	 * @param description the description to set
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getSymptoms() {
-		return symptoms;
+
+
+	/**
+	 * @return the cost
+	 */
+	public double getCost() {
+		return cost;
 	}
-	public void setSymptoms(String symptoms) {
-		this.symptoms = symptoms;
+
+
+	/**
+	 * @param cost the cost to set
+	 */
+	public void setCost(double cost) {
+		this.cost = cost;
 	}
-	
+
+
 	public ResultSet labs() throws SQLException
 	{
 		return belongsTo("lab");
@@ -74,16 +109,11 @@ public class MethodModel extends BasicModel {
 		return belongsToMany("desease_method", "desease_methods");
 	}
 
-	public ResultSet medecinDeseases() throws SQLException
-	{
-		return belongsToMany("desease_medecin", "desease_medecins");
-	}
-
 	public ResultSet comments() throws SQLException
 	{
 		ConcurrentHashMap<String, String> temp = new ConcurrentHashMap<String, String>();
-		temp.put("object_model", "disease");
-		temp.put("object_id", ""+disease_id);
+		temp.put("object_model", "method");
+		temp.put("object_id", ""+method_id);
 		return specials(temp, "comments");
 	}
 	

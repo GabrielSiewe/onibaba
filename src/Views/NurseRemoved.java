@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package Views;
 
 /**
  *
  * @author xuelixiao
  */
-public class NurseAdded extends javax.swing.JFrame {
+public class NurseRemoved extends javax.swing.JFrame {
 
     /**
      * Creates new form NurseRemoved
      */
-    public NurseAdded() {
+    public NurseRemoved() {
         initComponents();
     }
 
@@ -31,7 +31,7 @@ public class NurseAdded extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Nurse Added");
+        jLabel1.setText("Nurse Removed");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -40,7 +40,7 @@ public class NurseAdded extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(70, 70, 70)
                 .addComponent(jLabel1)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

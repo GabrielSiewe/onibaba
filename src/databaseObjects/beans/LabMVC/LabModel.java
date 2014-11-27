@@ -17,7 +17,7 @@ public class LabModel extends BasicModel {
 	private String result_explanation;
 	
 	// required properties 
-	private static String[] requiredOnInsert = {"name", "description", "symptoms" };
+	private static String[] requiredOnInsert = {"result_explanation", "invoice_id", "method_id", "desease_id", "medecine_id" };
 	private static String[][] modelRules = { 
 		{"result_explanation", "string"},
 		{"id", "integer"},
@@ -33,15 +33,13 @@ public class LabModel extends BasicModel {
 	};
 	private static final String TABLENAME = "deseases";
 	// fillable from the front end properties
-	private static String[] fillables = {"name", "description", "symptoms", "id"};
-	private static String[] belongstomany = {"desease_method", "desease_medecin"};
+	private static String[] fillables = {"result_explanation", "invoice_id", "method_id", "desease_id", "medecine_id", "id"};
 	private static String[] belongsto = {"invoice", "method", "desease", "medecine"};
 	private static String[] specials = {"comment"};
 	
 	public LabModel(String query, ResultSet attributes) throws SQLException
 	{
 		super("lab", attributes.getInt("id"));
-		belongsToManyInstances = belongstomany;
 		belongsToInstance = belongsto;
 		lab_id = attributes.getInt("id");
 		invoice_id = attributes.getInt("invoice_id");
@@ -51,12 +49,99 @@ public class LabModel extends BasicModel {
 		result_explanation = attributes.getString("result_explanation");
 	}
 	
-	public ResultSet labs() throws SQLException
-	{
-		return belongsTo("lab");
+	/**
+	 * @return the lab_id
+	 */
+	public Integer getLab_id() {
+		return lab_id;
 	}
-	
 
+	/**
+	 * @return the invoice_id
+	 */
+	public Integer getInvoice_id() {
+		return invoice_id;
+	}
+
+	/**
+	 * @param invoice_id the invoice_id to set
+	 */
+	public void setInvoice_id(Integer invoice_id) {
+		this.invoice_id = invoice_id;
+	}
+
+	/**
+	 * @return the method_id
+	 */
+	public Integer getMethod_id() {
+		return method_id;
+	}
+
+	/**
+	 * @param method_id the method_id to set
+	 */
+	public void setMethod_id(Integer method_id) {
+		this.method_id = method_id;
+	}
+
+	/**
+	 * @return the desease_id
+	 */
+	public Integer getDesease_id() {
+		return desease_id;
+	}
+
+	/**
+	 * @param desease_id the desease_id to set
+	 */
+	public void setDesease_id(Integer desease_id) {
+		this.desease_id = desease_id;
+	}
+
+	/**
+	 * @return the medecine_id
+	 */
+	public Integer getMedecine_id() {
+		return medecine_id;
+	}
+
+	/**
+	 * @param medecine_id the medecine_id to set
+	 */
+	public void setMedecine_id(Integer medecine_id) {
+		this.medecine_id = medecine_id;
+	}
+
+	/**
+	 * @return the result_explanation
+	 */
+	public String getResult_explanation() {
+		return result_explanation;
+	}
+
+	/**
+	 * @param result_explanation the result_explanation to set
+	 */
+	public void setResult_explanation(String result_explanation) {
+		this.result_explanation = result_explanation;
+	}
+
+	public ResultSet invoice() throws SQLException
+	{
+		return belongsTo("invoice");
+	}
+	public ResultSet method() throws SQLException
+	{
+		return belongsTo("method");
+	}
+	public ResultSet desease() throws SQLException
+	{
+		return belongsTo("desease");
+	}
+	public ResultSet medecine() throws SQLException
+	{
+		return belongsTo("medecine");
+	}
 	public ResultSet comments() throws SQLException
 	{
 		ConcurrentHashMap<String, String> temp = new ConcurrentHashMap<String, String>();
