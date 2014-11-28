@@ -1,5 +1,4 @@
-package databaseObjects.beans.PrescriptionMVC;
-import BaseMVC.BasicModel;
+package databaseObjects.beans.Person;
 
 import java.util.ArrayList;
 import java.sql.ResultSet;
@@ -7,91 +6,74 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class PrescriptionModel extends BasicModel {
+public class PatientModel extends PersonModel {
 	
-	private Integer prescription_id = -1;
-	private Integer appointment_id = -1;
-	private Integer invoice_id = -1;
+	private int patient_id = -1;
+	private int nurse_id = -1;
+	private String education;
+	private String experience;
+
 	// required properties 
-	private static String[] requiredOnInsert = {"appointment_id", "invoice_id" };
-	private static String[][] modelRules = { 
-		{"id", "integer"},
-		{"id", "positive" },
-		{"appointment_id", "integer"},
-		{"appointment_id", "positive" },
-		{"invoice_id", "integer"},
-		{"invoice_id", "positive" }
-	};
-	private static final String TABLENAME = "prescriptions";
+	private static String[] requiredOnInsert = {"nurse_id", "person_id", "education", "experience"};
+
+	private static final String TABLENAME = "patients";
 	// fillable from the front end properties
-	private static String[] fillables = {"invoice_id", "appointment_id", "id"};
-	private static String[] belongstomany = {};
-	private static String[] belongsto = {"appointment", "invoice"};
+	private static String[] fillables = {"nurse_id", "person_id", "education", "experience", "id"};
 	
-	public PrescriptionModel(String query, ResultSet attributes) throws SQLException
+	public PatientModel(String query, ResultSet attributes) throws SQLException
 	{
-		super("prescription", attributes.getInt("id"));
-		belongsToManyInstances = belongstomany;
-		belongsToInstance = belongsto;
-		prescription_id = attributes.getInt("id");
-		appointment_id = attributes.getInt("appointment_id");
-		invoice_id = attributes.getInt("invoice_id");
+		super(attributes.getInt("person_id"));
+		patient_id = attributes.getInt("id");
+		nurse_id = attributes.getInt("nurse_id");
+		education = attributes.getString("education");
+		experience = attributes.getString("experience");
 		
+		
+
 	}
 	
 	/**
-	 * @return the prescription_id
+	 * @return the patient_id
 	 */
-	public Integer getPrescription_id() {
-		return prescription_id;
+	public int getPatient_id() {
+		return patient_id;
 	}
 
 	/**
-	 * @return the appointment_id
+	 * @return the nurse_id
 	 */
-	public Integer getAppointment_id() {
-		return appointment_id;
+	public int getNurse_id() {
+		return nurse_id;
 	}
 
 	/**
-	 * @param appointment_id the appointment_id to set
+	 * @return the education
 	 */
-	public void setAppointment_id(Integer appointment_id) {
-		this.appointment_id = appointment_id;
+	public String getEducation() {
+		return education;
 	}
 
 	/**
-	 * @return the invoice_id
+	 * @param education the education to set
 	 */
-	public Integer getInvoice_id() {
-		return invoice_id;
+	public void setEducation(String education) {
+		this.education = education;
 	}
 
 	/**
-	 * @param invoice_id the invoice_id to set
+	 * @return the experience
 	 */
-	public void setInvoice_id(Integer invoice_id) {
-		this.invoice_id = invoice_id;
+	public String getExperience() {
+		return experience;
 	}
 
-	public ResultSet appointment() throws SQLException
-	{
-		return belongsTo("appointment");
-	}
-	
-	public ResultSet invoice() throws SQLException
-	{
-		return belongsTo("invoice");
+	/**
+	 * @param experience the experience to set
+	 */
+	public void setExperience(String experience) {
+		this.experience = experience;
 	}
 
-	public ResultSet comments() throws SQLException
-	{
-		ConcurrentHashMap<String, String> temp = new ConcurrentHashMap<String, String>();
-		temp.put("object_model", "prescription");
-		temp.put("object_id", ""+prescription_id);
-		return specials(temp, "comments");
-	}
-	
 	// model queries.
 	public static String getInsertStatement(ConcurrentHashMap<String,String> attributes)
 	{
@@ -198,10 +180,8 @@ public class PrescriptionModel extends BasicModel {
 		ConcurrentHashMap<String, String> attributes = new ConcurrentHashMap<String, String>();
 		attributes.put("description", "All for one and one for all.");
 		attributes.put("id", "1");
-		findStatement = PrescriptionModel.getDeleteStatement(attributes);
+		findStatement = PersonModel.getDeleteStatement(attributes);
 		System.out.println(findStatement);
-		PrescriptionModel.closeDbConnection();
+		PersonModel.closeDbConnection();
 	}
 }
-
-

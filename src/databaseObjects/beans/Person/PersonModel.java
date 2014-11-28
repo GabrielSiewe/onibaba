@@ -1,94 +1,224 @@
-package databaseObjects.beans.PrescriptionMVC;
+package databaseObjects.beans.Person;
 import BaseMVC.BasicModel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class PrescriptionModel extends BasicModel {
+public class PersonModel extends BasicModel {
 	
-	private Integer prescription_id = -1;
-	private Integer appointment_id = -1;
-	private Integer invoice_id = -1;
+	private String ssn = null;
+	private String first_name = null;
+	private String last_name = null;
+	private Date birthday = null;
+	private Integer phone = 0;
+	private String email = null;
+	private String title = null;
+	private Integer person_id = -1;
+
 	// required properties 
-	private static String[] requiredOnInsert = {"appointment_id", "invoice_id" };
-	private static String[][] modelRules = { 
+	private static String[] requiredOnInsert = {"ssn", "first_name", "last_name", "email", "title", "phone", "birthday" };
+	protected static String[][] modelRules = { 
+		{"ssn", "string"},
+		{"first_name", "string"},
+		{"first_name", "uppercase"},
+		{"last_name", "string"},
+		{"last_name", "uppercase"},
+		{"email", "string"},
+		{"email", "string"},
+		{"email", "email"},
+		{"title", "string"},
+		{"phone", "integer"},
+		{"phone", "positive" },
+		{"birthday", "date"},
+		{"birthday", "past" },
 		{"id", "integer"},
 		{"id", "positive" },
-		{"appointment_id", "integer"},
-		{"appointment_id", "positive" },
-		{"invoice_id", "integer"},
-		{"invoice_id", "positive" }
+		{"nurse_id", "integer"},
+		{"nurse_id", "positive" },
+		{"doctor_id", "integer"},
+		{"doctor_id", "positive" },
+		{"education", "string"},
+		{"experience", "string"}
 	};
-	private static final String TABLENAME = "prescriptions";
+	private static final String TABLENAME = "persons";
 	// fillable from the front end properties
-	private static String[] fillables = {"invoice_id", "appointment_id", "id"};
-	private static String[] belongstomany = {};
-	private static String[] belongsto = {"appointment", "invoice"};
+	private static String[] fillables = {"ssn", "first_name", "last_name", "email", "title", "phone", "birthday", "id"};
+	private static String[] hasMany = {"appointment","comment"};
 	
-	public PrescriptionModel(String query, ResultSet attributes) throws SQLException
+	public PersonModel(int person_id) throws SQLException
 	{
-		super("prescription", attributes.getInt("id"));
-		belongsToManyInstances = belongstomany;
-		belongsToInstance = belongsto;
-		prescription_id = attributes.getInt("id");
-		appointment_id = attributes.getInt("appointment_id");
-		invoice_id = attributes.getInt("invoice_id");
+		super("person", person_id);
+		ResultSet attributes = queryRunner.runQuery("SELECT * FROM persons WHERE `id`=\""+person_id+"\";", false);
+		hasManyInstances = hasMany;
+		person_id = attributes.getInt("id");
+		ssn = attributes.getString("ssn");
+		first_name = attributes.getString("first_name");
+		last_name = attributes.getString("last_name");
+		birthday = attributes.getDate("birthday");
+		phone = attributes.getInt("phone");
+		email = attributes.getString("email");
+		title = attributes.getString("title");
 		
+
 	}
 	
-	/**
-	 * @return the prescription_id
-	 */
-	public Integer getPrescription_id() {
-		return prescription_id;
-	}
+
 
 	/**
-	 * @return the appointment_id
+	 * @return the ssn
 	 */
-	public Integer getAppointment_id() {
-		return appointment_id;
+	public String getSsn() {
+		return ssn;
 	}
+
+
 
 	/**
-	 * @param appointment_id the appointment_id to set
+	 * @param ssn the ssn to set
 	 */
-	public void setAppointment_id(Integer appointment_id) {
-		this.appointment_id = appointment_id;
+	public void setSsn(String ssn) {
+		this.ssn = ssn;
 	}
+
+
 
 	/**
-	 * @return the invoice_id
+	 * @return the first_name
 	 */
-	public Integer getInvoice_id() {
-		return invoice_id;
+	public String getFirst_name() {
+		return first_name;
 	}
+
+
 
 	/**
-	 * @param invoice_id the invoice_id to set
+	 * @param first_name the first_name to set
 	 */
-	public void setInvoice_id(Integer invoice_id) {
-		this.invoice_id = invoice_id;
+	public void setFirst_name(String first_name) {
+		this.first_name = first_name;
 	}
 
-	public ResultSet appointment() throws SQLException
+
+
+	/**
+	 * @return the last_name
+	 */
+	public String getLast_name() {
+		return last_name;
+	}
+
+
+
+	/**
+	 * @param last_name the last_name to set
+	 */
+	public void setLast_name(String last_name) {
+		this.last_name = last_name;
+	}
+
+
+
+	/**
+	 * @return the birthday
+	 */
+	public Date getBirthday() {
+		return birthday;
+	}
+
+
+
+	/**
+	 * @param birthday the birthday to set
+	 */
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+
+
+	/**
+	 * @return the phone
+	 */
+	public Integer getPhone() {
+		return phone;
+	}
+
+
+
+	/**
+	 * @param phone the phone to set
+	 */
+	public void setPhone(Integer phone) {
+		this.phone = phone;
+	}
+
+
+
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
+	}
+
+
+
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
+
+	/**
+	 * @return the person_id
+	 */
+	public Integer getPerson_id() {
+		return person_id;
+	}
+
+
+
+	public ResultSet appointments() throws SQLException
 	{
-		return belongsTo("appointment");
+		return hasMany("appointment");
 	}
-	
-	public ResultSet invoice() throws SQLException
-	{
-		return belongsTo("invoice");
-	}
-
 	public ResultSet comments() throws SQLException
 	{
 		ConcurrentHashMap<String, String> temp = new ConcurrentHashMap<String, String>();
-		temp.put("object_model", "prescription");
-		temp.put("object_id", ""+prescription_id);
+		temp.put("person_id", ""+person_id);
+		return specials(temp, "comments");
+	}
+	public ResultSet reminders() throws SQLException
+	{
+		ConcurrentHashMap<String, String> temp = new ConcurrentHashMap<String, String>();
+		temp.put("person_id", ""+person_id);
+		temp.put("object_model", "person");
+		temp.put("object_id", ""+person_id);
 		return specials(temp, "comments");
 	}
 	
@@ -198,10 +328,9 @@ public class PrescriptionModel extends BasicModel {
 		ConcurrentHashMap<String, String> attributes = new ConcurrentHashMap<String, String>();
 		attributes.put("description", "All for one and one for all.");
 		attributes.put("id", "1");
-		findStatement = PrescriptionModel.getDeleteStatement(attributes);
+		findStatement = PersonModel.getDeleteStatement(attributes);
 		System.out.println(findStatement);
-		PrescriptionModel.closeDbConnection();
+		PersonModel.closeDbConnection();
 	}
 }
-
 
