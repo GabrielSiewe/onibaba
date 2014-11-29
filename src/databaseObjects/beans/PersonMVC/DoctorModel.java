@@ -1,4 +1,4 @@
-package databaseObjects.beans.Person;
+package databaseObjects.beans.PersonMVC;
 
 import java.util.ArrayList;
 import java.sql.ResultSet;
@@ -6,33 +6,22 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class NurseModel extends PersonModel {
-	
-	private int nurse_id = -1;
-	private String education;
-	private String experience;
-	private int doctor_id = -1;
+public class DoctorModel extends PersonModel {
 
 	// required properties 
 	private static String[] requiredOnInsert = {"nurse_id", "person_id", "education", "experience"};
 
-	private static final String TABLENAME = "patients";
+	private static final String TABLENAME = "doctors";
 
 	// fillable from the front end properties
 	private static String[] fillables = {"nurse_id", "person_id", "education", "experience", "id"};
-	private static String[] hasMany = {"patient"};
-	private static String[] belongsto = {"doctor"};
+	private static String[] hasMany = {"nurse", "appointment", ""};
 	
-	public NurseModel(String query, ResultSet attributes) throws SQLException
+	public DoctorModel(ResultSet attributes) throws SQLException
 	{
-		super(attributes.getInt("person_id"));
-		doctor_id = attributes.getInt("doctor_id");
-		nurse_id = attributes.getInt("id");
-		education = attributes.getString("education");
-		experience = attributes.getString("experience");
+		super(attributes, "doctor");
+//		System.out.println("here");
 		hasManyInstances = hasMany;
-		belongsToInstance = belongsto;
-		
 	}
 	
 	
@@ -84,16 +73,14 @@ public class NurseModel extends PersonModel {
 	}
 
 
-	public ResultSet patients() throws SQLException
+	public ResultSet nurses() throws SQLException
 	{
-		return hasMany("patient");
+		return hasMany("nurses");
 	}
-
-	public ResultSet doctor() throws SQLException
+	public ResultSet appointments() throws SQLException
 	{
-		return belongsTo("doctor");
+		return hasMany("appointment");
 	}
-
 	// model queries.
 	public static String getInsertStatement(ConcurrentHashMap<String,String> attributes)
 	{

@@ -1,4 +1,4 @@
-package databaseObjects.beans.Person;
+package databaseObjects.beans.PersonMVC;
 
 import java.util.ArrayList;
 import java.sql.ResultSet;
@@ -7,11 +7,6 @@ import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PatientModel extends PersonModel {
-	
-	private int patient_id = -1;
-	private int nurse_id = -1;
-	private String education;
-	private String experience;
 
 	// required properties 
 	private static String[] requiredOnInsert = {"nurse_id", "person_id", "education", "experience"};
@@ -20,16 +15,9 @@ public class PatientModel extends PersonModel {
 	// fillable from the front end properties
 	private static String[] fillables = {"nurse_id", "person_id", "education", "experience", "id"};
 	
-	public PatientModel(String query, ResultSet attributes) throws SQLException
+	public PatientModel(ResultSet attributes) throws SQLException
 	{
-		super(attributes.getInt("person_id"));
-		patient_id = attributes.getInt("id");
-		nurse_id = attributes.getInt("nurse_id");
-		education = attributes.getString("education");
-		experience = attributes.getString("experience");
-		
-		
-
+		super(attributes, "patient");
 	}
 	
 	/**

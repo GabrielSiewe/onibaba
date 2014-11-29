@@ -4,30 +4,31 @@ import java.sql.SQLException;
 
 import com.mysql.jdbc.util.LRUCache;
 
-public class DatabaseManipulator extends Database implements Cachable {
+public class DatabaseManipulator extends Database {
 	// Communicates with the database  and keeps updating the cache so that we don;t have to alo
 	private static LRUCache cache;
 
-	public  DatabaseManipulator(String username, String password)
+	public  DatabaseManipulator()
 	{
-		super(username, password);
+		super();
 		if (cache == null) {
 			cache = new LRUCache(100);
 		}
 	}
 	
-	public synchronized ResultSet runQuery(String statement, Boolean ignoreCache) throws SQLException
+	public synchronized ResultSet runQuery(String statement) throws SQLException
 	{
 		ResultSet results = null;
 		if (statement == null) {
-			System.out.println("Invalid statement: "+statement);
+			System.out.println("Invalid null statement");
 			return null;
 		}
+		
 
-		if (cache.containsKey(statement) && ignoreCache == false) {
-			results = (ResultSet) cache.get(statement);
-
-		} else {
+//		if (cache.containsKey(statement)) {
+//			results = (ResultSet) cache.get(statement);
+//
+//		} else {
 			results = super.runQuery(statement);
 
 			synchronized(cache) {
@@ -36,7 +37,7 @@ public class DatabaseManipulator extends Database implements Cachable {
 				} else {
 					cache.replace(statement, results);
 				}
-			}
+//			}
 		}
 
 		return results;

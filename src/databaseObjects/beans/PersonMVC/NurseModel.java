@@ -1,4 +1,4 @@
-package databaseObjects.beans.Person;
+package databaseObjects.beans.PersonMVC;
 
 import java.util.ArrayList;
 import java.sql.ResultSet;
@@ -6,31 +6,24 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class DoctorModel extends PersonModel {
-	
-	private int doctor_id = -1;
-	private String education;
-	private String experience;
+public class NurseModel extends PersonModel {
 
 	// required properties 
 	private static String[] requiredOnInsert = {"nurse_id", "person_id", "education", "experience"};
 
-	private static final String TABLENAME = "patients";
+	private static final String TABLENAME = "nurses";
 
 	// fillable from the front end properties
 	private static String[] fillables = {"nurse_id", "person_id", "education", "experience", "id"};
-	private static String[] hasMany = {"nurse", "appointment", ""};
+	private static String[] hasMany = {"patient"};
+	private static String[] belongsto = {"doctor"};
 	
-	public DoctorModel(String query, ResultSet attributes) throws SQLException
+	public NurseModel(ResultSet attributes) throws SQLException
 	{
-		super(attributes.getInt("person_id"));
-		doctor_id = attributes.getInt("id");
+		super(attributes, "nurse");
 		hasManyInstances = hasMany;
-		education = attributes.getString("education");
-		experience = attributes.getString("experience");
+		belongsToInstance = belongsto;
 		
-		
-
 	}
 	
 	
@@ -82,14 +75,16 @@ public class DoctorModel extends PersonModel {
 	}
 
 
-	public ResultSet nurses() throws SQLException
+	public ResultSet patients() throws SQLException
 	{
-		return hasMany("nurses");
+		return hasMany("patient");
 	}
-	public ResultSet appointments() throws SQLException
+
+	public ResultSet doctor() throws SQLException
 	{
-		return hasMany("appointment");
+		return belongsTo("doctor");
 	}
+
 	// model queries.
 	public static String getInsertStatement(ConcurrentHashMap<String,String> attributes)
 	{

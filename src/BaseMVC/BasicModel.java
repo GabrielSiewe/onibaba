@@ -24,7 +24,7 @@ public class BasicModel {
 	public BasicModel(String modelName, int modelId)
 	{
 		if (queryRunner == null) {
-			queryRunner = new DatabaseManipulator("Onibaba", "DearDarling");
+			queryRunner = new DatabaseManipulator();
 		}
 		this.modelName = modelName;
 		this.modelId = modelId;
@@ -35,7 +35,7 @@ public class BasicModel {
 	protected ResultSet belongsTo(String model) throws SQLException
 	{
 		if (model != null && belongsToInstance.toString().indexOf(model) != -1 && queryRunner != null) {
-			return queryRunner.runQuery(load(model, null), false);
+			return queryRunner.runQuery(load(model, null));
 		}
 		throw new SQLException("this "+modelName+" doesn't belong to a "+model);
 	}
@@ -44,7 +44,7 @@ public class BasicModel {
 	protected ResultSet hasMany(String model) throws SQLException
 	{
 		if (model != null && hasManyInstances.toString().indexOf(model) != -1 && queryRunner != null) {
-			return queryRunner.runQuery(load(model, null), false);
+			return queryRunner.runQuery(load(model, null));
 		}
 		throw new SQLException("this "+modelName+" doesn't have many "+model);
 	};
@@ -53,17 +53,21 @@ public class BasicModel {
 	protected ResultSet belongsToMany(String model, String tableName) throws SQLException
 	{
 		if (tableName != null && model != null && belongsToManyInstances.toString().indexOf(model) != -1 && queryRunner != null) {
-			return queryRunner.runQuery(load(model, tableName), false);
+			return queryRunner.runQuery(load(model, tableName));
 		}
 		throw new SQLException("this "+modelName+" doesn't belong to nor does it have many "+model);
 		
 	}
 	
 	// runs an SQL query
-	protected static ResultSet runQuery(String query) throws SQLException
+	public static ResultSet runQuery(String query) throws SQLException
 	{
+		if (queryRunner == null) {
+			queryRunner = new DatabaseManipulator();
+		}
+
 		if (query != null && query.trim() != null) {
-			return queryRunner.runQuery(query, false);
+			return queryRunner.runQuery(query);
 		}
 		throw new SQLException("you are trying to run an empty query.");
 		
@@ -73,7 +77,7 @@ public class BasicModel {
 	protected ResultSet specials(ConcurrentHashMap<String,String> finders, String table_name ) throws SQLException
 	{
 		if (table_name != null && finders != null && queryRunner != null) {
-			return queryRunner.runQuery(getFindStatement(finders, table_name), false);
+			return queryRunner.runQuery(getFindStatement(finders, table_name));
 		}
 		throw new SQLException("this "+modelName+" doesn't belong to nor does it have many "+table_name);
 		
@@ -146,7 +150,7 @@ public class BasicModel {
 		{
 			String key = keySet[i];
 			
-			toReturn += "`"+ key+"`" + "=\"" +attributes.get(key)+"\""+ ((i == keySet.length - 1)?");":", AND ");
+			toReturn += "`"+ key+"`" + "=\"" +attributes.get(key)+"\""+ ((i == keySet.length - 1)?");":" AND ");
 		}
 		return toReturn;
 	}
@@ -278,7 +282,7 @@ public class BasicModel {
 		return ""+test;
 	}
 	
-	protected static void closeDbConnection()
+	public static void closeDbConnection()
 	{
 		if (queryRunner != null)
 			queryRunner.close();

@@ -4,17 +4,47 @@
  * and open the template in the editor.
  */
 package Views;
+import java.awt.event.*;
+import java.util.concurrent.*;
+import databaseObjects.beans.PersonMVC.*;
 
 /**
  *
  * @author xuelixiao
  */
 public class Login extends javax.swing.JFrame {
-
+	
+	PersonController loginController;
+	PersonModel user;
     /**
      * Creates new form Login
      */
     public Login() {
+    	loginController = new PersonController();
+    	jToggleButton1 = new javax.swing.JToggleButton();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jPasswordField1 = new javax.swing.JPasswordField();
+        jLabel4 = new javax.swing.JLabel();
+
+        jToggleButton1.setText("jToggleButton1");
+        
+    	jButton1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+            	ConcurrentHashMap attributes = new ConcurrentHashMap();
+            	attributes.put("username", jTextField1.getText());
+            	attributes.put("password", new String(jPasswordField1.getPassword()));
+                user = loginController.authenticate(attributes);
+                if (user == null) {
+                	System.out.println("invalid username and password");
+                } else {
+                	System.out.println("valid controller");
+                }
+           }
+        });
         initComponents();
     }
 
@@ -26,17 +56,6 @@ public class Login extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jLabel4 = new javax.swing.JLabel();
-
-        jToggleButton1.setText("jToggleButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);

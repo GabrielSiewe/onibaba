@@ -1,4 +1,4 @@
-package databaseObjects.beans.Person;
+package databaseObjects.beans.PersonMVC;
 import BaseMVC.BasicModel;
 
 import java.util.ArrayList;
@@ -17,15 +17,25 @@ public class PersonModel extends BasicModel {
 	private Integer phone = 0;
 	private String email = null;
 	private String title = null;
+	private String username = null;
+	private String password = null;
 	private Integer person_id = -1;
+	protected int doctor_id = -1;
+	protected int nurse_id = -1;
+	protected int patient_id = -1;
+	protected String education;
+	protected String experience;
 
 	// required properties 
-	private static String[] requiredOnInsert = {"ssn", "first_name", "last_name", "email", "title", "phone", "birthday" };
+	private static String[] requiredOnInsert = {"ssn", "first_name", "last_name", "email", "title", "phone", "birthday", "username", "password", "nurse_id", "doctor_id"};
 	protected static String[][] modelRules = { 
 		{"ssn", "string"},
 		{"first_name", "string"},
 		{"first_name", "uppercase"},
 		{"last_name", "string"},
+		{"last_name", "uppercase"},
+		{"experience", "string"},
+		{"education", "string"},
 		{"last_name", "uppercase"},
 		{"email", "string"},
 		{"email", "string"},
@@ -41,18 +51,25 @@ public class PersonModel extends BasicModel {
 		{"nurse_id", "positive" },
 		{"doctor_id", "integer"},
 		{"doctor_id", "positive" },
-		{"education", "string"},
-		{"experience", "string"}
+		{"username", "string"},
+		{"password", "string"},
+		{"person_id", "integer"},
+		{"person_id", "positive"},
+		{"nurse_id", "integer"},
+		{"nurse_id", "positive"},
+		{"doctor_id", "integer"},
+		{"doctor_id", "positive"}
 	};
 	private static final String TABLENAME = "persons";
 	// fillable from the front end properties
-	private static String[] fillables = {"ssn", "first_name", "last_name", "email", "title", "phone", "birthday", "id"};
+	private static String[] fillables = {"ssn", "first_name", "last_name", "email", "title", "phone", "birthday", "id", "username", "password", "person_id", "experience", "education"};
 	private static String[] hasMany = {"appointment","comment"};
 	
 	public PersonModel(int person_id) throws SQLException
 	{
 		super("person", person_id);
-		ResultSet attributes = queryRunner.runQuery("SELECT * FROM persons WHERE `id`=\""+person_id+"\";", false);
+
+		ResultSet attributes = queryRunner.runQuery("SELECT * FROM persons WHERE `id`=\""+person_id+"\";");
 		hasManyInstances = hasMany;
 		person_id = attributes.getInt("id");
 		ssn = attributes.getString("ssn");
@@ -62,8 +79,43 @@ public class PersonModel extends BasicModel {
 		phone = attributes.getInt("phone");
 		email = attributes.getString("email");
 		title = attributes.getString("title");
-		
+		username =  attributes.getString("username");
+		password =  attributes.getString("password");
+	}
+	public PersonModel(ResultSet attributes, String model) throws SQLException
+	{
+		super("person", attributes.getInt("person_id"));
+		if (model.equals("doctor") || model.equals("nurse") || model.equals("patient")) {
+			education =  attributes.getString("education");
+			experience = attributes.getString("experience");
+			person_id = attributes.getInt("person_id");
 
+			if (model.equals("doctor")) {
+				doctor_id = attributes.getInt("id");
+			} else if(model.equals("nurse")) {
+				doctor_id =  attributes.getInt("doctor_id");
+				nurse_id =  attributes.getInt("id");
+			} else {
+				nurse_id =  attributes.getInt("nurse_id");
+				patient_id =  attributes.getInt("id");
+			}
+
+		} else {
+			throw new SQLException("Invalid model name");
+		}
+		System.out.println("here");
+		attributes = queryRunner.runQuery("SELECT * FROM persons WHERE `id`=\""+person_id+"\";");
+		hasManyInstances = hasMany;
+		person_id = attributes.getInt("id");
+		ssn = attributes.getString("ssn");
+		first_name = attributes.getString("first_name");
+		last_name = attributes.getString("last_name");
+		birthday = attributes.getDate("birthday");
+		phone = attributes.getInt("phone");
+		email = attributes.getString("email");
+		title = attributes.getString("title");
+		username =  attributes.getString("username");
+		password =  attributes.getString("password");
 	}
 	
 
@@ -195,6 +247,42 @@ public class PersonModel extends BasicModel {
 
 
 	/**
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
+	}
+
+
+
+	/**
+	 * @param username the username to set
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
+
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+
+
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+
+	/**
 	 * @return the person_id
 	 */
 	public Integer getPerson_id() {
@@ -273,7 +361,6 @@ public class PersonModel extends BasicModel {
 	// removes unfillable fields and watches out for sql data.
 	protected static ConcurrentHashMap<String, String> validateData(ConcurrentHashMap<String, String> attributes, String methodName)
 	{
-		// attributes.keySet().toArray();
 		String[] keys = attributes.keySet().toArray(new String[attributes.size()]);
 		ConcurrentHashMap<String, ArrayList<String>> fieldRules = new ConcurrentHashMap<String, ArrayList<String>>(); 
 		

@@ -11,17 +11,15 @@ import java.sql.SQLException;
 public class Database {
 
 	// First let's go ahead and set the database information required
-	private String username = null;
-	private String password = null;
+	private static final String USERNAME = "Onibaba";
+	private static final String PASSWORD = "DearDarling";
 	private PreparedStatement query = null;
 
-	private static final String jdbcDriver = "jdbc:mysql://10.250.4.174/SoftwareEngineeringDB";
+	private static final String jdbcDriver = "jdbc:mysql://10.0.0.10/SoftwareEngineeringDB";
 	private Connection connector = null;
 	
 
-	protected Database(String username, String password) {
-		this.username = username;
-		this.password = password;
+	protected Database() {
 		setConnection();
 	}
 	
@@ -44,7 +42,7 @@ public class Database {
 	private void setConnection()
 	{
 		try{
-			connector = DriverManager.getConnection(jdbcDriver, username, password);
+			connector = DriverManager.getConnection(jdbcDriver, USERNAME, PASSWORD);
 			query = connector.prepareStatement("?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		} catch (SQLException e) {
 			System.out.println("The database connection failed.");
