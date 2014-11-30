@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Views;
+package Views.Home;
+
+import Views.Home.DoctorHome;
 
 /**
  *
@@ -93,11 +95,11 @@ public class NurseHome extends javax.swing.JFrame {
 
         jLabel3.setText("SSN:");
 
-        jLabel14.setText("id");
+        jLabel14.setText("salary");
 
         jLabel6.setText("Phone:");
 
-        jLabel9.setText("ID:");
+        jLabel9.setText("Salary:");
 
         jLabel17.setText("email");
 
