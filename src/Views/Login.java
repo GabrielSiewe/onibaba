@@ -5,6 +5,7 @@
  */
 package Views;
 import java.awt.event.*;
+import javax.swing.JFrame;
 import java.util.concurrent.*;
 import databaseObjects.beans.PersonMVC.*;
 
@@ -12,14 +13,18 @@ import databaseObjects.beans.PersonMVC.*;
  *
  * @author xuelixiao
  */
-public class Login extends javax.swing.JFrame {
+public class Login extends  JFrame {
 	
-	PersonController loginController;
-	PersonModel user;
+	private static PersonController loginController;
+	private DoctorModel doctor;
+	private NurseModel nurse;
+	private JFrame current;
+	private PersonModel user;
     /**
      * Creates new form Login
      */
     public Login() {
+    	
     	loginController = new PersonController();
     	jToggleButton1 = new javax.swing.JToggleButton();
         jButton1 = new javax.swing.JButton();
@@ -31,17 +36,23 @@ public class Login extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
 
         jToggleButton1.setText("jToggleButton1");
-        
+        current = this;
     	jButton1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-            	ConcurrentHashMap attributes = new ConcurrentHashMap();
+            	ConcurrentHashMap<String, String> attributes = new ConcurrentHashMap<String, String>();
             	attributes.put("username", jTextField1.getText());
             	attributes.put("password", new String(jPasswordField1.getPassword()));
                 user = loginController.authenticate(attributes);
+
                 if (user == null) {
                 	System.out.println("invalid username and password");
                 } else {
-                	System.out.println("valid controller");
+                	loginController.addToPrevious(current);
+                	if (user.getTitle().equals("doctor")) {
+                		doctor = (DoctorModel) user;
+                		DoctorHome page = new DoctorHome(doctor);
+                		page.pack();
+                	}
                 }
            }
         });
@@ -100,6 +111,7 @@ public class Login extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

@@ -6,7 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import BaseMVC.BasicController;
 
 public class PersonController extends BasicController {
-	private PersonModel user;
+	private NurseModel nurse;
+	private DoctorModel doctor;
 	
 	public PersonController()
 	{
@@ -26,20 +27,20 @@ public class PersonController extends BasicController {
 					case "doctor":
 						String statement = DoctorModel.getFindStatement(properties);
 						ResultSet results = DoctorModel.runQuery(statement);
-						user = new DoctorModel(results);
+						doctor = new DoctorModel(results);
 						break;
 					case "nurse": 
 						statement = NurseModel.getFindStatement(properties);
 						results = NurseModel.runQuery(statement);
-						user = new NurseModel(results);
+						nurse = new NurseModel(results);
 						break;
-					default: System.out.println("invalid person infos.\n"); user.closeDbConnection(); break;
+					default: System.out.println("invalid person infos.\n"); PersonModel.closeDbConnection(); break;
 					}
 				}
 		} catch (SQLException e) {
 			System.out.println("The person with username "+properties.get("username")+" could not be authenticated.");
 		}
-		return user;
+		return nurse == null ? doctor : nurse;
 		
 	}
 }
