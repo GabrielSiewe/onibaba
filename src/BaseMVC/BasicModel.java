@@ -4,9 +4,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
+
 import DatabaseCacheManipulator.*;
 
 public class BasicModel {
@@ -43,7 +45,8 @@ public class BasicModel {
 	// Returns the records that this model may have many off.
 	protected ResultSet hasMany(String model) throws SQLException
 	{
-		if (model != null && hasManyInstances.toString().indexOf(model) != -1 && queryRunner != null) {
+		if (model != null && Arrays.asList(hasManyInstances).contains(model) && queryRunner != null) {
+			
 			return queryRunner.runQuery(load(model, null));
 		}
 		throw new SQLException("this "+modelName+" doesn't have many "+model);
@@ -52,7 +55,7 @@ public class BasicModel {
 	// Returns the records that may have been for this model.
 	protected ResultSet belongsToMany(String model, String tableName) throws SQLException
 	{
-		if (tableName != null && model != null && belongsToManyInstances.toString().indexOf(model) != -1 && queryRunner != null) {
+		if (tableName != null && model != null && Arrays.asList(belongsToManyInstances).contains(model) && queryRunner != null) {
 			return queryRunner.runQuery(load(model, tableName));
 		}
 		throw new SQLException("this "+modelName+" doesn't belong to nor does it have many "+model);

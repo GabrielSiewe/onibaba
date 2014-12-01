@@ -4,6 +4,10 @@
  * and open the template in the editor.
  */
 package Views.Home;
+import java.util.ArrayList;
+import java.util.Date;
+
+import Views.Login;
 import databaseObjects.beans.PersonMVC.*;
 
 /**
@@ -11,7 +15,7 @@ import databaseObjects.beans.PersonMVC.*;
  * @author xuelixiao
  */
 public class DoctorHome extends javax.swing.JFrame {
-	private static PersonController loginController;
+	private PersonController doctorController;
 	private DoctorModel doctor;
     /**
      * Creates new form DoctorHome
@@ -69,7 +73,6 @@ public class DoctorHome extends javax.swing.JFrame {
         jButton1.setText("See Nurses");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
             }
         });
 
@@ -84,7 +87,6 @@ public class DoctorHome extends javax.swing.JFrame {
         jButton6.setText("Update Info");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
             }
         });
 
@@ -151,33 +153,29 @@ public class DoctorHome extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(0, 153, 255));
 
-        jButton8.setText("Login / Log out");
+        
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/leftArrow.png"))); // NOI18N
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
             }
         });
 
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/home.png"))); // NOI18N
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
             }
         });
 
         jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/search.png"))); // NOI18N
         jButton11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
             }
         });
 
         jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/rightArrow.png"))); // NOI18N
         jButton12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
             }
         });
 
@@ -231,26 +229,51 @@ public class DoctorHome extends javax.swing.JFrame {
         jLabel10.setText("Education:");
 
         jLabel11.setText("Experience:");
+        
+        if (doctor == null) {
+        	jButton8.setText(new Date().toString());
+        	jLabel12.setText("firstName");
 
-        jLabel12.setText("firstName");
+            jLabel13.setText("lastName");
 
-        jLabel13.setText("lastName");
+            jLabel14.setText("gender");
 
-        jLabel14.setText("gender");
+            jLabel15.setText("birthday");
 
-        jLabel15.setText("birthday");
+            jLabel16.setText("phone");
 
-        jLabel16.setText("phone");
+            jLabel17.setText("email");
 
-        jLabel17.setText("email");
+            jLabel18.setText("ssn");
 
-        jLabel18.setText("ssn");
+            jLabel19.setText("Salary");
 
-        jLabel19.setText("title");
+            jLabel20.setText("education");
 
-        jLabel20.setText("education");
+            jLabel22.setText("date");
+        } else {
+        	jButton8.setText("Log out");
+        	doctorController = new PersonController();
+        	jLabel12.setText(doctor.getFirst_name());
 
-        jLabel22.setText("date");
+            jLabel13.setText(doctor.getLast_name());
+
+            jLabel14.setText("gender");
+
+            jLabel15.setText(doctor.getBirthday().toString());
+
+            jLabel16.setText(""+doctor.getPhone());
+
+            jLabel17.setText(doctor.getEmail());
+
+            jLabel18.setText(doctor.getSsn());
+
+            jLabel19.setText("salary");
+
+            jLabel20.setText(doctor.getEducation());
+
+            jLabel22.setText("date");
+        }
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -342,30 +365,64 @@ public class DoctorHome extends javax.swing.JFrame {
         );
 
         doctorTask.setBackground(new java.awt.Color(255, 255, 255));
-
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	if (jButton8.getText().equalsIgnoreCase("log out")) {
+            		Login page = new Login();
+            		page.setVisible(true);
+            		dispose();
+            		
+            	}
+            }
+        });
         jButton1.setText("See Nurses");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+            	ArrayList<NurseModel> nurses = doctorController.getDoctorNurses(doctor);
             }
         });
 
         jButton2.setText("View Patients");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	
+            }
+        });
 
         jButton3.setText("See Inventory");
-
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	
+            }
+        });
+        
         jButton4.setText("Conduct Lab");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	
+            }
+        });
 
         jButton5.setText("Add Nurse");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	
+            }
+        });
 
         jButton6.setText("Update Info");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+            	
             }
         });
 
         jButton7.setText("View Profits");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	
+            }
+        });
 
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/stethoscope.png"))); // NOI18N
 
@@ -452,31 +509,8 @@ public class DoctorHome extends javax.swing.JFrame {
         );
 
         pack();
+        setVisible(true);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton9ActionPerformed
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton10ActionPerformed
-
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton11ActionPerformed
-
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton12ActionPerformed
 
     /**
      * @param args the command line arguments

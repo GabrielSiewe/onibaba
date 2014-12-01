@@ -84,7 +84,7 @@ public class PersonModel extends BasicModel {
 	}
 	public PersonModel(ResultSet attributes, String model) throws SQLException
 	{
-		super("person", attributes.getInt("person_id"));
+		super(model, attributes.getInt("person_id"));
 		if (model.equals("doctor") || model.equals("nurse") || model.equals("patient")) {
 			education =  attributes.getString("education");
 			experience = attributes.getString("experience");
@@ -293,7 +293,7 @@ public class PersonModel extends BasicModel {
 
 	public ResultSet appointments() throws SQLException
 	{
-		return hasMany("appointment");
+		return queryRunner.runQuery("SELECT * FROM appointments WHERE `person_id`="+person_id);
 	}
 	public ResultSet comments() throws SQLException
 	{

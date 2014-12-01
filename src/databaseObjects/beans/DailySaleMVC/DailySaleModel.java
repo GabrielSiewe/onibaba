@@ -59,6 +59,18 @@ public class DailySaleModel extends BasicModel {
 		return specials(temp, "comments");
 	}
 	
+//	public ResultSet dailySales() throws SQLException
+//	{
+//	}
+//
+//	public ResultSet weeklySales() throws SQLException
+//	{
+//	}
+//	
+//	public ResultSet monthlySales() throws SQLException
+//	{
+//	}
+	
 	// model queries.
 	public static String getInsertStatement(ConcurrentHashMap<String,String> attributes)
 	{

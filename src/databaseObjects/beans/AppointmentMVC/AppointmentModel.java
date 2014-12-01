@@ -1,12 +1,15 @@
 package databaseObjects.beans.AppointmentMVC;
 
 import BaseMVC.BasicModel;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
+
+import databaseObjects.beans.PersonMVC.PersonModel;
 
 public class AppointmentModel extends BasicModel {
 	
@@ -234,6 +237,15 @@ public class AppointmentModel extends BasicModel {
 			}
 		}
 		return attributes;
+	}
+	
+	public String toString()
+	{
+		try{
+			return "Appointment on: "+appointment_date.toString()+" for "+(new PersonModel(person_id));
+		} catch (SQLException e) {
+			return null;
+		}
 	}
 
 	// Tester

@@ -2,6 +2,7 @@ package databaseObjects.beans.PersonMVC;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
 
 import BaseMVC.BasicController;
 
@@ -35,7 +36,7 @@ public class PersonController extends BasicController {
 						results = NurseModel.runQuery(statement);
 						nurse = new NurseModel(results);
 						break;
-					default: System.out.println("invalid person infos.\n"); PersonModel.closeDbConnection(); break;
+					default: System.out.println("invalid person infos.\n"); break;
 					}
 				}
 		} catch (SQLException e) {
@@ -43,5 +44,22 @@ public class PersonController extends BasicController {
 		}
 		return nurse == null ? doctor : nurse;
 		
+	}
+	
+	public ArrayList<NurseModel> getDoctorNurses(DoctorModel doctor)
+	{
+		ArrayList<NurseModel> temp = new ArrayList<NurseModel>();
+		try {
+			ResultSet nurses = doctor.nurses();
+		
+			while(nurses.next()) {
+				temp.add(new NurseModel(nurses));
+				System.out.println(nurses);
+			}
+		} catch (SQLException e) {
+			System.out.println("no nurses found.");
+		}
+		
+		return temp;
 	}
 }

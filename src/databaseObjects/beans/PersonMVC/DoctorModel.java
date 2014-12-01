@@ -15,12 +15,11 @@ public class DoctorModel extends PersonModel {
 
 	// fillable from the front end properties
 	private static String[] fillables = {"nurse_id", "person_id", "education", "experience", "id"};
-	private static String[] hasMany = {"nurse", "appointment", ""};
+	private static String[] hasMany = {"nurse", "appointment"};
 	
 	public DoctorModel(ResultSet attributes) throws SQLException
 	{
 		super(attributes, "doctor");
-//		System.out.println("here");
 		hasManyInstances = hasMany;
 	}
 	
@@ -75,7 +74,7 @@ public class DoctorModel extends PersonModel {
 
 	public ResultSet nurses() throws SQLException
 	{
-		return hasMany("nurses");
+		return hasMany("nurse");
 	}
 	public ResultSet appointments() throws SQLException
 	{

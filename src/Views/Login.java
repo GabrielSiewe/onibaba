@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package Views;
-import Views.Home.DoctorHome;
+import Views.Home.*;
 import java.awt.event.*;
 import javax.swing.JFrame;
 import java.util.concurrent.*;
@@ -53,6 +53,9 @@ public class Login extends  JFrame {
 	
 	                if (user == null) {
 	                	System.out.println("invalid username and password");
+	                	attributes.remove("username");
+	                	attributes.remove("password");
+	                	jPasswordField1.setText("");
 	                	return;
 	                } else {
 	                	loginController.addToPrevious(current);
