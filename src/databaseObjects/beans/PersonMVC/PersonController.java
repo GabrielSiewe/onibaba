@@ -8,7 +8,8 @@ import BaseMVC.BasicController;
 public class PersonController extends BasicController {
 	private NurseModel nurse;
 	private DoctorModel doctor;
-	
+	private PatientModel patient;
+
 	public PersonController()
 	{
 		super();

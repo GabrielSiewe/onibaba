@@ -21,11 +21,15 @@ public class Login extends  JFrame {
 	private NurseModel nurse;
 	private JFrame current;
 	private PersonModel user;
+	
     /**
      * Creates new form Login
      */
     public Login() {
     	
+    	setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(null);
+
     	loginController = new PersonController();
     	jToggleButton1 = new javax.swing.JToggleButton();
         jButton1 = new javax.swing.JButton();
@@ -38,23 +42,31 @@ public class Login extends  JFrame {
 
         jToggleButton1.setText("jToggleButton1");
         current = this;
+
     	jButton1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
             	ConcurrentHashMap<String, String> attributes = new ConcurrentHashMap<String, String>();
-            	attributes.put("username", jTextField1.getText());
-            	attributes.put("password", new String(jPasswordField1.getPassword()));
-                user = loginController.authenticate(attributes);
-
-                if (user == null) {
-                	System.out.println("invalid username and password");
-                } else {
-                	loginController.addToPrevious(current);
-                	if (user.getTitle().equals("doctor")) {
-                		doctor = (DoctorModel) user;
-                		DoctorHome page = new DoctorHome(doctor);
-                		page.pack();
-                	}
-                }
+            	if (jTextField1.getText() != null || new String(jPasswordField1.getPassword()) != null) {
+	            	attributes.put("username", jTextField1.getText());
+	            	attributes.put("password", new String(jPasswordField1.getPassword()));
+	                user = loginController.authenticate(attributes);
+	
+	                if (user == null) {
+	                	System.out.println("invalid username and password");
+	                	return;
+	                } else {
+	                	loginController.addToPrevious(current);
+	                	if (user.getTitle().equals("doctor")) {
+	                		doctor = (DoctorModel) user;
+	                		DoctorHome page = new DoctorHome(doctor);
+	                		page.setVisible(true);
+	                	} else {
+	                		nurse = (NurseModel) user;
+	                		NurseHome page = new NurseHome(nurse);
+	                		page.setVisible(true);
+	                	}
+	                }
+            	}
            }
         });
         initComponents();
@@ -69,19 +81,7 @@ public class Login extends  JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jLabel4 = new javax.swing.JLabel();
-
         jToggleButton1.setText("jToggleButton1");
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null);
 
         jButton1.setFont(new java.awt.Font("Lucida Grande", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(102, 102, 102));

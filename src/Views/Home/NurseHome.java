@@ -5,14 +5,26 @@
  */
 package Views.Home;
 
-import Views.Home.DoctorHome;
+import databaseObjects.beans.PersonMVC.DoctorModel;
+import databaseObjects.beans.PersonMVC.PersonController;
+
+import 
 
 /**
  *
  * @author xuelixiao
  */
 public class NurseHome extends javax.swing.JFrame {
-
+	
+	private PersonController loginController;
+	private DoctorModel doctor;
+    /**
+     * Creates new form DoctorHome
+     */
+    public DoctorHome(DoctorModel user) {
+        doctor = user;
+        initialize();
+    }
     /**
      * Creates new form DoctorHome
      */
