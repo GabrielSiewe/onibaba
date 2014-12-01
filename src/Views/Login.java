@@ -85,7 +85,7 @@ public class Login extends  JFrame {
 
         jButton1.setFont(new java.awt.Font("Lucida Grande", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(102, 102, 102));
-        jButton1.setText("Submit");
+        jButton1.setText("Sign In");
         getContentPane().add(jButton1);
         jButton1.setBounds(30, 230, 204, 30);
 
