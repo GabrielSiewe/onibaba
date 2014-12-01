@@ -182,17 +182,9 @@ public class NurseModel extends PersonModel {
 		}
 		return attributes;
 	}
-
-	// Tester
-	public static void main(String[] args)
+	
+	public String toString()
 	{
-		// First let's test that 
-		String findStatement;
-		ConcurrentHashMap<String, String> attributes = new ConcurrentHashMap<String, String>();
-		attributes.put("description", "All for one and one for all.");
-		attributes.put("id", "1");
-		findStatement = PersonModel.getDeleteStatement(attributes);
-		System.out.println(findStatement);
-		PersonModel.closeDbConnection();
+		return getUsername();
 	}
 }

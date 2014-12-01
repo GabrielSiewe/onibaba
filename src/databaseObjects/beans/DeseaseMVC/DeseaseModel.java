@@ -132,6 +132,11 @@ public class DeseaseModel extends BasicModel {
 		return getUpdateStatement(finders, attributes, TABLENAME);
 	}
 	
+	public String toString()
+	{
+		return name;
+	}
+	
 	
 	// Validating the data.
 	// removes unfillable fields and watches out for sql data.
@@ -182,19 +187,6 @@ public class DeseaseModel extends BasicModel {
 			}
 		}
 		return attributes;
-	}
-
-	// Tester
-	public static void main(String[] args)
-	{
-		// First let's test that 
-		String findStatement;
-		ConcurrentHashMap<String, String> attributes = new ConcurrentHashMap<String, String>();
-		attributes.put("description", "All for one and one for all.");
-		attributes.put("id", "1");
-		findStatement = DeseaseModel.getDeleteStatement(attributes);
-		System.out.println(findStatement);
-		DeseaseModel.closeDbConnection();
 	}
 }
 

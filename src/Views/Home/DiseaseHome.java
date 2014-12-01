@@ -5,6 +5,8 @@
  */
 package Views.Home;
 
+import Views.Login;
+
 /**
  *
  * @author xuelixiao
@@ -106,7 +108,15 @@ public class DiseaseHome extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(0, 153, 255));
 
         jButton5.setText("Login / Log out");
-
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	if (jButton5.getText().equalsIgnoreCase("log out")) {
+            		Login page = new Login();
+            		page.setVisible(true);
+            		dispose();
+            	}
+            }
+        });
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/leftArrow.png"))); // NOI18N
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

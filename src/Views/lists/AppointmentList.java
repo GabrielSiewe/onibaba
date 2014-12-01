@@ -5,6 +5,8 @@
  */
 package Views.lists;
 
+import Views.Login;
+
 /**
  *
  * @author xuelixiao
@@ -208,6 +210,16 @@ public class AppointmentList extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(0, 153, 255));
 
         jButton32.setText("Login / Log out");
+        jButton32.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	if (jButton32.getText().equalsIgnoreCase("log out")) {
+            		Login page = new Login();
+            		page.setVisible(true);
+            		dispose();
+            	}
+            }
+        });
+
 
         jButton33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/leftArrow.png"))); // NOI18N
         jButton33.addActionListener(new java.awt.event.ActionListener() {

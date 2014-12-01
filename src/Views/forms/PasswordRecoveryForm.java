@@ -5,6 +5,8 @@
  */
 package Views.forms;
 
+import Views.Login;
+
 /**
  *
  * @author xuelixiao
@@ -54,6 +56,15 @@ public class PasswordRecoveryForm extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(0, 153, 255));
 
         jButton1.setText("Login / Log out");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	if (jButton1.getText().equalsIgnoreCase("log out")) {
+            		Login page = new Login();
+            		page.setVisible(true);
+            		dispose();
+            	}
+            }
+        });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/leftArrow.png"))); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {

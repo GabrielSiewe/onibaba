@@ -5,6 +5,8 @@
  */
 package Views.Home;
 
+import Views.Login;
+
 /**
  *
  * @author xuelixiao
@@ -51,6 +53,15 @@ public class AppointmentHome extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(0, 153, 255));
 
         jButton4.setText("Login / Log out");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	if (jButton4.getText().equalsIgnoreCase("log out")) {
+            		Login page = new Login();
+            		page.setVisible(true);
+            		dispose();
+            	}
+            }
+        });
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/leftArrow.png"))); // NOI18N
         jButton5.addActionListener(new java.awt.event.ActionListener() {

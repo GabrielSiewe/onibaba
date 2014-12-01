@@ -247,18 +247,9 @@ public class LabModel extends BasicModel {
 		}
 		return attributes;
 	}
-
-	// Tester
-	public static void main(String[] args)
+	public String toString()
 	{
-		// First let's test that 
-		String findStatement;
-		ConcurrentHashMap<String, String> attributes = new ConcurrentHashMap<String, String>();
-		attributes.put("description", "All for one and one for all.");
-		attributes.put("id", "1");
-		findStatement = LabModel.getDeleteStatement(attributes);
-		System.out.println(findStatement);
-		LabModel.closeDbConnection();
+		return result_explanation;
 	}
 }
 

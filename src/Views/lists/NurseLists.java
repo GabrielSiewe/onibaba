@@ -5,17 +5,38 @@
  */
 package Views.lists;
 
+import java.util.Date;
+import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javax.swing.JRadioButton;
+
+import Views.Login;
+import databaseObjects.beans.PersonMVC.NurseModel;
+import databaseObjects.beans.PersonMVC.PersonController;
+
 /**
  *
  * @author xuelixiao
  */
 public class NurseLists extends javax.swing.JFrame {
 
+	private PersonController doctorController;
+	private ArrayList<NurseModel> nurses;
+	ConcurrentHashMap<String, JRadioButton> nurseList;
+	
     /**
      * Creates new form NurseLists
      */
     public NurseLists() {
         initComponents();
+    }
+    public NurseLists(ArrayList<NurseModel> list, PersonController doctorControl) {
+    	doctorController = doctorControl;
+    	nurses = list;
+    	nurseList = new ConcurrentHashMap<String, JRadioButton>();
+    	initComponents();
+    	
     }
 
     /**
@@ -36,6 +57,7 @@ public class NurseLists extends javax.swing.JFrame {
         jLabel23 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        
         jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
@@ -67,7 +89,15 @@ public class NurseLists extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(0, 153, 255));
 
-        jButton1.setText("Login / Log out");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	if (jButton1.getText().equalsIgnoreCase("log out")) {
+            		Login page = new Login();
+            		page.setVisible(true);
+            		dispose();
+            	}
+            }
+        });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/leftArrow.png"))); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -128,9 +158,19 @@ public class NurseLists extends javax.swing.JFrame {
         );
 
         jPanel4.setLayout(new java.awt.GridLayout(0, 1));
-
-        jRadioButton2.setText("Nurse1");
-        jPanel4.add(jRadioButton2);
+        if (doctorController == null) {
+        	jButton1.setText(new Date().toString());
+        	jRadioButton2.setText("Nurse1");
+            jPanel4.add(jRadioButton2);
+        } else {
+        	jButton1.setText("log out");
+        	for(int i = 0; i < nurses.size(); i++) {
+        		JRadioButton nurseButton = new JRadioButton();
+        		nurseButton.setText(nurses.get(i).toString());
+        		jPanel4.add(nurseButton);
+        	}
+        }
+        
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

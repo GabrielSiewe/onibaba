@@ -110,7 +110,7 @@ public class CommentModel extends BasicModel {
 		this.message = message;
 	}
 
-	public ResultSet person() throws SQLException
+	public ResultSet lab() throws SQLException
 	{
 		return belongsTo("lab");
 	}
@@ -220,18 +220,9 @@ public class CommentModel extends BasicModel {
 		}
 		return attributes;
 	}
-
-	// Tester
-	public static void main(String[] args)
+	public String toString()
 	{
-		// First let's test that 
-		String findStatement;
-		ConcurrentHashMap<String, String> attributes = new ConcurrentHashMap<String, String>();
-		attributes.put("description", "All for one and one for all.");
-		attributes.put("id", "1");
-		findStatement = CommentModel.getDeleteStatement(attributes);
-		System.out.println(findStatement);
-		CommentModel.closeDbConnection();
+		return object_model+" "+message;
 	}
 }
 

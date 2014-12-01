@@ -6,6 +6,9 @@
 package Views.Home;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.ConcurrentHashMap;
+import javax.swing.*;
+import Views.lists.*;
 
 import Views.Login;
 import databaseObjects.beans.PersonMVC.*;
@@ -17,6 +20,7 @@ import databaseObjects.beans.PersonMVC.*;
 public class DoctorHome extends javax.swing.JFrame {
 	private PersonController doctorController;
 	private DoctorModel doctor;
+	private JFrame current;
     /**
      * Creates new form DoctorHome
      */
@@ -69,12 +73,7 @@ public class DoctorHome extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
 
         doctorTask.setBackground(new java.awt.Color(255, 255, 255));
-
-        jButton1.setText("See Nurses");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            }
-        });
+        current = this;
 
         jButton2.setText("View Patients");
 
@@ -365,13 +364,12 @@ public class DoctorHome extends javax.swing.JFrame {
         );
 
         doctorTask.setBackground(new java.awt.Color(255, 255, 255));
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	if (jButton8.getText().equalsIgnoreCase("log out")) {
+            	if (jButton5.getText().equalsIgnoreCase("log out")) {
             		Login page = new Login();
             		page.setVisible(true);
             		dispose();
-            		
             	}
             }
         });
@@ -379,6 +377,10 @@ public class DoctorHome extends javax.swing.JFrame {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	ArrayList<NurseModel> nurses = doctorController.getDoctorNurses(doctor);
+            	doctorController.addToPrevious(current);
+            	NurseLists list = new NurseLists(nurses, doctorController);
+            	list.setVisible(true);
+            	
             }
         });
 

@@ -72,6 +72,7 @@ public class Login extends  JFrame {
             	}
            }
         });
+
         initComponents();
     }
 

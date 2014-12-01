@@ -5,6 +5,8 @@
  */
 package Views.forms;
 
+import Views.Login;
+
 /**
  *
  * @author xuelixiao
@@ -55,6 +57,15 @@ public class DiseaseForm extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(0, 153, 255));
 
         jButton3.setText("Login / Log out");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	if (jButton3.getText().equalsIgnoreCase("log out")) {
+            		Login page = new Login();
+            		page.setVisible(true);
+            		dispose();
+            	}
+            }
+        });
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/leftArrow.png"))); // NOI18N
         jButton4.addActionListener(new java.awt.event.ActionListener() {

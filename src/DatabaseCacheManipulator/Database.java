@@ -33,7 +33,9 @@ public class Database {
 		ResultSet results = null;
 		query.clearParameters();
 		if (statement != null) {
+			System.out.println(statement);
 			results = query.executeQuery(statement);
+			System.out.println(results.getFetchSize());
 			results.first();
 		}
 		return results;

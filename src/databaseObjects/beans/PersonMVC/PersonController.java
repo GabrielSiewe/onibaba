@@ -51,10 +51,9 @@ public class PersonController extends BasicController {
 		ArrayList<NurseModel> temp = new ArrayList<NurseModel>();
 		try {
 			ResultSet nurses = doctor.nurses();
-		
+			nurses.beforeFirst();
 			while(nurses.next()) {
 				temp.add(new NurseModel(nurses));
-				System.out.println(nurses);
 			}
 		} catch (SQLException e) {
 			System.out.println("no nurses found.");

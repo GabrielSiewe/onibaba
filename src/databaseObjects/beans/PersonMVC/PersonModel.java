@@ -103,7 +103,7 @@ public class PersonModel extends BasicModel {
 		} else {
 			throw new SQLException("Invalid model name");
 		}
-		System.out.println("here");
+		
 		attributes = queryRunner.runQuery("SELECT * FROM persons WHERE `id`=\""+person_id+"\";");
 		hasManyInstances = hasMany;
 		person_id = attributes.getInt("id");
@@ -407,17 +407,13 @@ public class PersonModel extends BasicModel {
 		return attributes;
 	}
 
-	// Tester
-	public static void main(String[] args)
+	public String toString()
 	{
-		// First let's test that 
-		String findStatement;
-		ConcurrentHashMap<String, String> attributes = new ConcurrentHashMap<String, String>();
-		attributes.put("description", "All for one and one for all.");
-		attributes.put("id", "1");
-		findStatement = PersonModel.getDeleteStatement(attributes);
-		System.out.println(findStatement);
-		PersonModel.closeDbConnection();
+		if (title == "patient")
+		{
+			return first_name+" "+last_name;
+		}
+		return username;
 	}
 }
 
