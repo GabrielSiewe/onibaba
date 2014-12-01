@@ -55,7 +55,9 @@ public class CommentForm extends javax.swing.JFrame {
         jPanel1.add(jButton2);
 
         jTextArea1.setColumns(20);
+        jTextArea1.setForeground(new java.awt.Color(153, 153, 153));
         jTextArea1.setRows(5);
+        jTextArea1.setText("Enter your comment here. ");
         jScrollPane1.setViewportView(jTextArea1);
 
         jPanel3.setBackground(new java.awt.Color(0, 153, 255));

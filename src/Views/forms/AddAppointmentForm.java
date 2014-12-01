@@ -47,10 +47,18 @@ public class AddAppointmentForm extends javax.swing.JFrame {
 
         jLabel1.setText("Date:");
 
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
         jLabel2.setText("Description:");
 
         jTextArea1.setColumns(20);
+        jTextArea1.setForeground(new java.awt.Color(153, 153, 153));
         jTextArea1.setRows(5);
+        jTextArea1.setText("Fill in details of the appointment. ");
         jScrollPane1.setViewportView(jTextArea1);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -64,7 +72,7 @@ public class AddAppointmentForm extends javax.swing.JFrame {
 
         jLabel23.setFont(new java.awt.Font("Krungthep", 1, 24)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(0, 153, 255));
-        jLabel23.setText("Add Patient");
+        jLabel23.setText("Add Appointment");
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 255));
 
@@ -184,6 +192,10 @@ public class AddAppointmentForm extends javax.swing.JFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -125,17 +125,27 @@ public class MedicineForm extends javax.swing.JFrame {
 
         jLabel2.setText("Description:");
 
+        jTextField1.setForeground(new java.awt.Color(153, 153, 153));
+        jTextField1.setText("Medicine Name");
+
         jTextArea1.setColumns(20);
+        jTextArea1.setForeground(new java.awt.Color(153, 153, 153));
         jTextArea1.setRows(5);
+        jTextArea1.setText("Enter the Description of the medicine \nhere.");
         jScrollPane1.setViewportView(jTextArea1);
 
         jLabel3.setText("Ingredients:");
 
         jTextArea2.setColumns(20);
+        jTextArea2.setForeground(new java.awt.Color(153, 153, 153));
         jTextArea2.setRows(5);
+        jTextArea2.setText("Enter the ingredients of the medicine \nhere.");
         jScrollPane2.setViewportView(jTextArea2);
 
         jLabel4.setText("Cost:");
+
+        jTextField2.setForeground(new java.awt.Color(153, 153, 153));
+        jTextField2.setText("0.00");
 
         jLabel25.setFont(new java.awt.Font("Krungthep", 1, 24)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(0, 153, 255));

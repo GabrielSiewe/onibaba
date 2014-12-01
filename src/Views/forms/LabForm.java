@@ -127,7 +127,9 @@ public class LabForm extends javax.swing.JFrame {
         jLabel1.setText("Result Explaination:");
 
         jTextArea1.setColumns(20);
+        jTextArea1.setForeground(new java.awt.Color(153, 153, 153));
         jTextArea1.setRows(5);
+        jTextArea1.setText("Enter the explaination of the lab \nresult here. ");
         jScrollPane1.setViewportView(jTextArea1);
 
         jLabel2.setText("Method Name:");

@@ -130,13 +130,17 @@ public class DiseaseForm extends javax.swing.JFrame {
         jLabel3.setText("Description:");
 
         jTextArea1.setColumns(20);
+        jTextArea1.setForeground(new java.awt.Color(153, 153, 153));
         jTextArea1.setRows(5);
+        jTextArea1.setText("Enter the description of the disease \nhere. ");
         jScrollPane1.setViewportView(jTextArea1);
 
         jLabel4.setText("Symptoms:");
 
         jTextArea2.setColumns(20);
+        jTextArea2.setForeground(new java.awt.Color(153, 153, 153));
         jTextArea2.setRows(5);
+        jTextArea2.setText("Enter the symptoms of the disease \nhere.");
         jScrollPane2.setViewportView(jTextArea2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

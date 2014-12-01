@@ -128,6 +128,18 @@ public class PatientForm extends javax.swing.JFrame {
 
         jLabel4.setText("Title");
 
+        jTextField1.setForeground(new java.awt.Color(153, 153, 153));
+        jTextField1.setText("First Name");
+
+        jTextField2.setForeground(new java.awt.Color(153, 153, 153));
+        jTextField2.setText("Last Name");
+
+        jTextField3.setForeground(new java.awt.Color(153, 153, 153));
+        jTextField3.setText("123-45-6789");
+
+        jTextField4.setForeground(new java.awt.Color(153, 153, 153));
+        jTextField4.setText("title");
+
         jLabel5.setText("Birthday");
 
         jLabel6.setText("Phone");
@@ -136,20 +148,38 @@ public class PatientForm extends javax.swing.JFrame {
 
         jLabel9.setText("Gender");
 
+        jTextField5.setForeground(new java.awt.Color(153, 153, 153));
+        jTextField5.setText("Female/Male");
+
+        jTextField7.setForeground(new java.awt.Color(153, 153, 153));
+        jTextField7.setText("123-456-7890");
+
+        jTextField8.setForeground(new java.awt.Color(153, 153, 153));
+        jTextField8.setText("email@domainname.com");
+
         jLabel10.setText("Education");
 
         jLabel11.setText("Experience");
 
         jTextArea1.setColumns(20);
+        jTextArea1.setForeground(new java.awt.Color(153, 153, 153));
         jTextArea1.setRows(5);
+        jTextArea1.setText("Enter the education here.");
         jScrollPane1.setViewportView(jTextArea1);
 
         jTextArea2.setColumns(20);
+        jTextArea2.setForeground(new java.awt.Color(153, 153, 153));
         jTextArea2.setRows(5);
+        jTextArea2.setText("Enter the experience here.");
         jScrollPane2.setViewportView(jTextArea2);
 
         jLabel12.setText("Doctor");
 
+        jTextField10.setForeground(new java.awt.Color(153, 153, 153));
+        jTextField10.setText("Doctor Name");
+
+        jTextField6.setForeground(new java.awt.Color(153, 153, 153));
+        jTextField6.setText("12/31/2000");
         jTextField6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField6ActionPerformed(evt);
@@ -192,8 +222,8 @@ public class PatientForm extends javax.swing.JFrame {
                             .addComponent(jTextField10)
                             .addComponent(jTextField1)
                             .addComponent(jTextField5)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                            .addComponent(jTextField3)
+                            .addComponent(jScrollPane2)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                     .addGroup(nurseInfoLayout.createSequentialGroup()
                         .addContainerGap()
@@ -248,7 +278,7 @@ public class PatientForm extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(nurseInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(89, 89, 89))
         );
 
