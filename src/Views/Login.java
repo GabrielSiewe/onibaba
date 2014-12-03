@@ -133,7 +133,7 @@ public class Login extends  JFrame {
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/Screen Shot 2014-11-28 at 5.24.58 PM.png"))); // NOI18N
         jLabel4.setText("jLabel4");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(0, 0, 470, 320);
+        jLabel4.setBounds(0, 0, 470, 330);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
