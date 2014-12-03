@@ -11,7 +11,7 @@ public class PersonController extends BasicController {
 	private DoctorModel doctor;
 	private PatientModel patient;
 	private PersonModel user;
-	private static int cursorPosition = 1;
+	private int cursorPosition = 1;
 	
 	private ConcurrentHashMap<String, PatientModel> patientList;
 	private ConcurrentHashMap<String, NurseModel> nurseList;
@@ -19,6 +19,7 @@ public class PersonController extends BasicController {
 	public PersonController()
 	{
 		super();
+		
 	}
 
 	public void authenticate(ConcurrentHashMap<String, String> properties)
@@ -75,17 +76,25 @@ public class PersonController extends BasicController {
 	public void setDoctorNurses()
 	{
 		
-		nurseList = new ConcurrentHashMap<String,NurseModel>();
+		if (cursorPosition == 1) {
+			nurseList = new ConcurrentHashMap<String, NurseModel>();
+		}
+
 		try
 		{
 			ResultSet nurses = doctor.nurses();
-			nurses.beforeFirst();
-			while(nurses.next()) {
-				NurseModel nurse = new NurseModel(nurses);
-				nurseList.put(nurse.toString(), nurse);
-			}
+			nurses.absolute(cursorPosition);
+			NurseModel nurse = new NurseModel(nurses);
+			nurseList.put(nurse.toString(), nurse);
+			cursorPosition++;
+			setDoctorNurses();
+			
 		} catch (SQLException e) {
-			System.out.println("No nurses were found");
+			if (nurseList == null || nurseList.size() == 0) {
+				System.out.println("No nurses were found");
+				cursorPosition = 1;
+			}
+			
 		}
 		
 	}
