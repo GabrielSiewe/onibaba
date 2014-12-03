@@ -111,6 +111,7 @@ public class DoctorHome extends javax.swing.JFrame {
         jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
         doctorInfo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -154,31 +155,38 @@ public class DoctorHome extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(0, 153, 255));
 
-        
+        jButton8.setText("Login / Log out");
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/leftArrow.png"))); // NOI18N
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
             }
         });
 
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/home.png"))); // NOI18N
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
             }
         });
 
         jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/search.png"))); // NOI18N
         jButton11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
             }
         });
 
         jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/rightArrow.png"))); // NOI18N
         jButton12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
             }
         });
+
+        jTextField1.setForeground(new java.awt.Color(153, 153, 153));
+        jTextField1.setText("Search");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -191,7 +199,9 @@ public class DoctorHome extends javax.swing.JFrame {
                 .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 506, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 431, Short.MAX_VALUE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -199,139 +209,59 @@ public class DoctorHome extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jButton12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jButton11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jButton10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jButton9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jButton12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jButton11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jButton10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel1.setText("First Name:");
+
         jLabel2.setText("Last Name:");
+
         jLabel3.setText("SSN:");
+
         jLabel4.setText("Title:");
+
         jLabel5.setText("Birthday:");
+
         jLabel6.setText("Phone:");
+
         jLabel7.setText("Email:");
+
         jLabel8.setText("Creation Date:");
+
         jLabel9.setText("Gender");
+
         jLabel10.setText("Education:");
+
         jLabel11.setText("Experience:");
 
-        jButton1.setText("See Nurses");
-        jButton2.setText("View Patients");
-        jButton3.setText("See Inventory");
-        jButton4.setText("Conduct Lab");
-        jButton5.setText("Add Nurse");
-        jButton6.setText("Update Info");
-        jButton7.setText("View Profits");
-        
-        if (doctor == null) {
-        	jButton8.setText(new Date().toString());
-        	jLabel12.setText("firstName");
+        jLabel12.setText("firstName");
 
-            jLabel13.setText("lastName");
+        jLabel13.setText("lastName");
 
-            jLabel14.setText("gender");
+        jLabel14.setText("gender");
 
-            jLabel15.setText("birthday");
+        jLabel15.setText("birthday");
 
-            jLabel16.setText("phone");
+        jLabel16.setText("phone");
 
-            jLabel17.setText("email");
+        jLabel17.setText("email");
 
-            jLabel18.setText("ssn");
+        jLabel18.setText("ssn");
 
-            jLabel19.setText("Salary");
+        jLabel19.setText("title");
 
-            jLabel20.setText("education");
+        jLabel20.setText("education");
 
-            jLabel22.setText("date");
-        } else {
-        	
-        	jButton1.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                	doctorController.setDoctorNurses();
-                	doctorController.addToPrevious(current);
-                	new NurseLists(doctorController).setVisible(true);
-                	
-                }
-            });
-
-        	jButton2.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                	
-                }
-            });
-        	
-        	jButton3.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                	
-                }
-            });
-            
-            
-            jButton4.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                	
-                }
-            });
-
-            
-            jButton5.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                	
-                }
-            });
-
-            
-            jButton6.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                	
-                }
-            });
-
-            
-            jButton7.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                	
-                }
-            });
-            
-            jButton8.setText("Log out");
-        	jButton8.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                	if (jButton8.getText().equalsIgnoreCase("log out")) {
-                		Login page = new Login();
-                		page.setVisible(true);
-                		dispose();
-                	}
-                }
-            });
-
-        	jLabel12.setText(doctor.getFirst_name());
-
-            jLabel13.setText(doctor.getLast_name());
-
-            jLabel14.setText("gender");
-
-            jLabel15.setText(doctor.getBirthday().toString());
-
-            jLabel16.setText(""+doctor.getPhone());
-
-            jLabel17.setText(doctor.getEmail());
-
-            jLabel18.setText(doctor.getSsn());
-
-            jLabel19.setText("salary");
-
-            jLabel20.setText(doctor.getEducation());
-
-            jLabel22.setText("date");
-        }
+        jLabel22.setText("date");
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -424,6 +354,30 @@ public class DoctorHome extends javax.swing.JFrame {
 
         doctorTask.setBackground(new java.awt.Color(255, 255, 255));
 
+        jButton1.setText("See Nurses");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("View Patients");
+
+        jButton3.setText("See Inventory");
+
+        jButton4.setText("Conduct Lab");
+
+        jButton5.setText("Add Nurse");
+
+        jButton6.setText("Update Info");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setText("View Profits");
+
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/stethoscope.png"))); // NOI18N
 
         javax.swing.GroupLayout doctorTaskLayout = new javax.swing.GroupLayout(doctorTask);
@@ -491,7 +445,7 @@ public class DoctorHome extends javax.swing.JFrame {
                 .addGroup(doctorPicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(doctorPicLayout.createSequentialGroup()
                         .addComponent(jLabel23)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
                         .addComponent(doctorInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(doctorTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -509,7 +463,6 @@ public class DoctorHome extends javax.swing.JFrame {
         );
 
         pack();
-        setVisible(true);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -589,5 +542,6 @@ public class DoctorHome extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
