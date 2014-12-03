@@ -1,5 +1,6 @@
 package databaseObjects.beans.PersonMVC;
 import BaseMVC.BasicModel;
+import DatabaseCacheManipulator.DatabaseManipulator;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -116,6 +117,7 @@ public class PersonModel extends BasicModel {
 		title = attributes.getString("title");
 		username =  attributes.getString("username");
 		password =  attributes.getString("password");
+		
 	}
 	
 

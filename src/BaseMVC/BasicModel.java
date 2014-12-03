@@ -14,6 +14,7 @@ import DatabaseCacheManipulator.*;
 public class BasicModel {
 	
 	protected static DatabaseManipulator queryRunner = null;
+	protected static DatabaseManipulator personFinder = null;
 
 	protected String modelName;
 	protected static String lastRanQuery;

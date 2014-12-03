@@ -22,8 +22,8 @@ import databaseObjects.beans.PersonMVC.PersonController;
 public class NurseLists extends javax.swing.JFrame {
 
 	private PersonController doctorController;
-	private ArrayList<NurseModel> nurses;
 	ConcurrentHashMap<String, JRadioButton> nurseList;
+	private ConcurrentHashMap<String, NurseModel> nurses;
 	
     /**
      * Creates new form NurseLists
@@ -31,10 +31,9 @@ public class NurseLists extends javax.swing.JFrame {
     public NurseLists() {
         initComponents();
     }
-    public NurseLists(ArrayList<NurseModel> list, PersonController doctorControl) {
+    public NurseLists(PersonController doctorControl) {
     	doctorController = doctorControl;
-    	nurses = list;
-    	nurseList = new ConcurrentHashMap<String, JRadioButton>();
+    	nurses = doctorController.getListOfNurses();
     	initComponents();
     	
     }
@@ -48,38 +47,31 @@ public class NurseLists extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel23 = new javax.swing.JLabel();
         jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
         jPanel2 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
-        jLabel23 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        
-        jButton2 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        jRadioButton2 = new javax.swing.JRadioButton();
-
-        jRadioButton1.setText("jRadioButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
-
         jButton5.setText("Add");
         jPanel2.add(jButton5);
-
+        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
         jButton6.setText("Update");
         jPanel2.add(jButton6);
-
         jButton7.setText("Remove");
         jPanel2.add(jButton7);
-
         jButton8.setText("View");
         jPanel2.add(jButton8);
 
@@ -88,47 +80,14 @@ public class NurseLists extends javax.swing.JFrame {
         jLabel23.setText("Nurses");
 
         jPanel3.setBackground(new java.awt.Color(0, 153, 255));
-
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	if (jButton1.getText().equalsIgnoreCase("log out")) {
-            		Login page = new Login();
-            		page.setVisible(true);
-            		dispose();
-            	}
-            }
-        });
-
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/leftArrow.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/home.png"))); // NOI18N
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/search.png"))); // NOI18N
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
-            }
-        });
-
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/rightArrow.png"))); // NOI18N
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
-            }
-        });
+        
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/home.png"))); // NOI18N
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -164,9 +123,48 @@ public class NurseLists extends javax.swing.JFrame {
             jPanel4.add(jRadioButton2);
         } else {
         	jButton1.setText("log out");
-        	for(int i = 0; i < nurses.size(); i++) {
+        	jButton1.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	if (jButton1.getText().equalsIgnoreCase("log out")) {
+                		Login page = new Login();
+                		page.setVisible(true);
+                		dispose();
+                	}
+                }
+            });
+        	
+        	
+            jButton2.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	
+                }
+            });
+
+            
+            jButton4.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	
+                }
+            });
+
+            jButton9.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	
+                }
+            });
+
+            
+            jButton10.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+    
+                }
+            });
+
+            String[] nurseNames = nurses.keySet().toArray(new String[nurses.size()]);
+            
+        	for(int i = 0; i < nurseNames.length; i++) {
         		JRadioButton nurseButton = new JRadioButton();
-        		nurseButton.setText(nurses.get(i).toString());
+        		nurseButton.setText(nurseNames[i]);
         		jPanel4.add(nurseButton);
         	}
         }
@@ -202,22 +200,6 @@ public class NurseLists extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton9ActionPerformed
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton10ActionPerformed
 
     /**
      * @param args the command line arguments

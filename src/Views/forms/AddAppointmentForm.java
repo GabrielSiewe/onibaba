@@ -5,6 +5,7 @@
  */
 package Views.forms;
 
+import databaseObjects.beans.PersonMVC.PersonController;
 import Views.Login;
 
 /**
@@ -13,6 +14,10 @@ import Views.Login;
  */
 public class AddAppointmentForm extends javax.swing.JFrame {
 
+	private PersonController doctorController;
+	private PersonController nurseController;
+	private PersonController patientController;
+	
     /**
      * Creates new form AddAppointmentForm
      */
@@ -99,7 +104,7 @@ public class AddAppointmentForm extends javax.swing.JFrame {
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/home.png"))); // NOI18N
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                
             }
         });
 

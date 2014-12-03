@@ -23,16 +23,9 @@ public class NurseHome extends javax.swing.JFrame {
 	/**
      * Creates new form NurseHome
      */
-    public NurseHome(NurseModel user, DoctorModel other) {
-        nurse = user;
-        doctor = other;
-        initialize();
-    }
-    /**
-     * Creates new form NurseHome
-     */
-    public NurseHome(NurseModel user) {
-        nurse = user;
+    public NurseHome(PersonController loginController) {
+        nurse = loginController.getNurse();
+        doctor = loginController.getDoctor();
         initialize();
     }
     /**

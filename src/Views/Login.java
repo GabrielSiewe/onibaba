@@ -17,8 +17,7 @@ import databaseObjects.beans.PersonMVC.*;
 public class Login extends  JFrame {
 	
 	private static PersonController loginController;
-	private DoctorModel doctor;
-	private NurseModel nurse;
+	
 	private JFrame current;
 	private PersonModel user;
 	
@@ -49,8 +48,8 @@ public class Login extends  JFrame {
             	if (jTextField1.getText() != null || new String(jPasswordField1.getPassword()) != null) {
 	            	attributes.put("username", jTextField1.getText());
 	            	attributes.put("password", new String(jPasswordField1.getPassword()));
-	                user = loginController.authenticate(attributes);
-	
+	                loginController.authenticate(attributes);
+	                user = loginController.getUser();
 	                if (user == null) {
 	                	System.out.println("invalid username and password");
 	                	attributes.remove("username");
@@ -60,19 +59,16 @@ public class Login extends  JFrame {
 	                } else {
 	                	loginController.addToPrevious(current);
 	                	if (user.getTitle().equals("doctor")) {
-	                		doctor = (DoctorModel) user;
-	                		DoctorHome page = new DoctorHome(doctor);
+	                		DoctorHome page = new DoctorHome(loginController);
 	                		page.setVisible(true);
 	                	} else {
-	                		nurse = (NurseModel) user;
-	                		NurseHome page = new NurseHome(nurse);
+	                		NurseHome page = new NurseHome(loginController);
 	                		page.setVisible(true);
 	                	}
 	                }
             	}
            }
         });
-
         initComponents();
     }
 

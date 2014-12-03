@@ -15,7 +15,7 @@ public class Database {
 	private static final String PASSWORD = "DearDarling";
 	private PreparedStatement query = null;
 
-	private static final String jdbcDriver = "jdbc:mysql://10.0.0.10/SoftwareEngineeringDB";
+	private static final String jdbcDriver = "jdbc:mysql://131.96.144.242/SoftwareEngineeringDB";
 	private Connection connector = null;
 	
 
@@ -33,13 +33,12 @@ public class Database {
 		ResultSet results = null;
 		query.clearParameters();
 		if (statement != null) {
-			System.out.println(statement);
 			results = query.executeQuery(statement);
-			System.out.println(results.getFetchSize());
 			results.first();
 		}
 		return results;
 	}
+	
 
 	private void setConnection()
 	{

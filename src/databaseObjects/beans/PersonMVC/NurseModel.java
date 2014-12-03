@@ -21,6 +21,7 @@ public class NurseModel extends PersonModel {
 	public NurseModel(ResultSet attributes) throws SQLException
 	{
 		super(attributes, "nurse");
+		System.out.println("Here");
 		hasManyInstances = hasMany;
 		belongsToInstance = belongsto;
 		

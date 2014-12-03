@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 			view.hide();
 			previousPages.push(view);
 			toReturn = nextPages.pop();
+			toReturn.repaint();
 		}
 		return toReturn;
 		
