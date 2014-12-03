@@ -5,6 +5,10 @@
  */
 package Views.lists;
 
+import javax.swing.JFrame;
+
+import databaseObjects.beans.DailySaleMVC.DailySaleController;
+import databaseObjects.beans.PersonMVC.PersonController;
 import Views.Login;
 
 /**
@@ -12,12 +16,24 @@ import Views.Login;
  * @author xuelixiao
  */
 public class DailySaleList extends javax.swing.JFrame {
-
+	private JFrame current;
+	private PersonController personController;
+	private DailySaleController dailySaleController;
+	/**
+     * Creates new form DailySaleList
+     */
+    public DailySaleList(PersonController controller) {
+    	personController = controller;
+    	dailySaleController = new DailySaleController(personController);
+        initComponents();
+        current = this;
+    }
     /**
      * Creates new form DailySaleList
      */
     public DailySaleList() {
         initComponents();
+        current = this;
     }
 
     /**

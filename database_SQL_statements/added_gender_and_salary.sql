@@ -1,0 +1,3 @@
+ALTER TABLE `persons` ADD `gender` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL AFTER `first_name`;
+ALTER TABLE `persons` ADD `salary` DOUBLE  UNSIGNED  NULL  DEFAULT NULL  AFTER `gender`;
+ALTER TABLE `persons` CHANGE `phone` `phone` VARCHAR(11)  NULL  DEFAULT NULL;

@@ -5,10 +5,17 @@
  */
 package Views.forms;
 
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.concurrent.ConcurrentHashMap;
+
 import javax.swing.JFrame;
 
 import databaseObjects.beans.PersonMVC.PersonController;
 import Views.Login;
+import Views.PopUp;
+import Views.Home.*;
+import Views.lists.NurseLists;
 
 /**
  *
@@ -98,32 +105,93 @@ public class NurseForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel3.setBackground(new java.awt.Color(0, 153, 255));
-
-        jButton8.setText("Login / Log out");
+        if (doctorController == null) {
+        	jButton8.setText(new Date().toString());
+        } else {
+        	jButton8.setText("Log out");
+        	jButton8.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	new Login().setVisible(true);
+                	dispose();
+                }
+            });
+        	jButton1.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	ConcurrentHashMap<String, String> attributes = new ConcurrentHashMap<String, String>();
+                	try {
+                		attributes.put("first_name",jTextField1.getText());
+                    	attributes.put("last_name",jTextField2.getText());
+                    	attributes.put("ssn", jTextField3.getText());
+                    	attributes.put("allergies",jTextField4.getText());
+                    	attributes.put("gender",jTextField5.getText());
+                    	attributes.put("phone",jTextField7.getText());
+                    	attributes.put("email",jTextField8.getText());
+                    	attributes.put("education",jTextArea1.getText());
+                    	attributes.put("experience",jTextArea2.getText());
+                    	attributes.put("salary",jTextField10.getText());
+                    	attributes.put("birthday",jTextField6.getText());
+                    	attributes.put("title","nurse");
+                    	attributes.put("created_at", new java.sql.Date(new Date().parse(new Date().toString())).toString());
+                    	attributes.put("updated_at", new java.sql.Date(new Date().parse(new Date().toString())).toString());
+                    	
+                		doctorController.addNurse(attributes);
+                		doctorController.addToPrevious(current);
+                		doctorController.setDoctorNurses();
+                		new NurseLists(doctorController).setVisible(true);
+                	} catch (Exception e) {
+                		PopUp pop = new PopUp();
+                		pop.setText("It appears you have some invalid data.");
+                		pop.setVisible(true);
+                	}
+                }
+                
+            });
+        	jButton2.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	doctorController.addToPrevious(current);
+                	new NurseLists(doctorController).setVisible(true);
+                }
+            });
+        	jButton8.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	new Login().setVisible(true);
+                	dispose();
+                }
+            });
+        	jButton9.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	doctorController.back(current).setVisible(true);
+                }
+            });
+        	jButton10.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	doctorController.addToPrevious(current);
+                	new DoctorHome(doctorController).setVisible(true);
+                }
+            });
+        	jButton11.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                }
+            });
+        	jButton12.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	doctorController.forward(current).setVisible(true);
+                }
+            });
+        }
+        
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/leftArrow.png"))); // NOI18N
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            }
-        });
+        
 
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/home.png"))); // NOI18N
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            }
-        });
+        
 
         jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/search.png"))); // NOI18N
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            }
-        });
+        
 
         jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/rightArrow.png"))); // NOI18N
-        jButton12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            }
-        });
+        
 
         jTextField9.setForeground(new java.awt.Color(153, 153, 153));
         jTextField9.setText("Search");
@@ -172,7 +240,7 @@ public class NurseForm extends javax.swing.JFrame {
 
         jLabel3.setText("SSN");
 
-        jLabel4.setText("Title");
+        jLabel4.setText("Allergies");
 
         jTextField1.setForeground(new java.awt.Color(153, 153, 153));
         jTextField1.setText("First Name");
@@ -185,7 +253,7 @@ public class NurseForm extends javax.swing.JFrame {
         jTextField3.setText("123-45-6789");
 
         jTextField4.setForeground(new java.awt.Color(153, 153, 153));
-        jTextField4.setText("Nurse Title");
+        jTextField4.setText("Nurse Allergies");
 
         jLabel5.setText("Birthday");
 

@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.*;
 
+import Views.forms.LabForm;
 import Views.forms.NurseForm;
 import Views.lists.*;
 import Views.Login;
@@ -109,33 +110,33 @@ public class DoctorHome extends javax.swing.JFrame {
     		jButton1.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                 	doctorController.setDoctorNurses();
-                	new NurseLists(doctorController).setVisible(true);
                 	doctorController.addToPrevious(current);
-                	
+                	new NurseLists(doctorController).setVisible(true);
                 }
             });
     		jButton2.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                	doctorController.setDoctorPatients();
-//                	new Login().setVisible(true);
+                	doctorController.setDoctorPatients();
+                	doctorController.addToPrevious(current);
+                	new PatientList(doctorController).setVisible(true);
                 }
             });
     		jButton3.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                 	doctorController.addToPrevious(current);
-                	new Login().setVisible(true);
+                	new Inventory(doctorController).setVisible(true);
                 }
             });
     		jButton4.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                 	doctorController.addToPrevious(current);
-                	new NurseForm(doctorController).setVisible(true);
+                	new AppointmentList(doctorController).setVisible(true);
                 }
             });
     		jButton5.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                 	doctorController.addToPrevious(current);
-                	new Login().setVisible(true);
+                	new NurseForm(doctorController).setVisible(true);
                 }
             });
             jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -147,7 +148,7 @@ public class DoctorHome extends javax.swing.JFrame {
             jButton7.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                 	doctorController.addToPrevious(current);
-                	new Login().setVisible(true);
+                	new DailySaleList(doctorController).setVisible(true);
                 }
             });
     		jButton8.setText("log out");
@@ -159,10 +160,7 @@ public class DoctorHome extends javax.swing.JFrame {
             });
     		jButton9.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                }
-            });
-            jButton10.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	doctorController.back(current).setVisible(true);
                 }
             });
             jButton11.addActionListener(new java.awt.event.ActionListener() {
@@ -171,6 +169,7 @@ public class DoctorHome extends javax.swing.JFrame {
             });
             jButton12.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	doctorController.forward(current).setVisible(true);
                 }
             });
     		jLabel12.setText(doctor.getFirst_name());

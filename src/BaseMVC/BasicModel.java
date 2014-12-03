@@ -69,13 +69,29 @@ public class BasicModel {
 		if (queryRunner == null) {
 			queryRunner = new DatabaseManipulator();
 		}
-
+		
 		if (query != null && query.trim() != null) {
 			return queryRunner.runQuery(query);
+			
 		}
 		throw new SQLException("you are trying to run an empty query.");
 		
 	}
+	
+	// runs an SQL query
+		public static void updateQuery(String query) throws SQLException
+		{
+			if (queryRunner == null) {
+				queryRunner = new DatabaseManipulator();
+			}
+			
+			if (query != null && query.trim() != null) {
+				queryRunner.updateQuery(query);
+				return;
+			}
+			throw new SQLException("you are trying to run an empty query.");
+			
+		}
 	
 	// Returns the records that may have been for this model.
 	protected ResultSet specials(ConcurrentHashMap<String,String> finders, String table_name ) throws SQLException
@@ -220,7 +236,11 @@ public class BasicModel {
 			switch(cuRule) {
 				case "string": break;
 				case "uppercase": value = value.toUpperCase(); break;
+				case "nospace": value = value.replaceAll(" ", ""); break;
 				case "lowercase": value = value.toLowerCase(); break;
+				case "email": String temp = remover.compile("\\b[A-Z0-9._%+-]+@(?:[A-Z0-9-]+\\.)+[A-Z]{2,4}\b", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL).matcher(value).replaceAll(""); if (temp != null) value = null; break;
+				case "phone": value = value.replaceAll("-", ""); try { value = Integer.parseInt(value)+"";} catch(Exception e) { value = null;} break;
+				case "gender": if (value.equalsIgnoreCase("male") || value.equalsIgnoreCase("female")) continue; else value = null; break;
 				default: System.out.println("didn't do rule: "+cuRule); break;
 			}
 		}
@@ -235,11 +255,12 @@ public class BasicModel {
 		Date test = null;
 		Pattern remover = Pattern.compile("[\\s]+", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 		value = remover.matcher(value).replaceAll(" ");
+		value = value.replaceAll("\\", ":");
 		
 		for( int i = 0; i< rules.length; i++) {
 			String cuRule = rules[i];
 			switch(cuRule){
-				case "date": try { test = new Date(Date.parse(value)); break;} catch (Exception e) { System.out.println("this is an invalid date"); return null;}
+				case "date": try { test = new java.sql.Date(Date.parse(value)); value = test.toString();break;} catch (Exception e) { System.out.println("this is an invalid date"); return null;}
 				case "future": if ( test.before(new Date()) ){ System.out.println("This date has already past.");return null;} else { break;}
 				case "past": if ( test.after(new Date()) ){ System.out.println("This date has yet to past.");return null;} else {break; }
 				default: System.out.println("didn't do rule: "+cuRule); break;

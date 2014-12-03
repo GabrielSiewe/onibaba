@@ -5,6 +5,10 @@
  */
 package Views.lists;
 
+import javax.swing.JFrame;
+
+import databaseObjects.beans.AppointmentMVC.AppointmentController;
+import databaseObjects.beans.PersonMVC.PersonController;
 import Views.Login;
 
 /**
@@ -12,14 +16,26 @@ import Views.Login;
  * @author xuelixiao
  */
 public class AppointmentList extends javax.swing.JFrame {
-
+	private AppointmentController controller;
+	private PersonController personController;
+	private JFrame current;
+	
     /**
      * Creates new form Appointments
      */
     public AppointmentList() {
         initComponents();
+        current = this;
     }
-
+    /**
+     * Creates new form Appointments
+     */
+    public AppointmentList(PersonController control) {
+    	controller = new AppointmentController(personController);
+        initComponents();
+        current = this;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

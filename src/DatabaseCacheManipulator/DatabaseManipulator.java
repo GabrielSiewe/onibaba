@@ -43,6 +43,17 @@ public class DatabaseManipulator extends Database {
 		return results;
 	}
 	
+	public synchronized void updateQuery(String statement) throws SQLException
+	{
+		
+		if (statement == null) {
+			System.out.println("Invalid null statement");
+			return;
+		}
+		super.updateQuery(statement);
+
+	}
+	
 	public synchronized void updateCache(String key, ResultSet newResult )
 	{
 		synchronized(cache) {

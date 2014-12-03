@@ -13,9 +13,12 @@ public class PersonModel extends BasicModel {
 	
 	private String ssn = null;
 	private String first_name = null;
+	private String gender = null;
+	private double salary;
+
 	private String last_name = null;
 	private Date birthday = null;
-	private Integer phone = 0;
+	private String phone = null;
 	private String email = null;
 	private String title = null;
 	private String username = null;
@@ -39,10 +42,12 @@ public class PersonModel extends BasicModel {
 		{"education", "string"},
 		{"last_name", "uppercase"},
 		{"email", "string"},
-		{"email", "string"},
 		{"email", "email"},
+		{"gender", "string"},
+		{"gender", "gender"},
 		{"title", "string"},
-		{"phone", "integer"},
+		{"phone", "string"},
+		{"phone", "phone" },
 		{"phone", "positive" },
 		{"birthday", "date"},
 		{"birthday", "past" },
@@ -53,6 +58,7 @@ public class PersonModel extends BasicModel {
 		{"doctor_id", "integer"},
 		{"doctor_id", "positive" },
 		{"username", "string"},
+		{"username", "nospace"},
 		{"password", "string"},
 		{"person_id", "integer"},
 		{"person_id", "positive"},
@@ -63,7 +69,8 @@ public class PersonModel extends BasicModel {
 	};
 	private static final String TABLENAME = "persons";
 	// fillable from the front end properties
-	private static String[] fillables = {"ssn", "first_name", "last_name", "email", "title", "phone", "birthday", "id", "username", "password", "person_id", "experience", "education"};
+	protected static String[] fillables = {"ssn", "first_name", "last_name", "email", "title", "phone", "birthday", "id", "username", "password",
+			"person_id", "experience", "education", "doctor_id", "allergies", "gender", "salary", "created_at", "updated_at"};
 	private static String[] hasMany = {"appointment","comment"};
 	
 	public PersonModel(int person_id) throws SQLException
@@ -77,11 +84,13 @@ public class PersonModel extends BasicModel {
 		first_name = attributes.getString("first_name");
 		last_name = attributes.getString("last_name");
 		birthday = attributes.getDate("birthday");
-		phone = attributes.getInt("phone");
+		phone = attributes.getString("phone");
 		email = attributes.getString("email");
 		title = attributes.getString("title");
 		username =  attributes.getString("username");
 		password =  attributes.getString("password");
+		gender = attributes.getString("gender");
+		salary = attributes.getDouble("salary");
 	}
 	public PersonModel(ResultSet attributes, String model) throws SQLException
 	{
@@ -112,15 +121,41 @@ public class PersonModel extends BasicModel {
 		first_name = attributes.getString("first_name");
 		last_name = attributes.getString("last_name");
 		birthday = attributes.getDate("birthday");
-		phone = attributes.getInt("phone");
+		phone = attributes.getString("phone");
 		email = attributes.getString("email");
 		title = attributes.getString("title");
 		username =  attributes.getString("username");
 		password =  attributes.getString("password");
+		gender = attributes.getString("gender");
+		salary = attributes.getDouble("salary");
 		
 	}
 	
 
+	/**
+	 * @return the gender
+	 */
+	public String getGender() {
+		return gender;
+	}
+	/**
+	 * @param gender the gender to set
+	 */
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	/**
+	 * @return the salary
+	 */
+	public double getSalary() {
+		return salary;
+	}
+	/**
+	 * @param salary the salary to set
+	 */
+	public void setSalary(double salary) {
+		this.salary = salary;
+	}
 
 	/**
 	 * @return the ssn
@@ -197,7 +232,7 @@ public class PersonModel extends BasicModel {
 	/**
 	 * @return the phone
 	 */
-	public Integer getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
@@ -206,7 +241,7 @@ public class PersonModel extends BasicModel {
 	/**
 	 * @param phone the phone to set
 	 */
-	public void setPhone(Integer phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
@@ -316,6 +351,7 @@ public class PersonModel extends BasicModel {
 	public static String getInsertStatement(ConcurrentHashMap<String,String> attributes)
 	{
 		attributes = validateData(attributes, "insert");
+		System.out.println(attributes);
 		if ( attributes == null) {
 			System.out.println("Your input are missing some of the required fields for inserts.");
 			return null;
@@ -387,17 +423,12 @@ public class PersonModel extends BasicModel {
 					}
 					
 					String value = evaluateFieldRule(attributes.get(keys[i]), fieldRules.get(keys[i]).toArray(new String[fieldRules.get(keys[i]).size()]));
-					
 					if ( value == null) {
-						System.out.println("The field "+keys[i]+" has a null value. Therefore it is being discarder.");
-						attributes.remove(keys[i]);
-						// If we are inserting and the field is required, we cancel and tell them to retry.
-						if (methodName == "insert" && Arrays.asList(requiredOnInsert).contains(keys[i])) {
+							System.out.println("The field "+keys[i]+" has a null value. Therefore it is being discarder.");
+							attributes.remove(keys[i]);
 							System.out.println("However the field "+keys[i]+ " is required. Please try again.");
 							return null;
-						}
-
-					} else {
+						} else {
 						attributes.replace(keys[i], value);
 					}
 					continue;

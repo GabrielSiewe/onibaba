@@ -9,9 +9,14 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.swing.JFrame;
 import javax.swing.JRadioButton;
 
 import Views.Login;
+import Views.PopUp;
+import Views.Home.DoctorHome;
+import Views.Home.NurseHome;
+import Views.forms.NurseForm;
 import databaseObjects.beans.PersonMVC.NurseModel;
 import databaseObjects.beans.PersonMVC.PersonController;
 
@@ -22,20 +27,22 @@ import databaseObjects.beans.PersonMVC.PersonController;
 public class NurseLists extends javax.swing.JFrame {
 
 	private PersonController doctorController;
-	ConcurrentHashMap<String, JRadioButton> nurseList;
+	private ConcurrentHashMap<String, JRadioButton> nurseList;
 	private ConcurrentHashMap<String, NurseModel> nurses;
+	private JFrame current;
 	
     /**
      * Creates new form NurseLists
      */
     public NurseLists() {
         initComponents();
+        current = this;
     }
     public NurseLists(PersonController doctorControl) {
     	doctorController = doctorControl;
     	nurses = doctorController.getListOfNurses();
     	initComponents();
-    	
+    	current = this;
     }
 
     /**
@@ -84,20 +91,96 @@ public class NurseLists extends javax.swing.JFrame {
         jLabel23.setText("Nurses");
 
         jPanel3.setBackground(new java.awt.Color(0, 153, 255));
+        jPanel4.setLayout(new java.awt.GridLayout(0, 1));
+        if (nurses == null)
+        {
+        	
+            jButton1.setText(new Date().toString());
+            jRadioButton2.setText("Nurse1");
+            jPanel4.add(jRadioButton2);
 
-        jButton1.setText("Login / Log out");
+        } else {
+        	String[] nurseNames = nurses.keySet().toArray(new String[nurses.size()]);
+        	nurseList =  new ConcurrentHashMap<String, JRadioButton>();
+        	for (int i = 0; i<nurseNames.length; i++) {
+        		JRadioButton nurseButton = new JRadioButton();
+        		nurseButton.setText(nurseNames[i]);
+        		nurseButton.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    	if (nurseButton.isSelected()) {
+                    		String[] currentButtons = nurseList.keySet().toArray(new String[nurseList.size()]);
+                    		for(int j= 0; j<currentButtons.length; j++){
+                    			if (!nurseButton.getText().equalsIgnoreCase(nurseList.get(currentButtons[j]).getText())
+                    					&& nurseList.get(currentButtons[j]).isSelected()) {
+                    				nurseList.get(currentButtons[j]).setSelected(false);
+                    			}
+                    		}
+                    	}
+                    }
+                });
+        		nurseList.put(nurseNames[i], nurseButton);
+        		
+        		jPanel4.add(nurseButton);
+        	}
+        	jButton1.setText("Log out");
+        	jButton1.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	new Login().setVisible(true);
+                	dispose();
+                }
+            });
+        	jButton2.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	doctorController.back(current).setVisible(true);
+                }
+            });
+        	jButton4.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	doctorController.addToPrevious(current);
+                	new DoctorHome(doctorController).setVisible(true);
+                }
+            });
+        	
+        	jButton8.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	JRadioButton selected = null;
+                	String[] currentButtons = nurseList.keySet().toArray(new String[nurseList.size()]);
+            		for(int j= 0; j<currentButtons.length; j++){
+            			if (nurseList.get(currentButtons[j]).isSelected()) {
+            				selected = nurseList.get(currentButtons[j]);
+            				break;
+            			}
+            			
+            			if (j == currentButtons.length-1) {
+            				PopUp pop = new PopUp();
+            				pop.setText("Please select a nurse first");
+            				pop.setVisible(true);	
+            			}
+            		}
+            		if (selected != null) {
+            			doctorController.setNurse(nurses.get(selected.getText()));
+            			doctorController.addToPrevious(current);
+            			new NurseHome(doctorController).setVisible(true);
+            		}
+                }
+            });
+        	
+        	jButton5.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	doctorController.addToPrevious(current);
+                	new NurseForm(doctorController).setVisible(true);
+                }
+            });
+        	jButton10.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	doctorController.forward(current).setVisible(true);
+                }
+            });
+        }
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/leftArrow.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            }
-        });
-
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/home.png"))); // NOI18N
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            }
-        });
+        
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/search.png"))); // NOI18N
         jButton9.addActionListener(new java.awt.event.ActionListener() {
@@ -106,11 +189,6 @@ public class NurseLists extends javax.swing.JFrame {
         });
 
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/rightArrow.png"))); // NOI18N
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            }
-        });
-
         jTextField9.setForeground(new java.awt.Color(153, 153, 153));
         jTextField9.setText("Search");
 
@@ -148,10 +226,9 @@ public class NurseLists extends javax.swing.JFrame {
                 .addGap(59, 59, 59))
         );
 
-        jPanel4.setLayout(new java.awt.GridLayout(0, 1));
+        
 
-        jRadioButton2.setText("Nurse1");
-        jPanel4.add(jRadioButton2);
+        
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

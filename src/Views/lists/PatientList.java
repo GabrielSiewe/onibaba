@@ -5,14 +5,31 @@
  */
 package Views.lists;
 
+import java.util.Date;
+
+import javax.swing.JFrame;
+
+import databaseObjects.beans.PersonMVC.PersonController;
 import Views.Login;
+import Views.Home.DoctorHome;
+import Views.Home.NurseHome;
 
 /**
  *
  * @author xuelixiao
  */
 public class PatientList extends javax.swing.JFrame {
-
+	private PersonController personController;
+	private JFrame current;
+	
+	/**
+     * Creates new form AllPatients
+     */
+    public PatientList(PersonController personController) {
+    	this.personController = personController;
+        initComponents();
+        current = this;
+    }
     /**
      * Creates new form AllPatients
      */
@@ -52,36 +69,49 @@ public class PatientList extends javax.swing.JFrame {
         jLabel23.setText("Patients");
 
         jPanel3.setBackground(new java.awt.Color(0, 153, 255));
-
-        jButton1.setText("Login / Log out");
+        
+        if (personController != null){
+        	jButton1.setText("Log out");
+        	jButton1.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    new Login().setVisible(true);
+                }
+            });
+        	jButton2.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    personController.back(current);
+                }
+            });
+        	jButton4.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    personController.addToPrevious(current);
+                    new NurseHome().setVisible(true);
+                }
+            });
+        	jButton10.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	personController.forward(current);
+                }
+            });
+        } else {
+        	jButton1.setText(new Date().toString());
+        }
+        
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/leftArrow.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+        
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/home.png"))); // NOI18N
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
+        
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/search.png"))); // NOI18N
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
             }
         });
 
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/rightArrow.png"))); // NOI18N
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
-            }
-        });
+        
 
         jTextField9.setForeground(new java.awt.Color(153, 153, 153));
         jTextField9.setText("Search");

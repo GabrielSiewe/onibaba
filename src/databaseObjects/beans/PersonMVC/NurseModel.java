@@ -13,15 +13,12 @@ public class NurseModel extends PersonModel {
 
 	private static final String TABLENAME = "nurses";
 
-	// fillable from the front end properties
-	private static String[] fillables = {"nurse_id", "person_id", "education", "experience", "id"};
 	private static String[] hasMany = {"patient"};
 	private static String[] belongsto = {"doctor"};
 	
 	public NurseModel(ResultSet attributes) throws SQLException
 	{
 		super(attributes, "nurse");
-		System.out.println("Here");
 		hasManyInstances = hasMany;
 		belongsToInstance = belongsto;
 		

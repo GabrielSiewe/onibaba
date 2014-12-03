@@ -51,4 +51,9 @@ import javax.swing.JFrame;
 	{
 		BasicModel.closeDbConnection();
 	}
+	public void resetForwardAndBack()
+	{
+		previousPages.clear();
+		nextPages.clear();
+	}
 }
