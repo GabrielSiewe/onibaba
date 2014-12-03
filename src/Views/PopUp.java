@@ -17,7 +17,10 @@ public class PopUp extends javax.swing.JFrame {
     public PopUp() {
         initComponents();
     }
-
+    public void setText(String message)
+    {
+    	jLabel1.setText(message);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,9 +32,9 @@ public class PopUp extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Prescription Removed");
+        jLabel1.setText("Default message will be displayed here.");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

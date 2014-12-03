@@ -5,6 +5,9 @@
  */
 package Views.forms;
 
+import javax.swing.JFrame;
+
+import databaseObjects.beans.PersonMVC.PersonController;
 import Views.Login;
 
 /**
@@ -12,12 +15,24 @@ import Views.Login;
  * @author xuelixiao
  */
 public class NurseForm extends javax.swing.JFrame {
-
+	
+	PersonController doctorController;
+	JFrame current;
     /**
      * Creates new form addNurse
      */
     public NurseForm() {
         initComponents();
+        current = this;
+    }
+    
+    /**
+     * Creates new form addNurse
+     */
+    public NurseForm(PersonController doctorController) {
+    	this.doctorController =  doctorController;
+        initComponents();
+        current = this;
     }
 
     /**
@@ -89,28 +104,24 @@ public class NurseForm extends javax.swing.JFrame {
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/leftArrow.png"))); // NOI18N
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
             }
         });
 
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/home.png"))); // NOI18N
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
             }
         });
 
         jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/search.png"))); // NOI18N
         jButton11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
             }
         });
 
         jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/rightArrow.png"))); // NOI18N
         jButton12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
             }
         });
 
@@ -168,11 +179,7 @@ public class NurseForm extends javax.swing.JFrame {
 
         jTextField2.setForeground(new java.awt.Color(153, 153, 153));
         jTextField2.setText("Last Name");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
+        
 
         jTextField3.setForeground(new java.awt.Color(153, 153, 153));
         jTextField3.setText("123-45-6789");
@@ -220,11 +227,7 @@ public class NurseForm extends javax.swing.JFrame {
 
         jTextField6.setForeground(new java.awt.Color(153, 153, 153));
         jTextField6.setText("12/31/2000");
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
-            }
-        });
+        
 
         jLabel25.setFont(new java.awt.Font("Krungthep", 1, 24)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(0, 153, 255));
@@ -355,32 +358,8 @@ public class NurseForm extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
-
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton9ActionPerformed
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton10ActionPerformed
-
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton11ActionPerformed
-
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton12ActionPerformed
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
+    }
+    
     /**
      * @param args the command line arguments
      */

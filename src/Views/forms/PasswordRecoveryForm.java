@@ -5,18 +5,34 @@
  */
 package Views.forms;
 
+import java.util.Date;
+
+import javax.swing.JFrame;
+
+import databaseObjects.beans.PersonMVC.PersonController;
 import Views.Login;
+import Views.PopUp;
 
 /**
  *
  * @author xuelixiao
  */
 public class PasswordRecoveryForm extends javax.swing.JFrame {
-
+	PersonController loginController;
+	JFrame current;
     /**
      * Creates new form PasswordRecoveryForm
      */
     public PasswordRecoveryForm() {
+    	loginController = new PersonController();
+        initComponents();
+    }
+    
+    /**
+     * Creates new form PasswordRecoveryForm
+     */
+    public PasswordRecoveryForm(PersonController loginControl) {
+    	loginController =  loginControl;
         initComponents();
     }
 
@@ -28,7 +44,6 @@ public class PasswordRecoveryForm extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         jLabel25 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jButton8 = new javax.swing.JButton();
@@ -52,23 +67,52 @@ public class PasswordRecoveryForm extends javax.swing.JFrame {
         jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
         jButton8.setText("Submit");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	if(jTextField1.getText() == null || jTextField1.getText().trim() ==  null || jTextField1.getText().equals("myemail@domainname.com") ) {
+            		PopUp popUp = new PopUp();
+            		popUp.setText("The Invalid user email, please try again.");
+            		popUp.setVisible(true);
+            	}
+//                JFrame backed = loginController.back(null);
+//                if (backed != null) {
+//                	backed.setVisible(true);
+//                	dispose();
+//                }
+            }
+        });
         jPanel2.add(jButton8);
 
         jPanel3.setBackground(new java.awt.Color(0, 153, 255));
+        if (loginController != null) {
+        	jButton1.setText(new Date().toString());
+        } else {
+        	jButton1.setText("Login");
+        	jButton1.addActionListener(new java.awt.event.ActionListener() {
 
-        jButton1.setText("Login / Log out");
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    JFrame backed = loginController.back(null);
+                    if (backed != null) {
+                    	backed.setVisible(true);
+                    	dispose();
+                    }
+                }
+            });
+        }
+        current = this;
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/leftArrow.png"))); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+            	loginController.back(current).setVisible(true);
             }
         });
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/home.png"))); // NOI18N
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+            	new Login().setVisible(true);
+            	dispose();
             }
         });
 
@@ -82,7 +126,7 @@ public class PasswordRecoveryForm extends javax.swing.JFrame {
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/rightArrow.png"))); // NOI18N
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
+            	loginController.forward(current).setVisible(true);
             }
         });
 

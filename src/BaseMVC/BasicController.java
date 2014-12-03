@@ -15,32 +15,35 @@ import javax.swing.JFrame;
 	}
 	public JFrame forward(JFrame view)
 	{
-		JFrame toReturn = null;
-		if (!nextPages.isEmpty())
+		JFrame toReturn = view;
+		if (!nextPages.isEmpty() || view == null)
 		{
-			view.hide();
-			previousPages.push(view);
 			toReturn = nextPages.pop();
-			toReturn.repaint();
+			if (view != null) {
+				view.setVisible(false);
+				previousPages.push(view);
+			}
 		}
 		return toReturn;
 		
 	}
 	public JFrame back(JFrame view)
 	{
-		JFrame toReturn = null;
+		JFrame toReturn = view;
 		if (!previousPages.isEmpty())
 		{
-			view.hide();
-			nextPages.push(view);
 			toReturn = previousPages.pop();
+			if (view != null) {
+				view.setVisible(false);
+				nextPages.push(view);
+			}
 		}
 		return toReturn;
 		
 	}
 	public void addToPrevious(JFrame view)
 	{
-		view.hide();
+		view.setVisible(false);
 		previousPages.push(view);
 		
 	}
