@@ -81,7 +81,26 @@ public class Login extends  JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jToggleButton1 = new javax.swing.JToggleButton();
+        jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jPasswordField1 = new javax.swing.JPasswordField();
+        jLabel4 = new javax.swing.JLabel();
+
         jToggleButton1.setText("jToggleButton1");
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(null);
+
+        jButton2.setFont(new java.awt.Font("Lucida Grande", 1, 12)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(102, 102, 102));
+        jButton2.setText("Forgot Password");
+        getContentPane().add(jButton2);
+        jButton2.setBounds(30, 260, 204, 30);
 
         jButton1.setFont(new java.awt.Font("Lucida Grande", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(102, 102, 102));
@@ -114,7 +133,7 @@ public class Login extends  JFrame {
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/Screen Shot 2014-11-28 at 5.24.58 PM.png"))); // NOI18N
         jLabel4.setText("jLabel4");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(0, 0, 470, 320);
+        jLabel4.setBounds(0, 0, 470, 330);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -157,6 +176,7 @@ public class Login extends  JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
