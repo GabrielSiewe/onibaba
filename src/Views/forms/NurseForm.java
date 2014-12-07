@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.JFrame;
 
+import databaseObjects.beans.PersonMVC.NurseModel;
 import databaseObjects.beans.PersonMVC.PersonController;
 import Views.Login;
 import Views.PopUp;
@@ -59,31 +60,167 @@ public class NurseForm extends javax.swing.JFrame {
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jTextField9 = new javax.swing.JTextField();
+        jTextField9.addFocusListener(new java.awt.event.FocusListener() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+            	jTextField9.setForeground(new java.awt.Color(0, 0, 0));
+            	if(doctorController == null || doctorController.getNurse() == null) {
+            		jTextField9.setText("");
+            	}
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+            	jTextField9.setForeground(new java.awt.Color(153, 153, 153));
+            }
+        });
         nurseInfo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
+        jTextField1.addFocusListener(new java.awt.event.FocusListener() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+            	jTextField1.setForeground(new java.awt.Color(0, 0, 0));
+            	if(doctorController == null || doctorController.getNurse() == null) {
+            		jTextField1.setText("");
+            	}
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+            	jTextField1.setForeground(new java.awt.Color(153, 153, 153));
+            }
+        });
         jTextField2 = new javax.swing.JTextField();
+        jTextField2.addFocusListener(new java.awt.event.FocusListener() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+            	jTextField2.setForeground(new java.awt.Color(0, 0, 0));
+            	if(doctorController == null || doctorController.getNurse() == null) {
+            		jTextField2.setText("");
+            	}
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+            	jTextField2.setForeground(new java.awt.Color(153, 153, 153));
+            }
+        });
         jTextField3 = new javax.swing.JTextField();
+        jTextField3.addFocusListener(new java.awt.event.FocusListener() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+            	jTextField3.setForeground(new java.awt.Color(0, 0, 0));
+            	if(doctorController == null || doctorController.getNurse() == null) {
+            		jTextField3.setText("");
+            	}
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+            	jTextField3.setForeground(new java.awt.Color(153, 153, 153));
+            }
+        });
         jTextField4 = new javax.swing.JTextField();
+        jTextField4.addFocusListener(new java.awt.event.FocusListener() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+            	jTextField4.setForeground(new java.awt.Color(0, 0, 0));
+            	if(doctorController == null || doctorController.getNurse() == null) {
+            		jTextField4.setText("");
+            	}
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+            	jTextField4.setForeground(new java.awt.Color(153, 153, 153));
+            }
+        });
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
+        jTextField5.addFocusListener(new java.awt.event.FocusListener() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+            	jTextField5.setForeground(new java.awt.Color(0, 0, 0));
+            	if(doctorController == null || doctorController.getNurse() == null) {
+            		jTextField5.setText("");
+            	}
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+            	jTextField5.setForeground(new java.awt.Color(153, 153, 153));
+            }
+        });
+        
         jTextField7 = new javax.swing.JTextField();
+        jTextField7.addFocusListener(new java.awt.event.FocusListener() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+            	jTextField7.setForeground(new java.awt.Color(0, 0, 0));
+            	if(doctorController == null || doctorController.getNurse() == null) {
+            		jTextField7.setText("");
+            	}
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+            	jTextField7.setForeground(new java.awt.Color(153, 153, 153));
+            }
+        });
+        
         jTextField8 = new javax.swing.JTextField();
+        jTextField8.addFocusListener(new java.awt.event.FocusListener() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+            	jTextField8.setForeground(new java.awt.Color(0, 0, 0));
+            	if(doctorController == null || doctorController.getNurse() == null) {
+            		jTextField8.setText("");
+            	}
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+            	jTextField8.setForeground(new java.awt.Color(153, 153, 153));
+            }
+        });
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jTextArea1.addFocusListener(new java.awt.event.FocusListener() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+            	jTextArea1.setForeground(new java.awt.Color(0, 0, 0));
+            	if(doctorController == null || doctorController.getNurse() == null) {
+            		jTextArea1.setText("");
+            	}
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+            	jTextArea1.setForeground(new java.awt.Color(153, 153, 153));
+            }
+        });
+        
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
+        jTextArea2.addFocusListener(new java.awt.event.FocusListener() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+            	jTextArea2.setForeground(new java.awt.Color(0, 0, 0));
+            	if(doctorController == null || doctorController.getNurse() == null) {
+            		jTextArea2.setText("");
+            	}
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+            	jTextArea2.setForeground(new java.awt.Color(153, 153, 153));
+            }
+        });
+        
         jLabel12 = new javax.swing.JLabel();
         jTextField10 = new javax.swing.JTextField();
+        jTextField10.addFocusListener(new java.awt.event.FocusListener() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+            	jTextField10.setForeground(new java.awt.Color(0, 0, 0));
+            	if(doctorController == null || doctorController.getNurse() == null) {
+            		jTextField10.setText("");
+            	}
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+            	jTextField10.setForeground(new java.awt.Color(153, 153, 153));
+            }
+        });
         jTextField6 = new javax.swing.JTextField();
+        jTextField6.addFocusListener(new java.awt.event.FocusListener() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+            	jTextField6.setForeground(new java.awt.Color(0, 0, 0));
+            	if(doctorController == null || doctorController.getNurse() == null) {
+            		jTextField6.setText("");
+            	}
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+            	jTextField6.setForeground(new java.awt.Color(153, 153, 153));
+            }
+        });
         jLabel25 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -119,33 +256,38 @@ public class NurseForm extends javax.swing.JFrame {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                 	ConcurrentHashMap<String, String> attributes = new ConcurrentHashMap<String, String>();
                 	try {
-                		attributes.put("first_name",jTextField1.getText());
-                    	attributes.put("last_name",jTextField2.getText());
-                    	attributes.put("ssn", jTextField3.getText());
-                    	attributes.put("allergies",jTextField4.getText());
-                    	attributes.put("gender",jTextField5.getText());
-                    	attributes.put("phone",jTextField7.getText());
-                    	attributes.put("email",jTextField8.getText());
-                    	attributes.put("education",jTextArea1.getText());
-                    	attributes.put("experience",jTextArea2.getText());
-                    	attributes.put("salary",jTextField10.getText());
-                    	attributes.put("birthday",jTextField6.getText());
-                    	attributes.put("title","nurse");
-                    	attributes.put("created_at", new java.sql.Date(new Date().parse(new Date().toString())).toString());
-                    	attributes.put("updated_at", new java.sql.Date(new Date().parse(new Date().toString())).toString());
-                    	
-                		doctorController.addNurse(attributes);
-                		doctorController.addToPrevious(current);
-                		doctorController.setDoctorNurses();
-                		new NurseLists(doctorController).setVisible(true);
+	                		attributes.put("first_name",jTextField1.getText());
+	                    	attributes.put("last_name",jTextField2.getText());
+	                    	attributes.put("ssn", jTextField3.getText());
+	                    	attributes.put("allergies",jTextField4.getText());
+	                    	attributes.put("gender",jTextField5.getText());
+	                    	attributes.put("phone",jTextField7.getText());
+	                    	attributes.put("email",jTextField8.getText());
+	                    	attributes.put("education",jTextArea1.getText());
+	                    	attributes.put("experience",jTextArea2.getText());
+	                    	attributes.put("salary",jTextField10.getText());
+	                    	attributes.put("birthday",jTextField6.getText());
+	                    	attributes.put("title","nurse");
+	                    	attributes.put("created_at", new java.sql.Date(new Date().parse(new Date().toString())).toString());
+	                    	attributes.put("updated_at", new java.sql.Date(new Date().parse(new Date().toString())).toString());
+	                    	if (doctorController.getNurse() == null) {
+	                    		doctorController.addNurse(attributes);
+	                    	} else {
+	                    		attributes.remove("created_at");
+	                    		doctorController.updateNurse(attributes);
+	                    	}
+	                		doctorController.addToPrevious(current);
+	                		doctorController.setDoctorNurses();
+	                		new NurseLists(doctorController).setVisible(true);
                 	} catch (Exception e) {
                 		PopUp pop = new PopUp();
-                		pop.setText("It appears you have some invalid data.");
+                		pop.setText(e.getMessage());
                 		pop.setVisible(true);
                 	}
                 }
                 
             });
+        	
         	jButton2.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                 	doctorController.addToPrevious(current);
@@ -241,36 +383,53 @@ public class NurseForm extends javax.swing.JFrame {
         jLabel3.setText("SSN");
 
         jLabel4.setText("Allergies");
-
         jTextField1.setForeground(new java.awt.Color(153, 153, 153));
-        jTextField1.setText("First Name");
-
+        if (doctorController == null || doctorController.getNurse() == null) {
+            jTextField1.setText("First Name");
+            jTextField2.setText("Last Name");
+            jTextField3.setText("123-45-6789");
+            jTextField4.setText("Nurse Allergies");
+            jTextField5.setText("Female/Male");
+            jTextField7.setText("123-456-7890");
+            jTextField8.setText("email@domainname.com");
+            jTextArea1.setText("Enter the education of the\nnurse here.");
+            jTextArea2.setText("Enter the experience of the \nnurse here. ");
+            jTextField10.setText("0.00");
+            jTextField6.setText("12/31/2000");
+            jLabel25.setText("Add Nurse");
+            jButton1.setText("Add");
+        } else {
+        	NurseModel nurse = doctorController.getNurse();
+            jTextField1.setText(nurse.getFirst_name());
+            jTextField2.setText(nurse.getLast_name());
+            jTextField3.setText(nurse.getSsn());
+            jTextField4.setText("Allergies");
+            jTextField5.setText(nurse.getGender());
+            jTextField7.setText(nurse.getPhone());
+            jTextField8.setText(nurse.getEmail());
+            jTextArea1.setText(nurse.getEducation());
+            jTextArea2.setText(nurse.getExperience());
+            jTextField10.setText(nurse.getSalary()+"");
+            jTextField6.setText(nurse.getBirthday().toString());
+            jLabel25.setText("Update Nurse");
+            jButton1.setText("Update");
+        }
+        
         jTextField2.setForeground(new java.awt.Color(153, 153, 153));
-        jTextField2.setText("Last Name");
+        jTextField3.setForeground(new java.awt.Color(153, 153, 153));
+        jTextField4.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel5.setText("Birthday");
+        jLabel6.setText("Phone");
+        jLabel7.setText("Email");
+        jLabel9.setText("Gender");
+        jTextField5.setForeground(new java.awt.Color(153, 153, 153));
         
 
-        jTextField3.setForeground(new java.awt.Color(153, 153, 153));
-        jTextField3.setText("123-45-6789");
-
-        jTextField4.setForeground(new java.awt.Color(153, 153, 153));
-        jTextField4.setText("Nurse Allergies");
-
-        jLabel5.setText("Birthday");
-
-        jLabel6.setText("Phone");
-
-        jLabel7.setText("Email");
-
-        jLabel9.setText("Gender");
-
-        jTextField5.setForeground(new java.awt.Color(153, 153, 153));
-        jTextField5.setText("Female/Male");
-
         jTextField7.setForeground(new java.awt.Color(153, 153, 153));
-        jTextField7.setText("123-456-7890");
+        
 
         jTextField8.setForeground(new java.awt.Color(153, 153, 153));
-        jTextField8.setText("email@domainname.com");
+        
 
         jLabel10.setText("Education");
 
@@ -279,27 +438,27 @@ public class NurseForm extends javax.swing.JFrame {
         jTextArea1.setColumns(20);
         jTextArea1.setForeground(new java.awt.Color(153, 153, 153));
         jTextArea1.setRows(5);
-        jTextArea1.setText("Enter the education of the\nnurse here.");
+       
         jScrollPane1.setViewportView(jTextArea1);
 
         jTextArea2.setColumns(20);
         jTextArea2.setForeground(new java.awt.Color(153, 153, 153));
         jTextArea2.setRows(5);
-        jTextArea2.setText("Enter the experience of the \nnurse here. ");
+        
         jScrollPane2.setViewportView(jTextArea2);
 
         jLabel12.setText("Salary");
 
         jTextField10.setForeground(new java.awt.Color(153, 153, 153));
-        jTextField10.setText("0.00");
+        
 
         jTextField6.setForeground(new java.awt.Color(153, 153, 153));
-        jTextField6.setText("12/31/2000");
+        
         
 
         jLabel25.setFont(new java.awt.Font("Krungthep", 1, 24)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(0, 153, 255));
-        jLabel25.setText("Add Nurse");
+        
 
         javax.swing.GroupLayout nurseInfoLayout = new javax.swing.GroupLayout(nurseInfo);
         nurseInfo.setLayout(nurseInfoLayout);
@@ -396,7 +555,7 @@ public class NurseForm extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
-        jButton1.setText("Add");
+        
         jPanel1.add(jButton1);
 
         jButton2.setText("Cancel");

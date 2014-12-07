@@ -12,8 +12,10 @@ import javax.swing.JFrame;
 import databaseObjects.beans.PersonMVC.PersonController;
 import Views.Login;
 import Views.PopUp;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusListener;
 
-/**
+ /**
  *
  * @author xuelixiao
  */
@@ -24,7 +26,6 @@ public class PasswordRecoveryForm extends javax.swing.JFrame {
      * Creates new form PasswordRecoveryForm
      */
     public PasswordRecoveryForm() {
-    	loginController = new PersonController();
         initComponents();
     }
     
@@ -67,69 +68,89 @@ public class PasswordRecoveryForm extends javax.swing.JFrame {
         jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
         jButton8.setText("Submit");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	if(jTextField1.getText() == null || jTextField1.getText().trim() ==  null || jTextField1.getText().equals("myemail@domainname.com") ) {
-            		PopUp popUp = new PopUp();
-            		popUp.setText("The Invalid user email, please try again.");
-            		popUp.setVisible(true);
-            	}
-//                JFrame backed = loginController.back(null);
-//                if (backed != null) {
-//                	backed.setVisible(true);
-//                	dispose();
-//                }
-            }
-        });
-        jPanel2.add(jButton8);
 
+        jPanel2.add(jButton8);
+        jTextField1.setForeground(new java.awt.Color(153, 153, 153));
+        jTextField1.setText("myemail@domainname.com");
+        
         jPanel3.setBackground(new java.awt.Color(0, 153, 255));
-        if (loginController != null) {
+        if (loginController == null) {
         	jButton1.setText(new Date().toString());
         } else {
-        	jButton1.setText("Login");
+        	jButton1.setText("Go to Login");
         	jButton1.addActionListener(new java.awt.event.ActionListener() {
 
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    JFrame backed = loginController.back(null);
-                    if (backed != null) {
-                    	backed.setVisible(true);
-                    	dispose();
-                    }
+                    new Login().setVisible(true);
+                    dispose();
+                }
+            });
+        	jButton2.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	loginController.back(current).setVisible(true);
+                }
+            });
+        	jButton4.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	new Login().setVisible(true);
+                	dispose();
+                }
+            });
+        	jButton8.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	if(jTextField1.getText() == null || jTextField1.getText().trim() ==  null || jTextField1.getText().equals("myemail@domainname.com") ) {
+                		PopUp popUp = new PopUp();
+                		popUp.setText("Invalid user email, please try again.");
+                		popUp.setVisible(true);
+                		return;
+                	}
+                	try {
+                		loginController.recoverPasswordViaEmail(jTextField1.getText());
+                		PopUp popUp = new PopUp();
+                		popUp.setText("An email containing your information has been sent to the provided email address.");
+                		popUp.setVisible(true);
+                	} catch (Exception e) {
+                		PopUp popUp = new PopUp();
+                		popUp.setText("Invalid user email, please try again.");
+                		popUp.setVisible(true);
+                		return;
+                	}
+                }
+            });
+        	jButton10.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	loginController.forward(current).setVisible(true);
+                }
+            });
+        	jTextField1.addFocusListener(new java.awt.event.FocusListener() {
+                public void focusGained(java.awt.event.FocusEvent evt) {
+                	jTextField1.setForeground(new java.awt.Color(0, 0, 0));
+                	if(jTextField1.getText().equalsIgnoreCase("myemail@domainname.com")) {
+                		jTextField1.setText("");
+                	}
+                }
+                public void focusLost(java.awt.event.FocusEvent evt) {
+                	jTextField1.setForeground(new java.awt.Color(153, 153, 153));
                 }
             });
         }
         current = this;
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/leftArrow.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	loginController.back(current).setVisible(true);
-            }
-        });
+        
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/home.png"))); // NOI18N
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	new Login().setVisible(true);
-            	dispose();
-            }
-        });
+        
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/search.png"))); // NOI18N
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
             }
         });
 
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/rightArrow.png"))); // NOI18N
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	loginController.forward(current).setVisible(true);
-            }
-        });
-
+        
+        
         jTextField2.setForeground(new java.awt.Color(153, 153, 153));
         jTextField2.setText("Search");
 
@@ -168,15 +189,7 @@ public class PasswordRecoveryForm extends javax.swing.JFrame {
         );
 
         jLabel1.setText("Email:");
-
-        jTextField1.setForeground(new java.awt.Color(153, 153, 153));
-        jTextField1.setText("myemail@domainname.com");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
+        
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(

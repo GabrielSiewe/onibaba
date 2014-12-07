@@ -133,7 +133,7 @@ public class BasicModel {
 	{
 		String toReturn = null;
 		if (finders != null && finders.size() != 0) {
-			toReturn = "DELETE * FROM "+table_name+" WHERE ( "+matchFieldToValue(finders, table_name);
+			toReturn = "DELETE FROM "+table_name+" WHERE ("+matchFieldToValue(finders, table_name);
 		}
 		return toReturn;
 	}

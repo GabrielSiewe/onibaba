@@ -95,7 +95,6 @@ public class PersonController extends BasicController {
 				System.out.println("No nurses were found");
 			}
 			cursorPosition = 1;
-			
 		}
 		
 	}
@@ -169,7 +168,6 @@ public class PersonController extends BasicController {
 		System.out.println("after");
 		temp.clear();
 		temp.put("username", attributes.get("username"));
-		System.out.println(PersonModel.getFindStatement(temp));
 		ResultSet result = PersonModel.runQuery(PersonModel.getFindStatement(temp));
 		temp.clear();
 		temp.put("person_id", result.getInt("id")+"");
@@ -179,7 +177,32 @@ public class PersonController extends BasicController {
 		temp.put("created_at", attributes.get("created_at"));
 		temp.put("updated_at", attributes.get("updated_at"));
 		NurseModel.updateQuery(nurse.getInsertStatement(temp));
-		// TODO Auto-generated method stub
+		
+	}
+
+	public void removeNurse() throws SQLException
+	{
+		ConcurrentHashMap<String, String> attributes = new ConcurrentHashMap<String, String>();
+		attributes.put("id", nurse.getPerson_id()+"");
+		PersonModel.updateQuery(PersonModel.getDeleteStatement(attributes));
+		nurse = null;
+		return;
+	}
+
+	public void recoverPasswordViaEmail(String text)
+	{
+		// The person to recover their email.
+		PersonModel person = null;
+		
+	}
+
+	public void updateNurse(ConcurrentHashMap<String, String> attributes) throws SQLException {
+		ConcurrentHashMap<String, String> finders = new ConcurrentHashMap<String, String>();
+		finders.put("person_id", nurse.getPerson_id()+"");
+		System.out.println(PersonModel.getUpdateStatement(finders, attributes));
+		System.out.println("after");
+
+		PersonModel.updateQuery(PersonModel.getUpdateStatement(finders, attributes));
 		
 	}
 	

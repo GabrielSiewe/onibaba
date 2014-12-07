@@ -5,6 +5,7 @@
  */
 package Views.lists;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
@@ -140,6 +141,64 @@ public class NurseLists extends javax.swing.JFrame {
                 	new DoctorHome(doctorController).setVisible(true);
                 }
             });
+        	// delete a nurse
+        	jButton7.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	String[] currentButtons = nurseList.keySet().toArray(new String[nurseList.size()]);
+                	try {
+                	
+	            		for(int j= 0; j<currentButtons.length; j++) {
+	            			JRadioButton currentSelection = nurseList.get(currentButtons[j]);
+	            			if (currentSelection.isSelected()) {
+	            				doctorController.setNurse(nurses.get(currentButtons[j]));
+	            				doctorController.removeNurse();
+	            				doctorController.setDoctorNurses();
+	            				new NurseLists(doctorController).setVisible(true);
+	            				dispose();
+	            				// Since we are going to the list of nurse best not have a nurse already selected
+	            				doctorController.setNurse(null);
+	            				return;
+	            			}
+	            			
+	            			if (j == currentButtons.length - 1) {
+	            				PopUp noNurseSelected = new PopUp();
+	            				noNurseSelected.setText("Please Select a nurse.");
+	            				noNurseSelected.setVisible(true);
+	            			}
+	            			 
+	            		}
+                	} catch(SQLException e) {
+                		PopUp noNurseSelected = new PopUp();
+        				noNurseSelected.setText("We are experiencing some technical difficulties at the moment.<html><br>Please try again later.</br></html>");
+        				noNurseSelected.setVisible(true);
+                	}
+                	
+                }
+            });
+        	
+        	// update a nurse
+        	jButton6.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	String[] currentButtons = nurseList.keySet().toArray(new String[nurseList.size()]);
+            		for(int j= 0; j<currentButtons.length; j++) {
+            			JRadioButton currentSelection = nurseList.get(currentButtons[j]);
+            			if (currentSelection.isSelected()) {
+            				doctorController.setNurse(nurses.get(currentButtons[j]));
+                        	new NurseForm(doctorController).setVisible(true);
+                        	dispose();
+            				return;
+            			}
+            			
+            			if (j == currentButtons.length - 1) {
+            				PopUp noNurseSelected = new PopUp();
+            				noNurseSelected.setText("Please Select the nurse you wish to update.");
+            				noNurseSelected.setVisible(true);
+            			}
+            			 
+            		}
+                	
+                }
+            });
         	
         	jButton8.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -153,7 +212,7 @@ public class NurseLists extends javax.swing.JFrame {
             			
             			if (j == currentButtons.length-1) {
             				PopUp pop = new PopUp();
-            				pop.setText("Please select a nurse first");
+            				pop.setText("Please select the nurse first");
             				pop.setVisible(true);	
             			}
             		}
@@ -168,6 +227,7 @@ public class NurseLists extends javax.swing.JFrame {
         	jButton5.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                 	doctorController.addToPrevious(current);
+                	doctorController.setNurse(null);
                 	new NurseForm(doctorController).setVisible(true);
                 }
             });

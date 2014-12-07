@@ -36,6 +36,7 @@ public class PersonModel extends BasicModel {
 		{"ssn", "string"},
 		{"first_name", "string"},
 		{"first_name", "uppercase"},
+		{"allergies", "string"},
 		{"last_name", "string"},
 		{"last_name", "uppercase"},
 		{"experience", "string"},
@@ -382,6 +383,7 @@ public class PersonModel extends BasicModel {
 	public static String getUpdateStatement(ConcurrentHashMap<String, String> finders, ConcurrentHashMap<String, String> attributes)
 	{
 		attributes = validateData(attributes, null);
+
 		if (attributes == null) {
 			System.out.println("None of the inputed data for your attributes were valid. Please try again.");
 			return null;
@@ -413,7 +415,6 @@ public class PersonModel extends BasicModel {
 					if (fieldRules.get(keys[i]) == null) {
 						fieldRules.put(keys[i], new ArrayList<String>());
 					}
-
 					// if it is part of the fillable arrays then it has a set of rules that apply to it.
 					for( int k = 0; k < modelRules.length; k++) {
 
@@ -421,7 +422,7 @@ public class PersonModel extends BasicModel {
 							fieldRules.get(keys[i]).add( modelRules[k][1]);
 						}
 					}
-					
+
 					String value = evaluateFieldRule(attributes.get(keys[i]), fieldRules.get(keys[i]).toArray(new String[fieldRules.get(keys[i]).size()]));
 					if ( value == null) {
 							System.out.println("The field "+keys[i]+" has a null value. Therefore it is being discarder.");
@@ -433,10 +434,11 @@ public class PersonModel extends BasicModel {
 					}
 					continue;
 				}
-				// else we have an ambiguous field name, and we must remove them.
+				// else we have ambiguous field names, and we must remove them.
 				attributes.remove(keys[i]);
 			}
 		}
+		System.out.println(attributes);
 		return attributes;
 	}
 
