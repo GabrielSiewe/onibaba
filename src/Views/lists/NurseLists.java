@@ -167,9 +167,9 @@ public class NurseLists extends javax.swing.JFrame {
 	            			}
 	            			 
 	            		}
-                	} catch(SQLException e) {
+                	} catch(Exception e) {
                 		PopUp noNurseSelected = new PopUp();
-        				noNurseSelected.setText("We are experiencing some technical difficulties at the moment.<html><br>Please try again later.</br></html>");
+        				noNurseSelected.setText(e.getMessage());
         				noNurseSelected.setVisible(true);
                 	}
                 	

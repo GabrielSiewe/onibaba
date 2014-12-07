@@ -2,6 +2,7 @@ package databaseObjects.beans.PersonMVC;
 import BaseMVC.BasicModel;
 import DatabaseCacheManipulator.DatabaseManipulator;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.sql.ResultSet;
@@ -17,7 +18,7 @@ public class PersonModel extends BasicModel {
 	private double salary;
 
 	private String last_name = null;
-	private Date birthday = null;
+	private String birthday = null;
 	private String phone = null;
 	private String email = null;
 	private String title = null;
@@ -52,8 +53,14 @@ public class PersonModel extends BasicModel {
 		{"phone", "positive" },
 		{"birthday", "date"},
 		{"birthday", "past" },
+		{"updated_at", "date"},
+		{"updated_at", "past" },
+		{"created_at", "date"},
+		{"created_at", "past" },
 		{"id", "integer"},
 		{"id", "positive" },
+		{"salary", "double"},
+		{"salary", "positive" },
 		{"nurse_id", "integer"},
 		{"nurse_id", "positive" },
 		{"doctor_id", "integer"},
@@ -74,17 +81,16 @@ public class PersonModel extends BasicModel {
 			"person_id", "experience", "education", "doctor_id", "allergies", "gender", "salary", "created_at", "updated_at"};
 	private static String[] hasMany = {"appointment","comment"};
 	
-	public PersonModel(int person_id) throws SQLException
+	public PersonModel(int person_id) throws SQLException, Exception
 	{
 		super("person", person_id);
-
 		ResultSet attributes = queryRunner.runQuery("SELECT * FROM persons WHERE `id`=\""+person_id+"\";");
 		hasManyInstances = hasMany;
 		person_id = attributes.getInt("id");
 		ssn = attributes.getString("ssn");
 		first_name = attributes.getString("first_name");
 		last_name = attributes.getString("last_name");
-		birthday = attributes.getDate("birthday");
+		birthday = viewFormatter.format(new Date(new java.sql.Date(attributes.getDate("birthday").getTime()).getTime()));
 		phone = attributes.getString("phone");
 		email = attributes.getString("email");
 		title = attributes.getString("title");
@@ -121,7 +127,7 @@ public class PersonModel extends BasicModel {
 		ssn = attributes.getString("ssn");
 		first_name = attributes.getString("first_name");
 		last_name = attributes.getString("last_name");
-		birthday = attributes.getDate("birthday");
+		birthday = viewFormatter.format(new Date(new java.sql.Date(attributes.getDate("birthday").getTime()).getTime()));
 		phone = attributes.getString("phone");
 		email = attributes.getString("email");
 		title = attributes.getString("title");
@@ -215,7 +221,7 @@ public class PersonModel extends BasicModel {
 	/**
 	 * @return the birthday
 	 */
-	public Date getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
 
@@ -224,7 +230,7 @@ public class PersonModel extends BasicModel {
 	/**
 	 * @param birthday the birthday to set
 	 */
-	public void setBirthday(Date birthday) {
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 
@@ -349,10 +355,9 @@ public class PersonModel extends BasicModel {
 	}
 	
 	// model queries.
-	public static String getInsertStatement(ConcurrentHashMap<String,String> attributes)
+	public static String getInsertStatement(ConcurrentHashMap<String,String> attributes) throws Exception
 	{
 		attributes = validateData(attributes, "insert");
-		System.out.println(attributes);
 		if ( attributes == null) {
 			System.out.println("Your input are missing some of the required fields for inserts.");
 			return null;
@@ -360,7 +365,7 @@ public class PersonModel extends BasicModel {
 		return getInsertStatement(attributes, TABLENAME);
 	}
 
-	public static String getDeleteStatement(ConcurrentHashMap<String,String> finders)
+	public static String getDeleteStatement(ConcurrentHashMap<String,String> finders) throws Exception
 	{
 		finders = validateData(finders, null);
 		if (finders == null) {
@@ -370,7 +375,7 @@ public class PersonModel extends BasicModel {
 		return getDeleteStatement(finders, TABLENAME);
 	}
 
-	public static String getFindStatement(ConcurrentHashMap<String,String> finders)
+	public static String getFindStatement(ConcurrentHashMap<String,String> finders) throws Exception
 	{
 		finders = validateData(finders, null);
 		if (finders == null) {
@@ -380,7 +385,7 @@ public class PersonModel extends BasicModel {
 		return getFindStatement(finders, TABLENAME);
 	}
 
-	public static String getUpdateStatement(ConcurrentHashMap<String, String> finders, ConcurrentHashMap<String, String> attributes)
+	public static String getUpdateStatement(ConcurrentHashMap<String, String> finders, ConcurrentHashMap<String, String> attributes) throws Exception
 	{
 		attributes = validateData(attributes, null);
 
@@ -399,7 +404,7 @@ public class PersonModel extends BasicModel {
 	
 	// Validating the data.
 	// removes unfillable fields and watches out for sql data.
-	protected static ConcurrentHashMap<String, String> validateData(ConcurrentHashMap<String, String> attributes, String methodName)
+	protected static ConcurrentHashMap<String, String> validateData(ConcurrentHashMap<String, String> attributes, String methodName) throws Exception
 	{
 		String[] keys = attributes.keySet().toArray(new String[attributes.size()]);
 		ConcurrentHashMap<String, ArrayList<String>> fieldRules = new ConcurrentHashMap<String, ArrayList<String>>(); 
@@ -424,11 +429,9 @@ public class PersonModel extends BasicModel {
 					}
 
 					String value = evaluateFieldRule(attributes.get(keys[i]), fieldRules.get(keys[i]).toArray(new String[fieldRules.get(keys[i]).size()]));
-					if ( value == null) {
-							System.out.println("The field "+keys[i]+" has a null value. Therefore it is being discarder.");
+					if ( value == null && Arrays.asList(requiredOnInsert).contains(keys[i])) {
 							attributes.remove(keys[i]);
-							System.out.println("However the field "+keys[i]+ " is required. Please try again.");
-							return null;
+							throw new Exception(keys[i]+ " is required. Please enter a value.");
 						} else {
 						attributes.replace(keys[i], value);
 					}
@@ -438,7 +441,6 @@ public class PersonModel extends BasicModel {
 				attributes.remove(keys[i]);
 			}
 		}
-		System.out.println(attributes);
 		return attributes;
 	}
 

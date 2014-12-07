@@ -22,7 +22,7 @@ public class PersonController extends BasicController {
 		nurseList = new ConcurrentHashMap<String, NurseModel>();
 	}
 
-	public void authenticate(ConcurrentHashMap<String, String> properties)
+	public void authenticate(ConcurrentHashMap<String, String> properties) throws Exception
 	{
 		try {
 				ResultSet personAttributes = PersonModel.runQuery(PersonModel.getFindStatement(properties));
@@ -165,7 +165,6 @@ public class PersonController extends BasicController {
 		temp.put("created_at", attributes.get("created_at"));
 		temp.put("updated_at", attributes.get("updated_at"));
 		PersonModel.updateQuery(PersonModel.getInsertStatement(temp));
-		System.out.println("after");
 		temp.clear();
 		temp.put("username", attributes.get("username"));
 		ResultSet result = PersonModel.runQuery(PersonModel.getFindStatement(temp));
@@ -180,7 +179,7 @@ public class PersonController extends BasicController {
 		
 	}
 
-	public void removeNurse() throws SQLException
+	public void removeNurse() throws SQLException, Exception
 	{
 		ConcurrentHashMap<String, String> attributes = new ConcurrentHashMap<String, String>();
 		attributes.put("id", nurse.getPerson_id()+"");
@@ -196,14 +195,29 @@ public class PersonController extends BasicController {
 		
 	}
 
-	public void updateNurse(ConcurrentHashMap<String, String> attributes) throws SQLException {
+	public void updateNurse(ConcurrentHashMap<String, String> attributes) throws SQLException, Exception {
 		ConcurrentHashMap<String, String> finders = new ConcurrentHashMap<String, String>();
+		finders.put("id", nurse.getPerson_id()+"");
+		ConcurrentHashMap<String, String> temp = new ConcurrentHashMap<String, String>();
+		temp.put("first_name", attributes.get("first_name"));
+		temp.put("gender", attributes.get("gender"));
+		temp.put("salary", attributes.get("salary"));
+		temp.put("last_name", attributes.get("last_name"));
+		temp.put("email", attributes.get("email"));
+		temp.put("title", attributes.get("title"));
+		temp.put("ssn", attributes.get("ssn"));
+		temp.put("allergies", attributes.get("allergies"));
+		temp.put("birthday", attributes.get("birthday"));
+		temp.put("phone", attributes.get("phone"));
+		temp.put("updated_at", attributes.get("updated_at"));
+		PersonModel.updateQuery(PersonModel.getUpdateStatement(finders, temp));
+		finders.clear();
+		temp.clear();
 		finders.put("person_id", nurse.getPerson_id()+"");
-		System.out.println(PersonModel.getUpdateStatement(finders, attributes));
-		System.out.println("after");
-
-		PersonModel.updateQuery(PersonModel.getUpdateStatement(finders, attributes));
-		
+		temp.put("education", attributes.get("education"));
+		temp.put("experience", attributes.get("experience"));
+		temp.put("updated_at", attributes.get("updated_at"));
+		NurseModel.updateQuery(nurse.getUpdateStatement(finders, temp));
 	}
 	
 }

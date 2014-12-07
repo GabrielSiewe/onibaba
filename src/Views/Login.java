@@ -48,10 +48,19 @@ public class Login extends  JFrame {
             	if (jTextField1.getText() != null || new String(jPasswordField1.getPassword()) != null) {
 	            	attributes.put("username", jTextField1.getText());
 	            	attributes.put("password", new String(jPasswordField1.getPassword()));
-	                loginController.authenticate(attributes);
+	            	try {
+	            		loginController.authenticate(attributes);
+	            	} catch (Exception e) {
+	            		PopUp error = new PopUp();
+	            		error.setText(e.getMessage());
+	            		error.setVisible(true);
+	            		return;
+	            	}
 	                user = loginController.getUser();
 	                if (user == null) {
-	                	System.out.println("invalid username and password");
+	                	PopUp error = new PopUp();
+	            		error.setText("invalid username and password");
+	            		error.setVisible(true);
 	                	attributes.remove("username");
 	                	attributes.remove("password");
 	                	jPasswordField1.setText("");

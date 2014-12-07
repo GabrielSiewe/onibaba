@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
+import java.text.SimpleDateFormat;
 
 import DatabaseCacheManipulator.*;
 
@@ -15,7 +16,8 @@ public class BasicModel {
 	
 	protected static DatabaseManipulator queryRunner = null;
 	protected static DatabaseManipulator personFinder = null;
-
+	protected static final SimpleDateFormat viewFormatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+	protected static final SimpleDateFormat sqlFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	protected String modelName;
 	protected static String lastRanQuery;
 	protected int modelId;
@@ -155,9 +157,9 @@ public class BasicModel {
 			String find = matchFieldToValue(finders, table_name);
 			for(int i = 0; i < keySet.length; i++)
 			{
-				updateStatement += "`"+ keySet[i]+"`" + "=\"" + attributes.get(keySet[i])+"\",";
+				updateStatement += "`"+ keySet[i]+"`" + "=\"" + attributes.get(keySet[i])+"\""+((i == keySet.length - 1)?"":",");
 			}
-			updateStatement = "UPDATE "+ table_name + " SET (" + updateStatement + ") WHERE ("+ find + ");";
+			updateStatement = "UPDATE "+ table_name + " SET " + updateStatement + " WHERE ("+ find;
 		}
 		return updateStatement;
 	}
@@ -206,7 +208,7 @@ public class BasicModel {
 	} 
 	
 	// rule for string:{ {"name", {"string", "uppercase", "max:255"}} }
-	protected static String evaluateFieldRule(String value, String[] rules)
+	protected static String evaluateFieldRule(String value, String[] rules) throws Exception
 	{
 		String datatype = rules[0];
 		switch(datatype) {
@@ -219,7 +221,7 @@ public class BasicModel {
 	}
 
 	// rule for string:{ {"name", {"string", "uppercase", "max:255"}} }
-	private static String checkStrings(String value, String[] rules)
+	private static String checkStrings(String value, String[] rules) throws Exception
 	{
 		if (value == null || value.trim() == null) return null;
 		value = value.trim();
@@ -227,8 +229,7 @@ public class BasicModel {
 		value = remover.matcher(value).replaceAll(" ");
 
 		if (value.length() >= 256) {
-			System.out.println(value + " is too long.");
-			return null;
+			throw new Exception("no more than 255 character are allowed.");
 		}
 
 		for( int i = 0; i< rules.length; i++) {
@@ -236,11 +237,11 @@ public class BasicModel {
 			switch(cuRule) {
 				case "string": break;
 				case "uppercase": value = value.toUpperCase(); break;
-				case "nospace": value = value.replaceAll(" ", ""); break;
+				case "nospace": if (value.indexOf(" ") != -1) throw new Exception("no spaces allowed in "+value);; break;
 				case "lowercase": value = value.toLowerCase(); break;
-				case "email": String temp = remover.compile("\\b[A-Z0-9._%+-]+@(?:[A-Z0-9-]+\\.)+[A-Z]{2,4}\b", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL).matcher(value).replaceAll(""); if (temp != null) value = null; break;
-				case "phone": value = value.replaceAll("-", ""); try { value = Integer.parseInt(value)+"";} catch(Exception e) { value = null;} break;
-				case "gender": if (value.equalsIgnoreCase("male") || value.equalsIgnoreCase("female")) continue; else value = null; break;
+				case "email": boolean temp = remover.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL).matcher(value).find(); if (temp == false) throw new Exception("invalid email: "+value); break;
+				case "phone": value = value.replaceAll("-", ""); try { value = Integer.parseInt(value)+""; break; } catch(Exception e) { throw new Exception("Invalid phone number: "+value);}
+				case "gender": if (value.equalsIgnoreCase("male") || value.equalsIgnoreCase("female")) break; else throw new Exception("Invalid gender chosen: "+value);
 				default: System.out.println("didn't do rule: "+cuRule); break;
 			}
 		}
@@ -248,59 +249,60 @@ public class BasicModel {
 	}
 
 	// rule for date:{ {"appointment_date", {"date", "future", "past"}} }
-	private static String checkDates(String value, String[] rules)
+	private static String checkDates(String value, String[] rules) throws Exception
 	{
 		if (value == null || value.trim() == null) return null;
 		value = value.trim();
+		viewFormatter.setLenient(false);
 		Date test = null;
-		Pattern remover = Pattern.compile("[\\s]+", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
-		value = remover.matcher(value).replaceAll(" ");
-		value = value.replaceAll("\\", ":");
+		try {
+			test = viewFormatter.parse(value);
+			value = sqlFormatter.format(test);
+		} catch(Exception e) {
+			throw new Exception("Enter a valid date in the format: mm/dd/yyyy hh:mm:ss");
+		}
 		
 		for( int i = 0; i< rules.length; i++) {
 			String cuRule = rules[i];
 			switch(cuRule){
-				case "date": try { test = new java.sql.Date(Date.parse(value)); value = test.toString();break;} catch (Exception e) { System.out.println("this is an invalid date"); return null;}
-				case "future": if ( test.before(new Date()) ){ System.out.println("This date has already past.");return null;} else { break;}
-				case "past": if ( test.after(new Date()) ){ System.out.println("This date has yet to past.");return null;} else {break; }
+				case "date": try { value = sqlFormatter.format(test);break;} catch (Exception e) { throw new Exception("Invalid date.");}
+				case "future": if ( test.before(new Date()) ){throw new Exception(test.toString()+" has already past.");} else { break;}
+				case "past": if ( test.after(new Date()) ){ throw new Exception(test.toString()+" has yet to past.");} else {break; }
 				default: System.out.println("didn't do rule: "+cuRule); break;
 			}
 		}
+		System.out.println(value);
 		return value;
 	}
 
-	private static String checkIntegers(String value, String[] rules)
+	private static String checkIntegers(String value, String[] rules) throws Exception
 	{
 		if (value == null || value.trim() == null) return null;
 		value = value.trim();
-		Pattern remover = Pattern.compile("[\\s]+", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
-		value = remover.matcher(value).replaceAll("");
 		int test = 0;
 		for( int i = 0; i< rules.length; i++) {
 			String cuRule = rules[i];
 			switch(cuRule){
-				case "integer": try { test = Integer.parseInt(value); break; } catch (Exception e) { System.out.println("Invalid integer"); return null; }
-				case "positive": if ( test <= 0 ) { System.out.println(value+" is not positive"); return null; } else { break; }
-				case "negative": if ( test >= 0 ) { System.out.println(value+" is not negative"); return null; } else { break; }
+				case "integer": try { test = Integer.parseInt(value); break; } catch (Exception e) { throw new Exception("Invalid integer: "+ value); }
+				case "positive": if ( test <= 0 ) { throw new Exception(value+" is not positive");} else { break; }
+				case "negative": if ( test >= 0 ) { throw new Exception(value+" is not negative"); } else { break; }
 				default: System.out.println("didn't do rule: "+cuRule); break;
 			}
 		}
 		return ""+test;
 	}
 
-	private static String checkDoubles(String value, String[] rules)
+	private static String checkDoubles(String value, String[] rules) throws Exception
 	{
 		if (value == null || value.trim() == null) return null;
 		value = value.trim();
-		Pattern remover = Pattern.compile("[\\s]+", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
-		value = remover.matcher(value).replaceAll("");
 		double test = 0;
 		for( int i = 0; i< rules.length; i++) {
 			String cuRule = rules[i];
 			switch(cuRule){
-				case "double": try { test = Double.parseDouble(value); break; } catch (Exception e) { System.out.println("Invalid double"); return null; }
-				case "positive": if ( test <= 0.0 ) { System.out.println(value+" is not positive"); return null; } else { break; }
-				case "negative": if ( test >= 0 ) { System.out.println(value+" is not negative"); return null; } else { break; }
+				case "double": try { test = Double.parseDouble(value); break; } catch (Exception e) { throw new Exception("Invalid decimal: "+value); }
+				case "positive": if ( test <= 0.0 ) { throw new Exception(value+" is not positive"); } else { break; }
+				case "negative": if ( test >= 0 ) { throw new Exception(value+" is not negative");} else { break; }
 				default: System.out.println("didn't do rule: "+cuRule); break;
 			}
 		}

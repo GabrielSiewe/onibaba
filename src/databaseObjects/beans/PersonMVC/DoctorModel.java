@@ -81,7 +81,7 @@ public class DoctorModel extends PersonModel {
 		return hasMany("appointment");
 	}
 	// model queries.
-	public static String getInsertStatement(ConcurrentHashMap<String,String> attributes)
+	public static String getInsertStatement(ConcurrentHashMap<String,String> attributes) throws Exception
 	{
 		attributes = validateData(attributes, "insert");
 		if ( attributes == null) {
@@ -91,7 +91,7 @@ public class DoctorModel extends PersonModel {
 		return getInsertStatement(attributes, TABLENAME);
 	}
 
-	public static String getDeleteStatement(ConcurrentHashMap<String,String> finders)
+	public static String getDeleteStatement(ConcurrentHashMap<String,String> finders) throws Exception
 	{
 		finders = validateData(finders, null);
 		if (finders == null) {
@@ -101,7 +101,7 @@ public class DoctorModel extends PersonModel {
 		return getDeleteStatement(finders, TABLENAME);
 	}
 
-	public static String getFindStatement(ConcurrentHashMap<String,String> finders)
+	public static String getFindStatement(ConcurrentHashMap<String,String> finders) throws Exception
 	{
 		finders = validateData(finders, null);
 		if (finders == null) {
@@ -111,7 +111,7 @@ public class DoctorModel extends PersonModel {
 		return getFindStatement(finders, TABLENAME);
 	}
 
-	public static String getUpdateStatement(ConcurrentHashMap<String, String> finders, ConcurrentHashMap<String, String> attributes)
+	public static String getUpdateStatement(ConcurrentHashMap<String, String> finders, ConcurrentHashMap<String, String> attributes) throws Exception
 	{
 		attributes = validateData(attributes, null);
 		if (attributes == null) {
@@ -129,7 +129,7 @@ public class DoctorModel extends PersonModel {
 	
 	// Validating the data.
 	// removes unfillable fields and watches out for sql data.
-	protected static ConcurrentHashMap<String, String> validateData(ConcurrentHashMap<String, String> attributes, String methodName)
+	protected static ConcurrentHashMap<String, String> validateData(ConcurrentHashMap<String, String> attributes, String methodName) throws Exception
 	{
 		// attributes.keySet().toArray();
 		String[] keys = attributes.keySet().toArray(new String[attributes.size()]);
@@ -157,14 +157,9 @@ public class DoctorModel extends PersonModel {
 					
 					String value = evaluateFieldRule(attributes.get(keys[i]), fieldRules.get(keys[i]).toArray(new String[fieldRules.get(keys[i]).size()]));
 					
-					if ( value == null) {
-						System.out.println("The field "+keys[i]+" has a null value. Therefore it is being discarder.");
+					if ( value == null && Arrays.asList(requiredOnInsert).contains(keys[i])) {
 						attributes.remove(keys[i]);
-						// If we are inserting and the field is required, we cancel and tell them to retry.
-						if (methodName == "insert" && Arrays.asList(requiredOnInsert).contains(keys[i])) {
-							System.out.println("However the field "+keys[i]+ " is required. Please try again.");
-							return null;
-						}
+						throw new Exception(keys[i]+ " is required. Please enter a value.");
 
 					} else {
 						attributes.replace(keys[i], value);
