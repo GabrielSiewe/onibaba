@@ -136,11 +136,13 @@ public class PatientForm extends javax.swing.JFrame {
                 	
                 }
             });
+        	
         	jButton12.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                 	nurseController.forward(current).setVisible(true);
                 }
             });
+        	
         	jTextField1.addFocusListener(new java.awt.event.FocusListener() {
                 public void focusGained(java.awt.event.FocusEvent evt) {
                 	jTextField1.setForeground(new java.awt.Color(0, 0, 0));
@@ -152,6 +154,7 @@ public class PatientForm extends javax.swing.JFrame {
                 	jTextField1.setForeground(new java.awt.Color(153, 153, 153));
                 }
             });
+        	
         	jTextField2.addFocusListener(new java.awt.event.FocusListener() {
                 public void focusGained(java.awt.event.FocusEvent evt) {
                 	jTextField2.setForeground(new java.awt.Color(0, 0, 0));
@@ -163,6 +166,7 @@ public class PatientForm extends javax.swing.JFrame {
                 	jTextField2.setForeground(new java.awt.Color(153, 153, 153));
                 }
             });
+        	
         	jTextField3.addFocusListener(new java.awt.event.FocusListener() {
                 public void focusGained(java.awt.event.FocusEvent evt) {
                 	jTextField3.setForeground(new java.awt.Color(0, 0, 0));

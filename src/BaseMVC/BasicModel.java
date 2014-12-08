@@ -11,7 +11,10 @@ import java.util.Set;
 import java.text.SimpleDateFormat;
 
 import DatabaseCacheManipulator.*;
-
+/*
+ * The class responsible for opening and closing the database connection as well as generating or performing queries,
+ * including relationships and joins
+ */
 public class BasicModel {
 	
 	protected static DatabaseManipulator queryRunner = null;
@@ -26,6 +29,7 @@ public class BasicModel {
 	protected String[] belongsToManyInstances;
 	protected String[] belongsToInstance;
 	
+	// sets the current model name and id.
 	public BasicModel(String modelName, int modelId)
 	{
 		if (queryRunner == null) {
@@ -36,7 +40,7 @@ public class BasicModel {
 	}
 	
 	
-	// Querying the models returns the records that this model may have one of.
+	// Querying the models returns the records that this model may belong to.
 	protected ResultSet belongsTo(String model) throws SQLException
 	{
 		if (model != null && belongsToInstance.toString().indexOf(model) != -1 && queryRunner != null) {
@@ -64,7 +68,7 @@ public class BasicModel {
 		throw new SQLException("this "+modelName+" doesn't belong to nor does it have many "+model);
 		
 	}
-	// runs an SQL query
+	// runs an SQL query with a resultset return AKA Select statements.
 	public static ResultSet runQuery(String query) throws SQLException
 	{
 		if (queryRunner == null) {
@@ -79,20 +83,20 @@ public class BasicModel {
 		
 	}
 	
-	// runs an SQL query
-		public static void updateQuery(String query) throws SQLException
-		{
-			if (queryRunner == null) {
-				queryRunner = new DatabaseManipulator();
-			}
-			
-			if (query != null && query.trim() != null) {
-				queryRunner.updateQuery(query);
-				return;
-			}
-			throw new SQLException("you are trying to run an empty query.");
-			
+	// runs an SQL query and returns nothing but the number of rows affected AKA Update, Insert, Deletes
+	public static void updateQuery(String query) throws SQLException
+	{
+		if (queryRunner == null) {
+			queryRunner = new DatabaseManipulator();
 		}
+		
+		if (query != null && query.trim() != null) {
+			queryRunner.updateQuery(query);
+			return;
+		}
+		throw new SQLException("you are trying to run an empty query.");
+		
+	}
 	
 	// Returns the records that may have been for this model.
 	protected ResultSet specials(ConcurrentHashMap<String,String> finders, String table_name ) throws SQLException
@@ -118,7 +122,7 @@ public class BasicModel {
 	}
 	
 
-	// querying the model.
+	// returns an 
 	protected static String getInsertStatement(ConcurrentHashMap<String,String> attributes, String table_name)
 	{
 		String toReturn = null;
