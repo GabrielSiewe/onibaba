@@ -135,6 +135,7 @@ public class PatientModel extends PersonModel {
 						if (modelRules[k][0].equals(keys[i])) {
 							fieldRules.get(keys[i]).add( modelRules[k][1]);
 						}
+
 					}
 					
 					String value = evaluateFieldRule(attributes.get(keys[i]), fieldRules.get(keys[i]).toArray(new String[fieldRules.get(keys[i]).size()]));
@@ -153,5 +154,10 @@ public class PatientModel extends PersonModel {
 			}
 		}
 		return attributes;
+	}
+
+	public String toString()
+	{
+		return getLast_name()+" "+getFirst_name();
 	}
 }

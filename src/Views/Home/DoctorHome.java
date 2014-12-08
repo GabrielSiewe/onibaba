@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.*;
 
+import Views.forms.DoctorForm;
 import Views.forms.LabForm;
 import Views.forms.NurseForm;
 import Views.lists.*;
@@ -142,7 +143,7 @@ public class DoctorHome extends javax.swing.JFrame {
             jButton6.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                 	doctorController.addToPrevious(current);
-                	new Login().setVisible(true);
+                	new DoctorForm(doctorController).setVisible(true);
                 }
             });
             jButton7.addActionListener(new java.awt.event.ActionListener() {

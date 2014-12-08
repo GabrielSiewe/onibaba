@@ -220,7 +220,7 @@ public class NurseHome extends javax.swing.JFrame {
         	
         	jButton12.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                	loginController.forward(current);
+                	loginController.forward(current).setVisible(true);
                 }
             });
         	

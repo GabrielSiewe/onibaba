@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.JFrame;
 
+import databaseObjects.beans.PersonMVC.DoctorModel;
 import databaseObjects.beans.PersonMVC.NurseModel;
 import databaseObjects.beans.PersonMVC.PersonController;
 import Views.Login;
@@ -257,7 +258,7 @@ public class DoctorForm extends javax.swing.JFrame {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                 	ConcurrentHashMap<String, String> attributes = new ConcurrentHashMap<String, String>();
                 	try {
-                		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                			SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 	                		attributes.put("first_name",jTextField1.getText());
 	                    	attributes.put("last_name",jTextField2.getText());
 	                    	attributes.put("ssn", jTextField3.getText());
@@ -269,21 +270,13 @@ public class DoctorForm extends javax.swing.JFrame {
 	                    	attributes.put("experience",jTextArea2.getText());
 	                    	attributes.put("salary",jTextField10.getText());
 	                    	attributes.put("birthday", jTextField6.getText().trim());
-	                    	attributes.put("title","nurse");
-	                    	attributes.put("created_at", formatter.format(new Date()));
+	                    	attributes.put("title","doctor");
 	                    	attributes.put("updated_at", formatter.format(new Date()));
-	                    	if (doctorController.getNurse() == null) {
-	                    		doctorController.addNurse(attributes);
-	                    	} else {
-	                    		attributes.remove("created_at");
-	                    		doctorController.updateNurse(attributes);
-	                    	}
+		                    doctorController.updateDoctor(attributes);
 	                		doctorController.addToPrevious(current);
-	                		doctorController.setDoctorNurses();
-	                		new NurseLists(doctorController).setVisible(true);
+	                		new DoctorHome(doctorController).setVisible(true);
                 	} catch (Exception e) {
                 		PopUp pop = new PopUp();
-                		e.printStackTrace();
                 		pop.setText(e.getMessage());
                 		pop.setVisible(true);
                 	}
@@ -294,7 +287,7 @@ public class DoctorForm extends javax.swing.JFrame {
         	jButton2.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                 	doctorController.addToPrevious(current);
-                	new NurseLists(doctorController).setVisible(true);
+                	new DoctorHome(doctorController).setVisible(true);
                 }
             });
         	jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -387,7 +380,7 @@ public class DoctorForm extends javax.swing.JFrame {
 
         jLabel4.setText("Allergies");
         jTextField1.setForeground(new java.awt.Color(153, 153, 153));
-        if (doctorController == null || doctorController.getNurse() == null) {
+        if (doctorController == null ) {
             jTextField1.setText("First Name");
             jTextField2.setText("Last Name");
             jTextField3.setText("123-45-6789");
@@ -402,19 +395,19 @@ public class DoctorForm extends javax.swing.JFrame {
             jLabel25.setText("Add Nurse");
             jButton1.setText("Add");
         } else {
-        	NurseModel nurse = doctorController.getNurse();
-            jTextField1.setText(nurse.getFirst_name());
-            jTextField2.setText(nurse.getLast_name());
-            jTextField3.setText(nurse.getSsn());
+        	DoctorModel doctor = doctorController.getDoctor();
+            jTextField1.setText(doctor.getFirst_name());
+            jTextField2.setText(doctor.getLast_name());
+            jTextField3.setText(doctor.getSsn());
             jTextField4.setText("Allergies");
-            jTextField5.setText(nurse.getGender());
-            jTextField7.setText(nurse.getPhone());
-            jTextField8.setText(nurse.getEmail());
-            jTextArea1.setText(nurse.getEducation());
-            jTextArea2.setText(nurse.getExperience());
-            jTextField10.setText(nurse.getSalary()+"");
-            jTextField6.setText(nurse.getBirthday().toString());
-            jLabel25.setText("Update Nurse");
+            jTextField5.setText(doctor.getGender());
+            jTextField7.setText(doctor.getPhone());
+            jTextField8.setText(doctor.getEmail());
+            jTextArea1.setText(doctor.getEducation());
+            jTextArea2.setText(doctor.getExperience());
+            jTextField10.setText(doctor.getSalary()+"");
+            jTextField6.setText(doctor.getBirthday().toString());
+            jLabel25.setText("Update Doctor");
             jButton1.setText("Update");
         }
         

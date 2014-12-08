@@ -12,6 +12,7 @@ public class PersonController extends BasicController {
 	private PatientModel patient;
 	private PersonModel user;
 	private int cursorPosition = 1;
+	private int patientCursorPosition = 1;
 	
 	private ConcurrentHashMap<String, PatientModel> patientList;
 	private ConcurrentHashMap<String, NurseModel> nurseList;
@@ -20,6 +21,7 @@ public class PersonController extends BasicController {
 	{
 		super();
 		nurseList = new ConcurrentHashMap<String, NurseModel>();
+		patientList = new ConcurrentHashMap<String, PatientModel>();
 	}
 
 	public void authenticate(ConcurrentHashMap<String, String> properties) throws Exception
@@ -84,11 +86,12 @@ public class PersonController extends BasicController {
 		{
 			ResultSet nurses = doctor.nurses();
 			nurses.absolute(cursorPosition);
-			NurseModel nurse = new NurseModel(nurses);
+			nurse = new NurseModel(nurses);
 			nurseList.put(nurse.toString(), nurse);
 			cursorPosition++;
 			setDoctorNurses();
-			
+			nurse = null;
+			patient = null;
 		} catch (SQLException e) {
 
 			if (nurseList == null || nurseList.size() == 0) {
@@ -98,34 +101,76 @@ public class PersonController extends BasicController {
 		}
 		
 	}
+
 	public ConcurrentHashMap<String, NurseModel> getListOfNurses()
 	{
 		return nurseList;
 	}
+	public ConcurrentHashMap<String, PatientModel> getListOfPatients()
+	{
+		return patientList;
+	}
 	
-	public boolean currentlyLoggedAsDoctor()
-	{
-		return doctor != null;
-	}
-	public boolean currentlyLoggedAsNurse()
-	{
-		return doctor == null && nurse != null;
-	}
-
-	public void setDoctorPatients() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	public void setNurse(NurseModel nurseModel) {
 		nurse = nurseModel;
 	}
+	public void setNurse(String nursePatient) {
+		patient = patientList.get(nursePatient);
+		nurse = nurseList.get(nursePatient.substring(0, nursePatient.indexOf("::")));
+	}
+	
+	public void setDoctorPatients() {
+		// On the firstNurse we clear the list of patients
+		if (cursorPosition == 1) {
+			nurseList.clear();
+		}
 
-	public void setNursePatients() {
-		// TODO Auto-generated method stub
+		try
+		{
+			ResultSet nurses = doctor.nurses();
+			nurses.absolute(cursorPosition);
+			nurse = new NurseModel(nurses);
+			nurseList.put(nurse.toString(), nurse);
+			setNursePatients();
+			cursorPosition++;
+			setDoctorPatients();
+			nurse = null;
+		} catch (SQLException e) {
+
+			if (nurseList == null || nurseList.size() == 0) {
+				System.out.println("No nurses were found");
+			}
+			cursorPosition = 1;
+		}
 		
 	}
+	// Deals with the nurse patient lists.
+	public void setNursePatients()
+	{
+		// On the firstNurse we clear the list of patients
+		if (cursorPosition == 1 && patientCursorPosition == 1) {
+			patientList.clear();
+		}
 
+		try
+		{
+			ResultSet patients = nurse.patients();
+			patients.absolute(patientCursorPosition);
+			patient = new PatientModel(patients);
+			patientList.put(nurse.toString()+"::"+patient.toString(), patient);
+			patientCursorPosition++;
+			setNursePatients();
+			patient = null;
+		} catch (SQLException e) {
+
+			if (patientList == null || patientList.size() == 0) {
+				System.out.println("No patients were found");
+			}
+			patientCursorPosition = 1;
+		}
+		
+	}
 	public void setNurseTasks() {
 		// TODO Auto-generated method stub
 		
@@ -187,7 +232,14 @@ public class PersonController extends BasicController {
 		nurse = null;
 		return;
 	}
-
+	public void removePatient() throws SQLException, Exception {
+		ConcurrentHashMap<String, String> attributes = new ConcurrentHashMap<String, String>();
+		attributes.put("id", patient.getPerson_id()+"");
+		PersonModel.updateQuery(PersonModel.getDeleteStatement(attributes));
+		patient = null;
+		return;
+		
+	}
 	public void recoverPasswordViaEmail(String text)
 	{
 		// The person to recover their email.
@@ -218,6 +270,34 @@ public class PersonController extends BasicController {
 		temp.put("experience", attributes.get("experience"));
 		temp.put("updated_at", attributes.get("updated_at"));
 		NurseModel.updateQuery(nurse.getUpdateStatement(finders, temp));
+	}
+
+	public void updateDoctor(ConcurrentHashMap<String, String> attributes) throws SQLException, Exception {
+		ConcurrentHashMap<String, String> finders = new ConcurrentHashMap<String, String>();
+		finders.put("id", doctor.getPerson_id()+"");
+		ConcurrentHashMap<String, String> temp = new ConcurrentHashMap<String, String>();
+		temp.put("first_name", attributes.get("first_name"));
+		temp.put("gender", attributes.get("gender"));
+		temp.put("salary", attributes.get("salary"));
+		temp.put("last_name", attributes.get("last_name"));
+		temp.put("email", attributes.get("email"));
+		temp.put("title", attributes.get("title"));
+		temp.put("ssn", attributes.get("ssn"));
+		temp.put("allergies", attributes.get("allergies"));
+		temp.put("birthday", attributes.get("birthday"));
+		temp.put("phone", attributes.get("phone"));
+		temp.put("updated_at", attributes.get("updated_at"));
+		PersonModel.updateQuery(PersonModel.getUpdateStatement(finders, temp));
+		finders.clear();
+		temp.clear();
+		finders.put("person_id", doctor.getPerson_id()+"");
+		temp.put("education", attributes.get("education"));
+		temp.put("experience", attributes.get("experience"));
+		temp.put("updated_at", attributes.get("updated_at"));
+		DoctorModel.updateQuery(doctor.getUpdateStatement(finders, temp));
+		temp.clear();
+		temp.put("person_id", doctor.getPerson_id()+"");
+		doctor = new DoctorModel(DoctorModel.runQuery(DoctorModel.getFindStatement(temp)));
 	}
 	
 }

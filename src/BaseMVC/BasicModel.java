@@ -64,7 +64,6 @@ public class BasicModel {
 		throw new SQLException("this "+modelName+" doesn't belong to nor does it have many "+model);
 		
 	}
-	
 	// runs an SQL query
 	public static ResultSet runQuery(String query) throws SQLException
 	{
@@ -115,7 +114,6 @@ public class BasicModel {
 		else
 			query = "SELECT * FROM "+model+"s WHERE "+modelName+"_id = "+modelId;
 
-		lastRanQuery = query;
 		return query;
 	}
 	

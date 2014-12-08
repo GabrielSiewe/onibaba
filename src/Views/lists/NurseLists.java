@@ -156,7 +156,7 @@ public class NurseLists extends javax.swing.JFrame {
 	            				new NurseLists(doctorController).setVisible(true);
 	            				dispose();
 	            				// Since we are going to the list of nurse best not have a nurse already selected
-	            				doctorController.setNurse(null);
+	            				doctorController.setNurse((NurseModel)null);
 	            				return;
 	            			}
 	            			
@@ -227,7 +227,7 @@ public class NurseLists extends javax.swing.JFrame {
         	jButton5.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                 	doctorController.addToPrevious(current);
-                	doctorController.setNurse(null);
+                	doctorController.setNurse((NurseModel)null);
                 	new NurseForm(doctorController).setVisible(true);
                 }
             });
