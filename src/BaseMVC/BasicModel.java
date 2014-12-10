@@ -259,7 +259,7 @@ public class BasicModel {
 		Date test = null;
 		try {
 			test = viewFormatter.parse(value);
-			value = sqlFormatter.format(test);
+			value = sqlFormatter.format(test.getTime());
 		} catch(Exception e) {
 			throw new Exception("Enter a valid date in the format: mm/dd/yyyy hh:mm:ss");
 		}

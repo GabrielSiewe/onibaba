@@ -81,7 +81,7 @@ public class NurseForm extends javax.swing.JFrame {
         jTextField1.addFocusListener(new java.awt.event.FocusListener() {
             public void focusGained(java.awt.event.FocusEvent evt) {
             	jTextField1.setForeground(new java.awt.Color(0, 0, 0));
-            	if(doctorController == null || doctorController.getNurse() == null) {
+            	if(doctorController == null) {
             		jTextField1.setText("");
             	}
             }
@@ -93,7 +93,7 @@ public class NurseForm extends javax.swing.JFrame {
         jTextField2.addFocusListener(new java.awt.event.FocusListener() {
             public void focusGained(java.awt.event.FocusEvent evt) {
             	jTextField2.setForeground(new java.awt.Color(0, 0, 0));
-            	if(doctorController == null || doctorController.getNurse() == null) {
+            	if(doctorController == null) {
             		jTextField2.setText("");
             	}
             }
@@ -105,7 +105,7 @@ public class NurseForm extends javax.swing.JFrame {
         jTextField3.addFocusListener(new java.awt.event.FocusListener() {
             public void focusGained(java.awt.event.FocusEvent evt) {
             	jTextField3.setForeground(new java.awt.Color(0, 0, 0));
-            	if(doctorController == null || doctorController.getNurse() == null) {
+            	if(doctorController == null) {
             		jTextField3.setText("");
             	}
             }
@@ -117,7 +117,7 @@ public class NurseForm extends javax.swing.JFrame {
         jTextField4.addFocusListener(new java.awt.event.FocusListener() {
             public void focusGained(java.awt.event.FocusEvent evt) {
             	jTextField4.setForeground(new java.awt.Color(0, 0, 0));
-            	if(doctorController == null || doctorController.getNurse() == null) {
+            	if(doctorController == null) {
             		jTextField4.setText("");
             	}
             }
@@ -133,7 +133,7 @@ public class NurseForm extends javax.swing.JFrame {
         jTextField5.addFocusListener(new java.awt.event.FocusListener() {
             public void focusGained(java.awt.event.FocusEvent evt) {
             	jTextField5.setForeground(new java.awt.Color(0, 0, 0));
-            	if(doctorController == null || doctorController.getNurse() == null) {
+            	if(doctorController == null) {
             		jTextField5.setText("");
             	}
             }
@@ -146,7 +146,7 @@ public class NurseForm extends javax.swing.JFrame {
         jTextField7.addFocusListener(new java.awt.event.FocusListener() {
             public void focusGained(java.awt.event.FocusEvent evt) {
             	jTextField7.setForeground(new java.awt.Color(0, 0, 0));
-            	if(doctorController == null || doctorController.getNurse() == null) {
+            	if(doctorController == null) {
             		jTextField7.setText("");
             	}
             }
@@ -174,7 +174,7 @@ public class NurseForm extends javax.swing.JFrame {
         jTextArea1.addFocusListener(new java.awt.event.FocusListener() {
             public void focusGained(java.awt.event.FocusEvent evt) {
             	jTextArea1.setForeground(new java.awt.Color(0, 0, 0));
-            	if(doctorController == null || doctorController.getNurse() == null) {
+            	if(doctorController == null) {
             		jTextArea1.setText("");
             	}
             }
@@ -188,7 +188,7 @@ public class NurseForm extends javax.swing.JFrame {
         jTextArea2.addFocusListener(new java.awt.event.FocusListener() {
             public void focusGained(java.awt.event.FocusEvent evt) {
             	jTextArea2.setForeground(new java.awt.Color(0, 0, 0));
-            	if(doctorController == null || doctorController.getNurse() == null) {
+            	if(doctorController == null) {
             		jTextArea2.setText("");
             	}
             }
@@ -202,7 +202,7 @@ public class NurseForm extends javax.swing.JFrame {
         jTextField10.addFocusListener(new java.awt.event.FocusListener() {
             public void focusGained(java.awt.event.FocusEvent evt) {
             	jTextField10.setForeground(new java.awt.Color(0, 0, 0));
-            	if(doctorController == null || doctorController.getNurse() == null) {
+            	if(doctorController == null) {
             		jTextField10.setText("");
             	}
             }
@@ -214,7 +214,7 @@ public class NurseForm extends javax.swing.JFrame {
         jTextField6.addFocusListener(new java.awt.event.FocusListener() {
             public void focusGained(java.awt.event.FocusEvent evt) {
             	jTextField6.setForeground(new java.awt.Color(0, 0, 0));
-            	if(doctorController == null || doctorController.getNurse() == null) {
+            	if(doctorController == null) {
             		jTextField6.setText("");
             	}
             }
@@ -268,10 +268,10 @@ public class NurseForm extends javax.swing.JFrame {
 	                    	attributes.put("education",jTextArea1.getText());
 	                    	attributes.put("experience",jTextArea2.getText());
 	                    	attributes.put("salary",jTextField10.getText());
-	                    	attributes.put("birthday", jTextField6.getText().trim());
+	                    	attributes.put("birthday", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(formatter.parse(jTextField6.getText().trim())));
 	                    	attributes.put("title","nurse");
-	                    	attributes.put("created_at", formatter.format(new Date()));
-	                    	attributes.put("updated_at", formatter.format(new Date()));
+	                    	attributes.put("created_at", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+	                    	attributes.put("updated_at", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 	                    	if (doctorController.getNurse() == null) {
 	                    		doctorController.addNurse(attributes);
 	                    	} else {

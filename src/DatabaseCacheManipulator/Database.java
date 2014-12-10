@@ -64,77 +64,73 @@ public class Database {
 				query = connector.prepareStatement("?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 				
 				query.executeUpdate("CREATE DATABASE IF NOT EXISTS SoftwareEngineeringDB;");
+				closeConnection();
+				setConnection();
 				
-				query.executeUpdate("CREATE TABLE SoftwareEngineeringDB.`persons` ("+
-						  "`id` int(10) unsigned NOT NULL AUTO_INCREMENT,"+
-						  "`first_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"+
-						  "`last_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"+
-						  "`username` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"+
-						  "`email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"+
-						  "`title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"+
-						  "`gender` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"+
-						  "`salary` double NOT NULL,"+
-						  "`ssn` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"+
-						  "`allergies` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"+
-						  "`birthday` datetime DEFAULT NULL,"+
-						  "`phone` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,"+
-						  "`secret_answer` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"+
-						  "`secret_question_id` int(10) unsigned DEFAULT NULL,"+
-						  "`created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',"+
-						  "`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',"+
-						  "PRIMARY KEY (`id`),"+
-						  "UNIQUE KEY `persons_ssn_unique` (`ssn`)"+
-						  ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
-					);
-						
-				query.executeUpdate("CREATE TABLE SoftwareEngineeringDB.`doctors` ("+
-							  "`id` int(10) unsigned NOT NULL AUTO_INCREMENT,"+
-							  "`person_id` int(10) unsigned NOT NULL,"+
-							  "`education` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"+
-							  "`experience` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"+
-							  "`created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',"+
-							  "`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',"+
-							  "PRIMARY KEY (`id`),"+
-							  "UNIQUE KEY `doctors_person_id_unique` (`person_id`),"+
-							  "CONSTRAINT `doctors_person_id_foreign` FOREIGN KEY (`person_id`) REFERENCES SoftwareEngineeringDB.`persons` (`id`) ON DELETE CASCADE ON UPDATE CASCADE"+
-							") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
-						
-				query.executeUpdate("CREATE TABLE SoftwareEngineeringDB.`nurses` ("+
-						  "`id` int(10) unsigned NOT NULL AUTO_INCREMENT,"+
-						  "`person_id` int(10) unsigned NOT NULL,"+
-						  "`doctor_id` int(10) unsigned NOT NULL,"+
-						  "`education` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"+
-						  "`experience` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"+
-						  "`created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',"+
-						  "`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',"+
-						  "PRIMARY KEY (`id`),"+
-						  "UNIQUE KEY `nurses_person_id_unique` (`person_id`),"+
-						  "KEY `nurses_doctor_id_foreign` (`doctor_id`),"+
-						  "CONSTRAINT `nurses_doctor_id_foreign` FOREIGN KEY (`doctor_id`) REFERENCES SoftwareEngineeringDB.`doctors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,"+
-						  "CONSTRAINT `nurses_person_id_foreign` FOREIGN KEY (`person_id`) REFERENCES SoftwareEngineeringDB.`persons` (`id`) ON DELETE CASCADE ON UPDATE CASCADE"+
-						  ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
 				query.executeUpdate(
-							"CREATE TABLE SoftwareEngineeringDB.`patients` ( `id` int(10) unsigned NOT NULL AUTO_INCREMENT, `person_id` int(10) unsigned NOT NULL,"
-							+ "`nurse_id` int(10) unsigned NOT NULL,"
-							+ "`education` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL, `experience` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
-							+ "`created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',"
-							+ " PRIMARY KEY (`id`), UNIQUE KEY `patients_person_id_unique` (`person_id`),KEY `patients_nurse_id_foreign` (`nurse_id`),"
-							+ " CONSTRAINT `patients_nurse_id_foreign` FOREIGN KEY (`nurse_id`) REFERENCES SoftwareEngineeringDB.`nurses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,"
-							+ "CONSTRAINT `patients_person_id_foreign` FOREIGN KEY (`person_id`) REFERENCES SoftwareEngineeringDB.`persons` (`id`) ON DELETE CASCADE ON UPDATE CASCADE"
-							+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
-					);
+						"CREATE TABLE `secret_questions` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT,`question` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+						+ "PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
+				);
+
+				query.executeUpdate(
+						"CREATE TABLE `persons` ("
+						+ "`id` int(10) unsigned NOT NULL AUTO_INCREMENT,`username` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',"
+						+ "`password` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,`last_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+						+ "`first_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,`gender` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+						+ "`title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,`salary` double unsigned DEFAULT NULL,"
+						+ "`email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,`ssn` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+						+ "`allergies` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,`birthday` datetime DEFAULT NULL,"
+						+ "`phone` varchar(13) COLLATE utf8_unicode_ci DEFAULT NULL,`secret_answer` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+						+ "`secret_question_id` int(10) unsigned DEFAULT NULL,`created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',"
+						+ "`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00', PRIMARY KEY (`id`),UNIQUE KEY `persons_username_unique` (`username`),"
+						+ "UNIQUE KEY `persons_ssn_unique` (`ssn`),KEY `persons_secret_question_id_foreign` (`secret_question_id`),"
+						+ "CONSTRAINT `persons_secret_question_id_foreign` FOREIGN KEY (`secret_question_id`) REFERENCES `secret_questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE"
+						+ ") ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
+				);
+						
+				query.executeUpdate(
+						"CREATE TABLE `doctors` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT,"
+						+ "`person_id` int(10) unsigned NOT NULL,`education` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+						+ "`experience` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,`created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',"
+						+ "`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',PRIMARY KEY (`id`),"
+						+ "UNIQUE KEY `doctors_person_id_unique` (`person_id`),"
+						+ "CONSTRAINT `doctors_person_id_foreign` FOREIGN KEY (`person_id`) REFERENCES `persons` (`id`) ON DELETE CASCADE ON UPDATE CASCADE"
+						+ ") ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
+				);
+						
+				query.executeUpdate(
+						"CREATE TABLE `nurses` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT,"
+						+ "`person_id` int(10) unsigned NOT NULL,`doctor_id` int(10) unsigned NOT NULL,"
+						+ "`education` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,`experience` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+						+ "`created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',"
+						+ "PRIMARY KEY (`id`),UNIQUE KEY `nurses_person_id_unique` (`person_id`),KEY `nurses_doctor_id_foreign` (`doctor_id`),"
+						+ "CONSTRAINT `nurses_doctor_id_foreign` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,"
+						+ "CONSTRAINT `nurses_person_id_foreign` FOREIGN KEY (`person_id`) REFERENCES `persons` (`id`) ON DELETE CASCADE ON UPDATE CASCADE"
+						+ ") ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
+				);
+
+				query.executeUpdate(
+						"CREATE TABLE `patients` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT,"
+						+ "`person_id` int(10) unsigned NOT NULL,`nurse_id` int(10) unsigned NOT NULL,"
+						+ "`education` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,`experience` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+						+ "`created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',"
+						+ "PRIMARY KEY (`id`),UNIQUE KEY `patients_person_id_unique` (`person_id`),"
+						+ "KEY `patients_nurse_id_foreign` (`nurse_id`),"
+						+ "CONSTRAINT `patients_nurse_id_foreign` FOREIGN KEY (`nurse_id`) REFERENCES `nurses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,"
+						+ "CONSTRAINT `patients_person_id_foreign` FOREIGN KEY (`person_id`) REFERENCES `persons` (`id`) ON DELETE CASCADE ON UPDATE CASCADE"
+						+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
+				);
 					
 				query.executeUpdate(
-							"CREATE TABLE SoftwareEngineeringDB.`appointments` ("
-							+ "`id` int(10) unsigned NOT NULL AUTO_INCREMENT,"
-							+ "`doctor_id` int(10) unsigned NOT NULL, `person_id` int(10) unsigned NOT NULL,"
-							+ "`description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL, "
-							+ "`created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',"
-							+ "PRIMARY KEY (`id`),KEY `appointments_doctor_id_foreign` (`doctor_id`),KEY `appointments_person_id_foreign` (`person_id`),"
-							+ "CONSTRAINT `appointments_doctor_id_foreign` FOREIGN KEY (`doctor_id`) REFERENCES SoftwareEngineeringDB.`doctors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,"
-							+ "CONSTRAINT `appointments_person_id_foreign` FOREIGN KEY (`person_id`) REFERENCES SoftwareEngineeringDB.`persons` (`id`) ON DELETE CASCADE ON UPDATE CASCADE"
-							+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
-					);
+						"CREATE TABLE `appointments` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT,"
+						+ "`doctor_id` int(10) unsigned NOT NULL,`person_id` int(10) unsigned NOT NULL,"
+						+ "`appointment_date` datetime DEFAULT '0000-00-00 00:00:00',`description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+						+ "`created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',"
+						+ "PRIMARY KEY (`id`),KEY `appointments_doctor_id_foreign` (`doctor_id`),KEY `appointments_person_id_foreign` (`person_id`),"
+						+ "CONSTRAINT `appointments_doctor_id_foreign` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,"
+						+ "CONSTRAINT `appointments_person_id_foreign` FOREIGN KEY (`person_id`) REFERENCES `persons` (`id`) ON DELETE CASCADE ON UPDATE CASCADE"
+						+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
+				);
 					
 				query.executeUpdate(
 							"CREATE TABLE SoftwareEngineeringDB.`medecines` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT,`name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,"
@@ -148,7 +144,8 @@ public class Database {
 							+ "`description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,`symptoms` varchar(255) COLLATE utf8_unicode_ci NOT NULL,"
 							+ "`created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',"
 							+ "PRIMARY KEY (`id`),UNIQUE KEY `deseases_name_unique` (`name`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
-					);
+				);
+				
 				query.executeUpdate(
 							"CREATE TABLE SoftwareEngineeringDB.`inventorys` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT,"
 							+ "`medecine_id` int(10) unsigned NOT NULL,`quantity` int(11) DEFAULT '0',"
@@ -157,7 +154,7 @@ public class Database {
 							+ "UNIQUE KEY `inventorys_medecine_id_unique` (`medecine_id`),"
 							+ "CONSTRAINT `inventorys_medecine_id_foreign` FOREIGN KEY (`medecine_id`) REFERENCES SoftwareEngineeringDB.`medecines` (`id`) ON DELETE CASCADE ON UPDATE CASCADE"
 							+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
-					);
+				);
 					
 				query.executeUpdate(
 							"CREATE TABLE SoftwareEngineeringDB.`methods` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT,"
@@ -165,13 +162,13 @@ public class Database {
 							+ "`cost` double NOT NULL,`created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',"
 							+ "`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',PRIMARY KEY (`id`),"
 							+ "UNIQUE KEY `methods_name_unique` (`name`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
-					);
+				);
 					
 				query.executeUpdate(
 							"CREATE TABLE SoftwareEngineeringDB.`invoices` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT,`total_cost` double DEFAULT '0',"
 							+ "`created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',"
 							+ "PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
-					);
+				);
 					
 				query.executeUpdate(
 							"CREATE TABLE SoftwareEngineeringDB.`labs` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT, `invoice_id` int(10) unsigned NOT NULL,"
@@ -184,7 +181,7 @@ public class Database {
 							+ "CONSTRAINT `labs_medecine_id_foreign` FOREIGN KEY (`medecine_id`) REFERENCES SoftwareEngineeringDB.`medecines` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,"
 							+ "CONSTRAINT `labs_method_id_foreign` FOREIGN KEY (`method_id`) REFERENCES SoftwareEngineeringDB.`methods` (`id`) ON DELETE CASCADE ON UPDATE CASCADE"
 							+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
-					);
+				);
 					
 				query.executeUpdate(
 							"CREATE TABLE SoftwareEngineeringDB.`prescriptions` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT,"
@@ -194,7 +191,7 @@ public class Database {
 							+ "CONSTRAINT `prescriptions_appointment_id_foreign` FOREIGN KEY (`appointment_id`) REFERENCES SoftwareEngineeringDB.`appointments` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,"
 							+ " CONSTRAINT `prescriptions_invoice_id_foreign` FOREIGN KEY (`invoice_id`) REFERENCES SoftwareEngineeringDB.`invoices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE"
 							+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
-					);
+				);
 				query.executeUpdate(
 							"CREATE TABLE SoftwareEngineeringDB.`desease_methods` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT,"
 							+ "`desease_id` int(10) unsigned NOT NULL,`method_id` int(10) unsigned NOT NULL,"
@@ -219,7 +216,7 @@ public class Database {
 							+ "`id` int(10) unsigned NOT NULL AUTO_INCREMENT,`amount` double DEFAULT '0',"
 							+ "`created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',"
 							+ " PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
-					);
+				);
 					
 				query.executeUpdate(
 							"CREATE TABLE SoftwareEngineeringDB.`comments` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT,"
@@ -229,34 +226,25 @@ public class Database {
 							+ "PRIMARY KEY (`id`),KEY `comments_person_id_foreign` (`person_id`),KEY `comments_object_id_index` (`object_id`),"
 							+ "CONSTRAINT `comments_person_id_foreign` FOREIGN KEY (`person_id`) REFERENCES SoftwareEngineeringDB.`persons` (`id`) ON DELETE CASCADE ON UPDATE CASCADE"
 							+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
-					);
-				query.executeUpdate(
-						"CREATE TABLE SoftwareEngineeringDB.`secret_questions` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT,"
-						 +"`question` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
-						+ "PRIMARY KEY (`id`)"
-						+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
 				);
-				query.executeUpdate(
-							"ALTER TABLE SoftwareEngineeringDB.`appointments` ADD `appointment_date` DATETIME  NULL  DEFAULT '0000-00-00 00:00:00'  AFTER `person_id`;"
-					);
 				
 				query.executeUpdate(
-							 "ALTER TABLE SoftwareEngineeringDB.`persons` ADD UNIQUE INDEX `persons_username_unique` (`username`);"
+						"INSERT INTO `secret_questions` (`id`, `question`) VALUES"
+						+ "(1, 'What is the first name of the person you first kissed?'),"
+						+ "(2, 'What is the last name of the teacher who gave you your first failing grade?'),"
+						+ "(3, 'What is the name of the place your wedding reception was held?'),"
+						+ "(4, 'In what city or town did you meet your spouse/partner?'),"
+						+ "(5, 'What was the make and model of your first car?');"
 				);
 				query.executeUpdate(
-							 "ALTER TABLE SoftwareEngineeringDB.`persons` ADD `password` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL AFTER `username`;"
+						"INSERT INTO `persons` (`id`, `username`, `password`, `last_name`, `first_name`, `gender`, `title`, `salary`, `email`, `ssn`, `allergies`, `birthday`, `phone`, `secret_answer`, `secret_question_id`, `created_at`, `updated_at`)"
+						+ "VALUES (1, '000000', 'Onibaba', 'Bhola', 'Jaman', 'Male', 'doctor', 300000, 'jbhola@cs.gsu.edu ', '666777889', 'none', '1950-01-01 00:00:00', '404-413-5720', 'Toyota', 5, '2014-12-08 15:20:01', '2014-12-08 15:20:01');"
 				);
 				query.executeUpdate(
-						 "INSERT INTO SoftwareEngineeringDB.`persons` (`username`, `password`, `first_name`, `last_name`, `gender`,`salary`,`title`, `ssn`)"
-						 + "VALUES ('JBhola','Onibaba','Jaman','Bhola','Male', '200000','doctor', '789-09-0987');"
-				);
-				query.executeUpdate(
-						 "INSERT INTO SoftwareEngineeringDB.`doctors` (`person_id`, `education`, `experience`)"
-						 + "VALUES ('1','CS GSU','Professor');"
+						 "INSERT INTO `doctors` (`id`, `person_id`, `education`, `experience`, `created_at`, `updated_at`) VALUES"
+						 + "(1, 1, 'GSU', 'CS Professor', '2014-12-08 15:20:02', '2014-12-08 15:20:02');"
 				);
 
-				closeConnection();
-				setConnection();
 			} catch (SQLException x) {
 				System.out.println("The database connection failed.");
 				closeConnection();
