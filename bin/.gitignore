@@ -1,7 +1,8 @@
-/databaseObjects/
+/.DS_Store
 /BaseMVC/
-/InvoiceMVC/
-/InventoryMVC/
 /DatabaseCacheManipulator/
-/gui/
+/InventoryMVC/
+/InvoiceMVC/
 /Views/
+/databaseObjects/
+/gui/

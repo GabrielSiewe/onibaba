@@ -336,6 +336,7 @@ public class PatientForm extends javax.swing.JFrame {
                     }
                 });
         	}
+        }
 
         
 

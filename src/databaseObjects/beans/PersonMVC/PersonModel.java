@@ -99,6 +99,72 @@ public class PersonModel extends BasicModel {
 		gender = attributes.getString("gender");
 		salary = attributes.getDouble("salary");
 	}
+	/**
+	 * @return the doctor_id
+	 */
+	public int getDoctor_id() {
+		return doctor_id;
+	}
+	/**
+	 * @param doctor_id the doctor_id to set
+	 */
+	public void setDoctor_id(int doctor_id) {
+		this.doctor_id = doctor_id;
+	}
+	/**
+	 * @return the nurse_id
+	 */
+	public int getNurse_id() {
+		return nurse_id;
+	}
+	/**
+	 * @param nurse_id the nurse_id to set
+	 */
+	public void setNurse_id(int nurse_id) {
+		this.nurse_id = nurse_id;
+	}
+	/**
+	 * @return the patient_id
+	 */
+	public int getPatient_id() {
+		return patient_id;
+	}
+	/**
+	 * @param patient_id the patient_id to set
+	 */
+	public void setPatient_id(int patient_id) {
+		this.patient_id = patient_id;
+	}
+	/**
+	 * @return the education
+	 */
+	public String getEducation() {
+		return education;
+	}
+	/**
+	 * @param education the education to set
+	 */
+	public void setEducation(String education) {
+		this.education = education;
+	}
+	/**
+	 * @return the experience
+	 */
+	public String getExperience() {
+		return experience;
+	}
+	/**
+	 * @param experience the experience to set
+	 */
+	public void setExperience(String experience) {
+		this.experience = experience;
+	}
+	/**
+	 * @param person_id the person_id to set
+	 */
+	public void setPerson_id(Integer person_id) {
+		this.person_id = person_id;
+	}
 	public PersonModel(ResultSet attributes, String model) throws SQLException
 	{
 		super(model, attributes.getInt("id"));

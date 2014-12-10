@@ -339,7 +339,7 @@ public class PersonController extends BasicController {
 		ResultSet result = PersonModel.runQuery(PersonModel.getFindStatement(temp));
 		temp.clear();
 		temp.put("person_id", result.getInt("id")+"");
-		temp.put("nurse_id", attributes.get("nurse_id"));
+		temp.put("nurse_id", nurse.getNurse_id()+"");
 		temp.put("education", attributes.get("education"));
 		temp.put("experience", attributes.get("experience"));
 		temp.put("created_at", attributes.get("created_at"));
