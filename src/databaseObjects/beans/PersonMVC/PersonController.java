@@ -299,5 +299,79 @@ public class PersonController extends BasicController {
 		temp.put("person_id", doctor.getPerson_id()+"");
 		doctor = new DoctorModel(DoctorModel.runQuery(DoctorModel.getFindStatement(temp)));
 	}
+
+	public void addPatient(ConcurrentHashMap<String, String> attributes) throws SQLException, Exception {
+		int cur = 1;
+		ConcurrentHashMap<String, String> temp = new ConcurrentHashMap<String, String>();
+		temp.put("username", attributes.get("first_name").trim().charAt(0)+""+attributes.get("last_name").trim());
+		attributes.put("doctor_id", doctor.getDoctor_id()+"");
+		while (true) {
+			try {
+				PersonModel.runQuery(PersonModel.getFindStatement(temp)).getString("id");
+				temp.replace("username", attributes.get("first_name").trim().charAt(cur)+""+attributes.get("last_name").trim());
+				cur++;
+			} catch (SQLException e) {
+				break;
+			}
+			
+		}
+		
+		attributes.put("username", temp.get("username"));
+		attributes.put("password", "Onibaba");
+		temp.clear();
+		temp.put("username", attributes.get("username"));
+		temp.put("password", attributes.get("password"));
+		temp.put("first_name", attributes.get("first_name"));
+		temp.put("gender", attributes.get("gender"));
+		temp.put("salary", attributes.get("salary"));
+		temp.put("last_name", attributes.get("last_name"));
+		temp.put("email", attributes.get("email"));
+		temp.put("title", attributes.get("title"));
+		temp.put("ssn", attributes.get("ssn"));
+		temp.put("allergies", attributes.get("allergies"));
+		temp.put("birthday", attributes.get("birthday"));
+		temp.put("phone", attributes.get("phone"));
+		temp.put("created_at", attributes.get("created_at"));
+		temp.put("updated_at", attributes.get("updated_at"));
+		PersonModel.updateQuery(PersonModel.getInsertStatement(temp));
+		temp.clear();
+		temp.put("username", attributes.get("username"));
+		ResultSet result = PersonModel.runQuery(PersonModel.getFindStatement(temp));
+		temp.clear();
+		temp.put("person_id", result.getInt("id")+"");
+		temp.put("nurse_id", attributes.get("nurse_id"));
+		temp.put("education", attributes.get("education"));
+		temp.put("experience", attributes.get("experience"));
+		temp.put("created_at", attributes.get("created_at"));
+		temp.put("updated_at", attributes.get("updated_at"));
+		PatientModel.updateQuery(PatientModel.getInsertStatement(temp));
+		
+	}
+
+	public void updatePatient(ConcurrentHashMap<String, String> attributes) throws SQLException, Exception {
+		ConcurrentHashMap<String, String> finders = new ConcurrentHashMap<String, String>();
+		finders.put("id", patient.getPerson_id()+"");
+		ConcurrentHashMap<String, String> temp = new ConcurrentHashMap<String, String>();
+		temp.put("first_name", attributes.get("first_name"));
+		temp.put("gender", attributes.get("gender"));
+		temp.put("salary", attributes.get("salary"));
+		temp.put("last_name", attributes.get("last_name"));
+		temp.put("email", attributes.get("email"));
+		temp.put("title", attributes.get("title"));
+		temp.put("ssn", attributes.get("ssn"));
+		temp.put("allergies", attributes.get("allergies"));
+		temp.put("birthday", attributes.get("birthday"));
+		temp.put("phone", attributes.get("phone"));
+		temp.put("updated_at", attributes.get("updated_at"));
+		PersonModel.updateQuery(PersonModel.getUpdateStatement(finders, temp));
+		finders.clear();
+		temp.clear();
+		finders.put("person_id", patient.getPerson_id()+"");
+		temp.put("education", attributes.get("education"));
+		temp.put("experience", attributes.get("experience"));
+		temp.put("updated_at", attributes.get("updated_at"));
+		NurseModel.updateQuery(patient.getUpdateStatement(finders, temp));
+		
+	}
 	
 }

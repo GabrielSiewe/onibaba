@@ -5,7 +5,9 @@
  */
 package Views.forms;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.JFrame;
 
@@ -14,8 +16,11 @@ import databaseObjects.beans.PersonMVC.NurseModel;
 import databaseObjects.beans.PersonMVC.PatientModel;
 import databaseObjects.beans.PersonMVC.PersonController;
 import Views.Login;
+import Views.PopUp;
 import Views.Home.DoctorHome;
 import Views.Home.NurseHome;
+import Views.lists.NurseLists;
+import Views.lists.PatientList;
 
 /**
  *
@@ -146,7 +151,7 @@ public class PatientForm extends javax.swing.JFrame {
         	jTextField1.addFocusListener(new java.awt.event.FocusListener() {
                 public void focusGained(java.awt.event.FocusEvent evt) {
                 	jTextField1.setForeground(new java.awt.Color(0, 0, 0));
-                	if(nurseController == null || nurseController.getNurse() == null) {
+                	if(nurseController == null) {
                 		jTextField1.setText("");
                 	}
                 }
@@ -158,7 +163,7 @@ public class PatientForm extends javax.swing.JFrame {
         	jTextField2.addFocusListener(new java.awt.event.FocusListener() {
                 public void focusGained(java.awt.event.FocusEvent evt) {
                 	jTextField2.setForeground(new java.awt.Color(0, 0, 0));
-                	if(nurseController == null || nurseController.getNurse() == null) {
+                	if(nurseController == null) {
                 		jTextField2.setText("");
                 	}
                 }
@@ -170,7 +175,7 @@ public class PatientForm extends javax.swing.JFrame {
         	jTextField3.addFocusListener(new java.awt.event.FocusListener() {
                 public void focusGained(java.awt.event.FocusEvent evt) {
                 	jTextField3.setForeground(new java.awt.Color(0, 0, 0));
-                	if(nurseController == null || nurseController.getNurse() == null) {
+                	if(nurseController == null) {
                 		jTextField3.setText("");
                 	}
                 }
@@ -181,7 +186,7 @@ public class PatientForm extends javax.swing.JFrame {
         	jTextField4.addFocusListener(new java.awt.event.FocusListener() {
                 public void focusGained(java.awt.event.FocusEvent evt) {
                 	jTextField4.setForeground(new java.awt.Color(0, 0, 0));
-                	if(nurseController == null || nurseController.getNurse() == null) {
+                	if(nurseController == null) {
                     	jTextField4.setText("");
                 	}
                 }
@@ -192,7 +197,7 @@ public class PatientForm extends javax.swing.JFrame {
         	jTextField5.addFocusListener(new java.awt.event.FocusListener() {
                 public void focusGained(java.awt.event.FocusEvent evt) {
                 	jTextField5.setForeground(new java.awt.Color(0, 0, 0));
-                	if(nurseController == null || nurseController.getNurse() == null) {
+                	if(nurseController == null) {
                 		jTextField5.setText("");
                 	}
                 }
@@ -203,7 +208,7 @@ public class PatientForm extends javax.swing.JFrame {
         	jTextField6.addFocusListener(new java.awt.event.FocusListener() {
                 public void focusGained(java.awt.event.FocusEvent evt) {
                 	jTextField6.setForeground(new java.awt.Color(0, 0, 0));
-                	if(nurseController == null || nurseController.getNurse() == null) {
+                	if(nurseController == null) {
                 		jTextField6.setText("");
                 	}
                 }
@@ -214,7 +219,7 @@ public class PatientForm extends javax.swing.JFrame {
         	jTextField7.addFocusListener(new java.awt.event.FocusListener() {
                 public void focusGained(java.awt.event.FocusEvent evt) {
                 	jTextField7.setForeground(new java.awt.Color(0, 0, 0));
-                	if(nurseController == null || nurseController.getNurse() == null) {
+                	if(nurseController == null) {
                 		jTextField7.setText("");
                 	}
                 }
@@ -225,7 +230,7 @@ public class PatientForm extends javax.swing.JFrame {
         	jTextField8.addFocusListener(new java.awt.event.FocusListener() {
                 public void focusGained(java.awt.event.FocusEvent evt) {
                 	jTextField8.setForeground(new java.awt.Color(0, 0, 0));
-                	if(nurseController == null || nurseController.getNurse() == null) {
+                	if(nurseController == null) {
                 		jTextField8.setText("");
                 	}
                 }
@@ -236,7 +241,7 @@ public class PatientForm extends javax.swing.JFrame {
         	jTextField9.addFocusListener(new java.awt.event.FocusListener() {
                 public void focusGained(java.awt.event.FocusEvent evt) {
                 	jTextField9.setForeground(new java.awt.Color(0, 0, 0));
-                	if(nurseController == null || nurseController.getNurse() == null) {
+                	if(nurseController == null) {
                 		jTextField9.setText("");
                 	}
                 }
@@ -244,10 +249,12 @@ public class PatientForm extends javax.swing.JFrame {
                 	jTextField9.setForeground(new java.awt.Color(153, 153, 153));
                 }
             });
+        	
+        	
         	jTextField10.addFocusListener(new java.awt.event.FocusListener() {
                 public void focusGained(java.awt.event.FocusEvent evt) {
                 	jTextField10.setForeground(new java.awt.Color(0, 0, 0));
-                	if(nurseController == null || nurseController.getNurse() == null) {
+                	if(nurseController == null) {
                 		jTextField10.setText("");
                 	}
                 }
@@ -257,10 +264,79 @@ public class PatientForm extends javax.swing.JFrame {
             });
         	if (patient == null ) {
         		jButton1.setText("add patient");
-        	} else {
-        		jButton1.setText("update patient");
+        		jButton1.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    	ConcurrentHashMap<String, String> attributes = new ConcurrentHashMap<String, String>();
+                    	try {
+                    		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+    	                		attributes.put("first_name",jTextField1.getText());
+    	                    	attributes.put("last_name",jTextField2.getText());
+    	                    	attributes.put("ssn", jTextField3.getText());
+    	                    	attributes.put("allergies",jTextField4.getText());
+    	                    	attributes.put("gender",jTextField5.getText());
+    	                    	attributes.put("phone",jTextField7.getText());
+    	                    	attributes.put("email",jTextField8.getText());
+    	                    	attributes.put("education",jTextArea1.getText());
+    	                    	attributes.put("experience",jTextArea2.getText());
+    	                    	attributes.put("salary",jTextField10.getText());
+    	                    	attributes.put("birthday", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(formatter.parse(jTextField6.getText().trim())));
+    	                    	attributes.put("title","patient");
+    	                    	attributes.put("created_at", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+    	                    	attributes.put("updated_at", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+    	                    	nurseController.addPatient(attributes);
+    	                    	nurseController.addToPrevious(current);
+    	                    	nurseController.setDoctorPatients();
+    	                		new PatientList(nurseController).setVisible(true);
+                    	} catch (Exception e) {
+                    		PopUp pop = new PopUp();
+                    		e.printStackTrace();
+                    		pop.setText(e.getMessage());
+                    		pop.setVisible(true);
+                    	}
+                    }
+        		});
         	}
-        }
+        	else {
+        		jButton1.setText("update patient");
+        		jButton1.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    	ConcurrentHashMap<String, String> attributes = new ConcurrentHashMap<String, String>();
+                    	try {
+                    		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+    	                		attributes.put("first_name",jTextField1.getText());
+    	                    	attributes.put("last_name",jTextField2.getText());
+    	                    	attributes.put("ssn", jTextField3.getText());
+    	                    	attributes.put("allergies",jTextField4.getText());
+    	                    	attributes.put("gender",jTextField5.getText());
+    	                    	attributes.put("phone",jTextField7.getText());
+    	                    	attributes.put("email",jTextField8.getText());
+    	                    	attributes.put("education",jTextArea1.getText());
+    	                    	attributes.put("experience",jTextArea2.getText());
+    	                    	attributes.put("salary",jTextField10.getText());
+    	                    	attributes.put("birthday", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(formatter.parse(jTextField6.getText().trim())));
+    	                    	attributes.put("title","patient");
+    	                    	attributes.put("updated_at", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+    	                    	nurseController.updatePatient(attributes);
+    	                    	nurseController.addToPrevious(current);
+    	                    	nurseController.setDoctorPatients();
+    	                		new PatientList(nurseController).setVisible(true);
+                    	} catch (Exception e) {
+                    		PopUp pop = new PopUp();
+                    		e.printStackTrace();
+                    		pop.setText(e.getMessage());
+                    		pop.setVisible(true);
+                    	}
+                    }
+        		});
+        		
+        		jButton2.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    	nurseController.addToPrevious(current);
+                		new PatientList(nurseController).setVisible(true);
+                    }
+                });
+        	}
+
         
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/leftArrow.png"))); // NOI18N
@@ -313,8 +389,7 @@ public class PatientForm extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jButton8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+                .addGap(0, 0, Short.MAX_VALUE)));
 
         jLabel1.setText("First Name");
 
@@ -361,7 +436,7 @@ public class PatientForm extends javax.swing.JFrame {
         jTextArea2.setRows(5);
         jScrollPane2.setViewportView(jTextArea2);
 
-        jLabel12.setText("Nurse");
+        jLabel12.setText("Salary");
 
         jTextField10.setForeground(new java.awt.Color(153, 153, 153));
         
@@ -496,7 +571,8 @@ public class PatientForm extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
+        // </editor-fold>//GEN-END:initComponents
 
     /**
      * @param args the command line arguments
