@@ -1,5 +1,6 @@
 package databaseObjects.beans.PersonMVC;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +16,7 @@ public class PatientModel extends PersonModel {
 	// fillable from the front end properties
 	private static String[] fillables = {"nurse_id", "person_id", "education", "experience", "id"};
 	
-	public PatientModel(ResultSet attributes) throws SQLException
+	public PatientModel(ResultSet attributes) throws SQLException, ParseException
 	{
 		super(attributes, "patient");
 	}

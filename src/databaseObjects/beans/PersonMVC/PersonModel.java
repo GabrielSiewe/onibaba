@@ -1,7 +1,7 @@
 package databaseObjects.beans.PersonMVC;
 import BaseMVC.BasicModel;
-import DatabaseCacheManipulator.DatabaseManipulator;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,27 +12,52 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class PersonModel extends BasicModel {
 	
-	private String ssn = null;
+	private Integer person_id = -1;
+	private String username = null;
+	private String password = null;
+	private String photo_path = null;
 	private String first_name = null;
-	private String gender = null;
-	private double salary;
-
 	private String last_name = null;
+	private double height = 0.0;
+	private double weight = 0.0;
+	private String gender = null;
+	private String ssn = null;
+	private String allergies = null;
+	private double salary;
 	private String birthday = null;
 	private String phone = null;
 	private String email = null;
 	private String title = null;
-	private String username = null;
-	private String password = null;
-	private Integer person_id = -1;
-	protected int doctor_id = -1;
-	protected int nurse_id = -1;
-	protected int patient_id = -1;
+	private String secret_question = null;
+	private String secret_answer = null;
+	private Date date_joined = null;
+	private Date last_updated = null;
+	private String created_at = null;
+	private String updated_at = null;
 	protected String education;
 	protected String experience;
+	protected int doctor_id = -1;
+	protected int nurse_id = -1;
+	protected int patient_id = -1, secret_question_id = -1;
+	
+	// Specific to nurses and doctors
+	protected String specialization = null;
 
+	// Specific to a doctor
+	protected String resume = null;
+	
+	// Specific to a patient
+	protected String occupation = null;
+	protected Boolean is_insured = null;
+	protected String marital_status = null;
+	protected String last_exam_date = null;
+
+
+		
 	// required properties 
-	private static String[] requiredOnInsert = {"ssn", "first_name", "last_name", "email", "title", "phone", "birthday", "username", "password", "nurse_id", "doctor_id"};
+	private static String[] requiredOnInsert = {"ssn", "first_name", "last_name", "email", "title", "phone", "birthday", "username", "password", "nurse_id", "doctor_id",
+			"specialization", "resume", "occupation", "is_insured", "marital_status", "last_exam_date", "photo_path", "height", "weight",
+			"secret_question", "secret_answer", "date_joined", "last_updated", "allergies"};
 	protected static String[][] modelRules = { 
 		{"ssn", "string"},
 		{"first_name", "string"},
@@ -73,12 +98,19 @@ public class PersonModel extends BasicModel {
 		{"nurse_id", "integer"},
 		{"nurse_id", "positive"},
 		{"doctor_id", "integer"},
-		{"doctor_id", "positive"}
+		{"doctor_id", "positive"},
+		{"specialization", "string"},
+		{"resume", "string"},
+		{"is_insured", "string"},
+		{"marital_status", "string"},
+		{"last_exam_date", "date"},
+		{"occupation", "string"}
 	};
 	private static final String TABLENAME = "persons";
 	// fillable from the front end properties
 	protected static String[] fillables = {"ssn", "first_name", "last_name", "email", "title", "phone", "birthday", "id", "username", "password",
-			"person_id", "experience", "education", "doctor_id", "allergies", "gender", "salary", "created_at", "updated_at"};
+			"person_id", "experience", "education", "doctor_id", "allergies", "gender", "salary","specialization", "marital_status",
+			"is_insured","resume","last_exam_date","height","weight","created_at", "updated_at"};
 	private static String[] hasMany = {"appointment","comment"};
 	
 	public PersonModel(int person_id) throws SQLException, Exception
@@ -99,297 +131,65 @@ public class PersonModel extends BasicModel {
 		gender = attributes.getString("gender");
 		salary = attributes.getDouble("salary");
 	}
-	/**
-	 * @return the doctor_id
-	 */
-	public int getDoctor_id() {
-		return doctor_id;
-	}
-	/**
-	 * @param doctor_id the doctor_id to set
-	 */
-	public void setDoctor_id(int doctor_id) {
-		this.doctor_id = doctor_id;
-	}
-	/**
-	 * @return the nurse_id
-	 */
-	public int getNurse_id() {
-		return nurse_id;
-	}
-	/**
-	 * @param nurse_id the nurse_id to set
-	 */
-	public void setNurse_id(int nurse_id) {
-		this.nurse_id = nurse_id;
-	}
-	/**
-	 * @return the patient_id
-	 */
-	public int getPatient_id() {
-		return patient_id;
-	}
-	/**
-	 * @param patient_id the patient_id to set
-	 */
-	public void setPatient_id(int patient_id) {
-		this.patient_id = patient_id;
-	}
-	/**
-	 * @return the education
-	 */
-	public String getEducation() {
-		return education;
-	}
-	/**
-	 * @param education the education to set
-	 */
-	public void setEducation(String education) {
-		this.education = education;
-	}
-	/**
-	 * @return the experience
-	 */
-	public String getExperience() {
-		return experience;
-	}
-	/**
-	 * @param experience the experience to set
-	 */
-	public void setExperience(String experience) {
-		this.experience = experience;
-	}
-	/**
-	 * @param person_id the person_id to set
-	 */
-	public void setPerson_id(Integer person_id) {
-		this.person_id = person_id;
-	}
-	public PersonModel(ResultSet attributes, String model) throws SQLException
+	
+	public PersonModel(ResultSet attributes, String model) throws SQLException, ParseException
 	{
-		super(model, attributes.getInt("id"));
+		super(model, attributes.getInt(1));
 		if (model.equals("doctor") || model.equals("nurse") || model.equals("patient")) {
-			education =  attributes.getString("education");
-			experience = attributes.getString("experience");
-			person_id = attributes.getInt("person_id");
-
+			
 			if (model.equals("doctor")) {
-				doctor_id = attributes.getInt("id");
-			} else if(model.equals("nurse")) {
+				
+				doctor_id = attributes.getInt(1);
+				person_id = attributes.getInt("person_id");
+				resume = attributes.getString("resume");
+				education = attributes.getString("education");
+				specialization = attributes.getString("specialization");
+				experience = attributes.getString("experience");
+			} else if (model.equals("nurse")) {
+				nurse_id =  attributes.getInt(1);
+				person_id = attributes.getInt("person_id");
 				doctor_id =  attributes.getInt("doctor_id");
-				nurse_id =  attributes.getInt("id");
+				education = attributes.getString("education");
+				specialization = attributes.getString("specialization");
+				experience = attributes.getString("experience");
 			} else {
+				patient_id =  attributes.getInt(1);
+				person_id = attributes.getInt("person_id");
 				nurse_id =  attributes.getInt("nurse_id");
-				patient_id =  attributes.getInt("id");
+				occupation = attributes.getString("occupation");
+				is_insured = attributes.getBoolean("is_insured");
+				marital_status = attributes.getString("marital_status");
+				last_exam_date = viewFormatter.format(new Date(new java.sql.Date(attributes.getDate("last_exam_date").getTime()).getTime()));
 			}
 
 		} else {
 			throw new SQLException("Invalid model name");
 		}
-		
-		attributes = queryRunner.runQuery("SELECT * FROM persons WHERE `id`=\""+person_id+"\";");
+
 		hasManyInstances = hasMany;
-		person_id = attributes.getInt("id");
-		ssn = attributes.getString("ssn");
-		first_name = attributes.getString("first_name");
-		last_name = attributes.getString("last_name");
-		birthday = viewFormatter.format(new Date(new java.sql.Date(attributes.getDate("birthday").getTime()).getTime()));
-		phone = attributes.getString("phone");
-		email = attributes.getString("email");
-		title = attributes.getString("title");
 		username =  attributes.getString("username");
 		password =  attributes.getString("password");
+		photo_path =  attributes.getString("photo_path");
+		last_name = attributes.getString("last_name");
+		first_name = attributes.getString("first_name");
+		height = attributes.getDouble("height");
+		weight = attributes.getDouble("weight");
 		gender = attributes.getString("gender");
 		salary = attributes.getDouble("salary");
-		
+		email = attributes.getString("email");
+		ssn = attributes.getString("ssn");
+		allergies = attributes.getString("allergies");
+		System.out.println(attributes.getString("birthday"));
+		birthday = dateFormatter.format(sqlFormatter.parse(attributes.getString("birthday")));
+		phone = attributes.getString("phone");
+		secret_question_id = attributes.getInt("secret_question_id");
+		title = attributes.getString("title");
+		System.out.println("here id: "+modelId);
+//		created_at = viewFormatter.format(new Date(new java.sql.Date(attributes.getDate("created_at").getTime()).getTime()));
+//		updated_at = viewFormatter.format(new Date(new java.sql.Date(attributes.getDate("updated_at").getTime()).getTime()));
 	}
 	
-
-	/**
-	 * @return the gender
-	 */
-	public String getGender() {
-		return gender;
-	}
-	/**
-	 * @param gender the gender to set
-	 */
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-	/**
-	 * @return the salary
-	 */
-	public double getSalary() {
-		return salary;
-	}
-	/**
-	 * @param salary the salary to set
-	 */
-	public void setSalary(double salary) {
-		this.salary = salary;
-	}
-
-	/**
-	 * @return the ssn
-	 */
-	public String getSsn() {
-		return ssn;
-	}
-
-
-
-	/**
-	 * @param ssn the ssn to set
-	 */
-	public void setSsn(String ssn) {
-		this.ssn = ssn;
-	}
-
-
-
-	/**
-	 * @return the first_name
-	 */
-	public String getFirst_name() {
-		return first_name;
-	}
-
-
-
-	/**
-	 * @param first_name the first_name to set
-	 */
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
-	}
-
-
-
-	/**
-	 * @return the last_name
-	 */
-	public String getLast_name() {
-		return last_name;
-	}
-
-
-
-	/**
-	 * @param last_name the last_name to set
-	 */
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
-	}
-
-
-
-	/**
-	 * @return the birthday
-	 */
-	public String getBirthday() {
-		return birthday;
-	}
-
-
-
-	/**
-	 * @param birthday the birthday to set
-	 */
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
-	}
-
-
-
-	/**
-	 * @return the phone
-	 */
-	public String getPhone() {
-		return phone;
-	}
-
-
-
-	/**
-	 * @param phone the phone to set
-	 */
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-
-
-	/**
-	 * @return the email
-	 */
-	public String getEmail() {
-		return email;
-	}
-
-
-
-	/**
-	 * @param email the email to set
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-
-
-	/**
-	 * @return the title
-	 */
-	public String getTitle() {
-		return title;
-	}
-
-
-
-	/**
-	 * @param title the title to set
-	 */
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-
-
-	/**
-	 * @return the username
-	 */
-	public String getUsername() {
-		return username;
-	}
-
-
-
-	/**
-	 * @param username the username to set
-	 */
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-
-
-	/**
-	 * @return the password
-	 */
-	public String getPassword() {
-		return password;
-	}
-
-
-
-	/**
-	 * @param password the password to set
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
+	
 
 
 	/**
@@ -399,7 +199,271 @@ public class PersonModel extends BasicModel {
 		return person_id;
 	}
 
+	/**
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
+	}
 
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * @return the photo_path
+	 */
+	public String getPhoto_path() {
+		return photo_path;
+	}
+
+	/**
+	 * @return the first_name
+	 */
+	public String getFirst_name() {
+		return first_name;
+	}
+
+	/**
+	 * @return the last_name
+	 */
+	public String getLast_name() {
+		return last_name;
+	}
+
+	/**
+	 * @return the height
+	 */
+	public double getHeight() {
+		return height;
+	}
+
+	/**
+	 * @return the weight
+	 */
+	public double getWeight() {
+		return weight;
+	}
+
+	/**
+	 * @return the gender
+	 */
+	public String getGender() {
+		return gender;
+	}
+
+	/**
+	 * @return the ssn
+	 */
+	public String getSsn() {
+		return ssn;
+	}
+
+	/**
+	 * @return the allergies
+	 */
+	public String getAllergies() {
+		return allergies;
+	}
+
+	/**
+	 * @return the salary
+	 */
+	public double getSalary() {
+		return salary;
+	}
+
+	/**
+	 * @return the birthday
+	 */
+	public String getBirthday() {
+		return birthday;
+	}
+
+	/**
+	 * @return the phone
+	 */
+	public String getPhone() {
+		return phone;
+	}
+
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
+	}
+
+	/**
+	 * @return the secret_question
+	 */
+	public String getSecret_question() {
+		return secret_question;
+	}
+
+	/**
+	 * @return the secret_answer
+	 */
+	public String getSecret_answer() {
+		return secret_answer;
+	}
+
+	/**
+	 * @return the date_joined
+	 */
+	public Date getDate_joined() {
+		return date_joined;
+	}
+
+	/**
+	 * @return the last_updated
+	 */
+	public Date getLast_updated() {
+		return last_updated;
+	}
+
+	/**
+	 * @return the created_at
+	 */
+	public String getCreated_at() {
+		return created_at;
+	}
+
+	/**
+	 * @return the updated_at
+	 */
+	public String getUpdated_at() {
+		return updated_at;
+	}
+
+	/**
+	 * @return the education
+	 */
+	public String getEducation() {
+		return education;
+	}
+
+	/**
+	 * @return the experience
+	 */
+	public String getExperience() {
+		return experience;
+	}
+
+	/**
+	 * @return the doctor_id
+	 */
+	public int getDoctor_id() {
+		return doctor_id;
+	}
+
+	/**
+	 * @return the nurse_id
+	 */
+	public int getNurse_id() {
+		return nurse_id;
+	}
+
+	/**
+	 * @return the patient_id
+	 */
+	public int getPatient_id() {
+		return patient_id;
+	}
+
+	/**
+	 * @return the secret_question_id
+	 */
+	public int getSecret_question_id() {
+		return secret_question_id;
+	}
+
+	/**
+	 * @return the specialization
+	 */
+	public String getSpecialization() {
+		return specialization;
+	}
+
+	/**
+	 * @return the resume
+	 */
+	public String getResume() {
+		return resume;
+	}
+
+	/**
+	 * @return the occupation
+	 */
+	public String getOccupation() {
+		return occupation;
+	}
+
+	/**
+	 * @return the is_insured
+	 */
+	public Boolean getIs_insured() {
+		return is_insured;
+	}
+
+	/**
+	 * @return the marital_status
+	 */
+	public String getMarital_status() {
+		return marital_status;
+	}
+
+	/**
+	 * @return the last_exam_date
+	 */
+	public String getLast_exam_date() {
+		return last_exam_date;
+	}
+
+	/**
+	 * @return the requiredOnInsert
+	 */
+	public static String[] getRequiredOnInsert() {
+		return requiredOnInsert;
+	}
+
+	/**
+	 * @return the modelRules
+	 */
+	public static String[][] getModelRules() {
+		return modelRules;
+	}
+
+	/**
+	 * @return the tablename
+	 */
+	public static String getTablename() {
+		return TABLENAME;
+	}
+
+	/**
+	 * @return the fillables
+	 */
+	public static String[] getFillables() {
+		return fillables;
+	}
+
+	/**
+	 * @return the hasMany
+	 */
+	public static String[] getHasMany() {
+		return hasMany;
+	}
 
 	public ResultSet appointments() throws SQLException
 	{

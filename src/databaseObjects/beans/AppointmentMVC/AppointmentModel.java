@@ -210,7 +210,6 @@ public class AppointmentModel extends BasicModel {
 
 					// if it is part of the fillable arrays then it has a set of rules that apply to it.
 					for( int k = 0; k < modelRules.length; k++) {
-
 						if (modelRules[k][0].equals(keys[i])) {
 							fieldRules.get(keys[i]).add( modelRules[k][1]);
 						}

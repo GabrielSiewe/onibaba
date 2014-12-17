@@ -58,19 +58,6 @@ public class DailySaleModel extends BasicModel {
 		temp.put("object_id", ""+id);
 		return specials(temp, "comments");
 	}
-	
-//	public ResultSet dailySales() throws SQLException
-//	{
-//	}
-//
-//	public ResultSet weeklySales() throws SQLException
-//	{
-//	}
-//	
-//	public ResultSet monthlySales() throws SQLException
-//	{
-//	}
-	
 	// model queries.
 	public static String getInsertStatement(ConcurrentHashMap<String,String> attributes) throws Exception
 	{

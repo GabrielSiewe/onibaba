@@ -1,6 +1,6 @@
 package BaseMVC;
+import java.sql.SQLException;
 import java.util.Stack;
-
 import javax.swing.JFrame;
 /*
  * Class Basic Controller
@@ -61,9 +61,10 @@ import javax.swing.JFrame;
 		
 	}
 	// Closes the database connection
-	public static void closeDB()
+	public static void closeDB() throws SQLException
 	{
-		BasicModel.closeDbConnection();
+			BasicModel.closeDbConnection();
+
 	}
 	
 	// resets the stacks of previously visited frames and next to be visited frames.

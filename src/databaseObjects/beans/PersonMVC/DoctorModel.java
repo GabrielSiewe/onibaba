@@ -1,5 +1,6 @@
 package databaseObjects.beans.PersonMVC;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +18,7 @@ public class DoctorModel extends PersonModel {
 	private static String[] fillables = {"nurse_id", "person_id", "education", "experience", "id"};
 	private static String[] hasMany = {"nurse", "appointment"};
 	
-	public DoctorModel(ResultSet attributes) throws SQLException
+	public DoctorModel(ResultSet attributes) throws SQLException, ParseException
 	{
 		super(attributes, "doctor");
 		hasManyInstances = hasMany;

@@ -1,6 +1,7 @@
 package databaseObjects.beans.PersonMVC;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.text.ParseException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ public class PersonController extends BasicController {
 		try {
 				ResultSet personAttributes = PersonModel.runQuery(PersonModel.getFindStatement(properties));
 				
-				if (personAttributes.isLast() == true) {
+				if (personAttributes != null) {
 					String title = personAttributes.getString("title");
 					properties.clear();
 					properties.put("person_id", personAttributes.getString("id"));
@@ -48,11 +49,11 @@ public class PersonController extends BasicController {
 						nurse = new NurseModel(results);
 						user =(NurseModel) nurse;
 						break;
-					default: System.out.println("invalid person infos.\n"); break;
+					default: throw new Exception("invalid person infos.\n");
 					}
 				}
 		} catch (SQLException e) {
-			System.out.println("The person with username "+properties.get("username")+" could not be authenticated.");
+			throw new Exception("The person with username "+properties.get("username")+" could not be authenticated.");
 		}
 
 	}
@@ -75,7 +76,7 @@ public class PersonController extends BasicController {
 	}
 	
 	// Deals with the nurse lists.
-	public void setDoctorNurses()
+	public void setDoctorNurses() throws ParseException
 	{
 		
 		if (cursorPosition == 1) {
@@ -85,11 +86,10 @@ public class PersonController extends BasicController {
 		try
 		{
 			ResultSet nurses = doctor.nurses();
-			nurses.absolute(cursorPosition);
-			nurse = new NurseModel(nurses);
-			nurseList.put(nurse.toString(), nurse);
-			cursorPosition++;
-			setDoctorNurses();
+			while(nurses.next()) {
+				nurse = new NurseModel(nurses);
+				nurseList.put(nurse.toString(), nurse);
+			}
 			nurse = null;
 			patient = null;
 		} catch (SQLException e) {
@@ -120,7 +120,7 @@ public class PersonController extends BasicController {
 		nurse = nurseList.get(nursePatient.substring(0, nursePatient.indexOf("::")));
 	}
 	
-	public void setDoctorPatients() {
+	public void setDoctorPatients() throws ParseException {
 		// On the firstNurse we clear the list of patients
 		if (cursorPosition == 1) {
 			nurseList.clear();
@@ -146,7 +146,7 @@ public class PersonController extends BasicController {
 		
 	}
 	// Deals with the nurse patient lists.
-	public void setNursePatients()
+	public void setNursePatients() throws ParseException
 	{
 		// On the firstNurse we clear the list of patients
 		if (cursorPosition == 1 && patientCursorPosition == 1) {
@@ -313,7 +313,6 @@ public class PersonController extends BasicController {
 			} catch (SQLException e) {
 				break;
 			}
-			
 		}
 		
 		attributes.put("username", temp.get("username"));

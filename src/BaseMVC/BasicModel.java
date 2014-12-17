@@ -10,15 +10,16 @@ import java.util.Date;
 import java.util.Set;
 import java.text.SimpleDateFormat;
 
-import DatabaseCacheManipulator.*;
+import Database.*;
 /*
  * The class responsible for opening and closing the database connection as well as generating or performing queries,
  * including relationships and joins
  */
 public class BasicModel {
 	
-	protected static DatabaseManipulator queryRunner = null;
-	protected static DatabaseManipulator personFinder = null;
+	protected static Database queryRunner = null;
+	protected static final SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
+	protected static final SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
 	protected static final SimpleDateFormat viewFormatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 	protected static final SimpleDateFormat sqlFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	protected String modelName;
@@ -30,11 +31,12 @@ public class BasicModel {
 	protected String[] belongsToInstance;
 	
 	// sets the current model name and id.
-	public BasicModel(String modelName, int modelId)
+	public BasicModel(String modelName, int modelId) throws SQLException
 	{
 		if (queryRunner == null) {
-			queryRunner = new DatabaseManipulator();
+			queryRunner = new Database();
 		}
+
 		this.modelName = modelName;
 		this.modelId = modelId;
 	}
@@ -72,7 +74,7 @@ public class BasicModel {
 	public static ResultSet runQuery(String query) throws SQLException
 	{
 		if (queryRunner == null) {
-			queryRunner = new DatabaseManipulator();
+			queryRunner = new Database();
 		}
 		
 		if (query != null && query.trim() != null) {
@@ -87,7 +89,7 @@ public class BasicModel {
 	public static void updateQuery(String query) throws SQLException
 	{
 		if (queryRunner == null) {
-			queryRunner = new DatabaseManipulator();
+			queryRunner = new Database();
 		}
 		
 		if (query != null && query.trim() != null) {
@@ -115,8 +117,13 @@ public class BasicModel {
 
 		if (manyToManyTable != null)
 			query = "SELECT * FROM "+manyToManyTable+" WHERE "+modelName+"_id = "+modelId;
-		else
-			query = "SELECT * FROM "+model+"s WHERE "+modelName+"_id = "+modelId;
+		else {
+			if(model.equals("nurse")||model.equals("patient")||model.equals("doctor")) {
+				query = "SELECT * FROM "+model+"s INNER JOIN persons ON "+model+"s.`person_id`=persons.`id` "+" WHERE "+modelName+"_id = "+modelId;
+			} else {
+				query = "SELECT * FROM "+model+"s WHERE "+modelName+"_id = "+modelId;
+			}
+		}
 
 		return query;
 	}
@@ -146,7 +153,17 @@ public class BasicModel {
 	{
 		String findStatement = null;
 		if (finders != null && finders.size() != 0) {
-			findStatement = "SELECT * FROM "+table_name+" WHERE ("+matchFieldToValue(finders, table_name);
+			if(table_name.equalsIgnoreCase("doctors")||table_name.equalsIgnoreCase("nurses")||table_name.equalsIgnoreCase("patients")) {
+				if (table_name.equalsIgnoreCase("doctors")) {
+					findStatement = "SELECT * FROM "+table_name+" INNER JOIN persons ON doctors.`person_id`=persons.`id` WHERE ("+matchFieldToValue(finders, table_name);
+				} else if (table_name.equalsIgnoreCase("nurses")) {
+					findStatement = "SELECT * FROM "+table_name+" INNER JOIN persons ON nurses.`person_id`=persons.`id` WHERE ("+matchFieldToValue(finders, table_name);
+				} else {
+					findStatement = "SELECT * FROM "+table_name+" INNER JOIN persons ON patient.`person_id`=persons.`id` WHERE ("+matchFieldToValue(finders, table_name);
+				}
+			} else {
+				findStatement = "SELECT * FROM "+table_name+" WHERE ("+matchFieldToValue(finders, table_name);
+			}
 		}
 		return findStatement;
 	}
@@ -208,8 +225,7 @@ public class BasicModel {
 	{
 		return values.toArray(new String[values.size()]);
 	} 
-	
-	// rule for string:{ {"name", {"string", "uppercase", "max:255"}} }
+	// Evaluates the rules of the field.
 	protected static String evaluateFieldRule(String value, String[] rules) throws Exception
 	{
 		String datatype = rules[0];
@@ -311,10 +327,10 @@ public class BasicModel {
 		return ""+test;
 	}
 	
-	public static void closeDbConnection()
+	public static void closeDbConnection() throws SQLException
 	{
 		if (queryRunner != null)
-			queryRunner.close();
+			queryRunner.closeConnection();
 	}
 
 }

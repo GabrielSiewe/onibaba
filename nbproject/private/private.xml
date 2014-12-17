@@ -3,8 +3,24 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/Users/GabrielSiewe/Development/onibaba/src/Views/Home/CommentHome.java</file>
+            <file>file:/Users/GabrielSiewe/Development/onibaba/src/Views/forms/VerifyPasswordRecovery.java</file>
+            <file>file:/Users/GabrielSiewe/Development/onibaba/src/Views/Home/LabHome.java</file>
             <file>file:/Users/GabrielSiewe/Development/onibaba/src/Views/PopUp.java</file>
+            <file>file:/Users/GabrielSiewe/Development/onibaba/src/Views/Home/MedicineHome.java</file>
             <file>file:/Users/GabrielSiewe/Development/onibaba/src/Views/Login.java</file>
+            <file>file:/Users/GabrielSiewe/Development/onibaba/src/Views/Home/InvoiceHome.java</file>
+            <file>file:/Users/GabrielSiewe/Development/onibaba/src/Views/Home/NurseHome.java</file>
+            <file>file:/Users/GabrielSiewe/Development/onibaba/src/Views/Home/PrescriptionHome.java</file>
+            <file>file:/Users/GabrielSiewe/Development/onibaba/src/BaseMVC/BasicModel.java</file>
+            <file>file:/Users/GabrielSiewe/Development/onibaba/src/Views/forms/PasswordRecoveryForm.java</file>
+            <file>file:/Users/GabrielSiewe/Development/onibaba/src/Views/Home/AppointmentHome.java</file>
+            <file>file:/Users/GabrielSiewe/Development/onibaba/src/Views/Home/DiseaseHome.java</file>
+            <file>file:/Users/GabrielSiewe/Development/onibaba/src/Views/Home/DailySaleHome.java</file>
+            <file>file:/Users/GabrielSiewe/Development/onibaba/src/Views/Home/MethodHome.java</file>
+            <file>file:/Users/GabrielSiewe/Development/onibaba/src/Views/Home/DoctorHome.java</file>
+            <file>file:/Users/GabrielSiewe/Development/onibaba/src/Views/Home/PatientHome.java</file>
+            <file>file:/Users/GabrielSiewe/Development/onibaba/src/Database/Database.java</file>
         </group>
     </open-files>
 </project-private>
